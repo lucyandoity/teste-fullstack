@@ -109,3 +109,19 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+// Adiciona regras em português para o Inflector do CakePHP
+Inflector::rules('plural', array(
+    'rules' => array(
+        '/^(.*)ao$/i' => '\1oes',
+        '/^(.*)or$/i' => '\1ores',
+        '/^(.*)es$/i' => '\1eses',
+        '/^(.*)m$/i' => '\1ns',
+        '/^(.*)l$/i' => '\1is',
+        '/^(.*)z$/i' => '\1zes',
+    ),
+    'uninflected' => array(),
+    'irregular' => array(
+        'prestador' => 'prestadores',
+        'servico' => 'servicos'
+    )
+));
