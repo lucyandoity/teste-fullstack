@@ -5,13 +5,14 @@ App::uses('AppModel', 'Model');
  *
  * @property Servico $Servico
  */
-class Prestador extends AppModel {
-	
-/**
- * Validation rules
- *
- * @var array
- */
+class Prestador extends AppModel
+{
+
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
 	public $validate = array(
 		'nome' => array(
 			'notBlank' => array(
@@ -27,11 +28,11 @@ class Prestador extends AppModel {
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed
 
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
+	/**
+	 * hasAndBelongsToMany associations
+	 *
+	 * @var array
+	 */
 	public $hasAndBelongsToMany = array(
 		'Servico' => array(
 			'className' => 'Servico',
@@ -47,4 +48,11 @@ class Prestador extends AppModel {
 		)
 	);
 
+	public $hasMany = array(
+		'Agendamento' => array(
+			'className' => 'Agendamento',
+			'foreignKey' => 'prestador_id',
+			'dependent' => false 
+		)
+	);
 }

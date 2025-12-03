@@ -5,13 +5,14 @@ App::uses('AppModel', 'Model');
  *
  * @property Prestadores $Prestadores
  */
-class Servico extends AppModel {
+class Servico extends AppModel
+{
 
-/**
- * Validation rules
- *
- * @var array
- */
+	/**
+	 * Validation rules
+	 *
+	 * @var array
+	 */
 	public $validate = array(
 		'nome' => array(
 			'notBlank' => array(
@@ -27,22 +28,29 @@ class Servico extends AppModel {
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed
 
-/**
- * hasAndBelongsToMany associations
- *
- * @var array
- */
+	/**
+	 * hasAndBelongsToMany associations
+	 *
+	 * @var array
+	 */
 
-public $displayField = 'nome';
+	public $displayField = 'nome';
 
-public $hasAndBelongsToMany = array(
-    'Prestador' => array(                      // Nome da Associação (singular, CamelCase)
-        'className' => 'Prestador',            // Nome da Classe do Model
-        'joinTable' => 'prestadores_servicos',
-        'foreignKey' => 'servico_id',
-        'associationForeignKey' => 'prestador_id',
-        'unique' => 'keepExisting',
-    )
-);
+	public $hasAndBelongsToMany = array(
+		'Prestador' => array(                      // Nome da Associação (singular, CamelCase)
+			'className' => 'Prestador',            // Nome da Classe do Model
+			'joinTable' => 'prestadores_servicos',
+			'foreignKey' => 'servico_id',
+			'associationForeignKey' => 'prestador_id',
+			'unique' => 'keepExisting',
+		)
+	);
 
+	public $hasMany = array(
+		'Agendamento' => array(
+			'className' => 'Agendamento',
+			'foreignKey' => 'servico_id',
+			'dependent' => false
+		)
+	);
 }
