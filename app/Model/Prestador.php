@@ -6,7 +6,7 @@ App::uses('AppModel', 'Model');
  * @property Servico $Servico
  */
 class Prestador extends AppModel {
-
+	
 /**
  * Validation rules
  *
@@ -16,7 +16,7 @@ class Prestador extends AppModel {
 		'nome' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
+				'message' => 'O campo nome é obrigatório',
 				//'allowEmpty' => false,
 				//'required' => false,
 				//'last' => false, // Stop validation after this rule
@@ -38,7 +38,6 @@ class Prestador extends AppModel {
 			'joinTable' => 'prestadores_servicos',
 			'foreignKey' => 'prestador_id',
 			'associationForeignKey' => 'servico_id',
-			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',

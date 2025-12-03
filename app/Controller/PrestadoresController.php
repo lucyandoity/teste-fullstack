@@ -6,33 +6,36 @@ App::uses('AppController', 'Controller');
  * @property Prestador $Prestador
  * @property PaginatorComponent $Paginator
  */
-class PrestadoresController extends AppController {
+class PrestadoresController extends AppController
+{
 
-/**
- * Components
- *
- * @var array
- */
+	/**
+	 * Components
+	 *
+	 * @var array
+	 */
 	public $components = array('Paginator');
 
-/**
- * index method
- *
- * @return void
- */
-	public function index() {
+	/**
+	 * index method
+	 *
+	 * @return void
+	 */
+	public function index()
+	{
 		$this->Prestador->recursive = 0;
 		$this->set('prestadores', $this->Paginator->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
+	/**
+	 * view method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function view($id = null)
+	{
 		if (!$this->Prestador->exists($id)) {
 			throw new NotFoundException(__('Invalid prestador'));
 		}
@@ -40,12 +43,14 @@ class PrestadoresController extends AppController {
 		$this->set('prestador', $this->Prestador->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
+	/**
+	 * add method
+	 *
+	 * @return void
+	 */
+	public function add()
+	{
+		// Bloco 1: Executa APENAS quando o formulário é enviado (POST)
 		if ($this->request->is('post')) {
 			$this->Prestador->create();
 			if ($this->Prestador->save($this->request->data)) {
@@ -55,16 +60,21 @@ class PrestadoresController extends AppController {
 				$this->Flash->error(__('The prestador could not be saved. Please, try again.'));
 			}
 		}
+
+		$servicos = $this->Prestador->Servico->find('list');
+
+		$this->set(compact('servicos'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
+	/**
+	 * edit method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function edit($id = null)
+	{
 		if (!$this->Prestador->exists($id)) {
 			throw new NotFoundException(__('Invalid prestador'));
 		}
@@ -79,16 +89,19 @@ class PrestadoresController extends AppController {
 			$options = array('conditions' => array('Prestador.' . $this->Prestador->primaryKey => $id));
 			$this->request->data = $this->Prestador->find('first', $options);
 		}
+		$servicos = $this->Prestador->Servico->find('list');
+		$this->set(compact('servicos'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
+	/**
+	 * delete method
+	 *
+	 * @throws NotFoundException
+	 * @param string $id
+	 * @return void
+	 */
+	public function delete($id = null)
+	{
 		if (!$this->Prestador->exists($id)) {
 			throw new NotFoundException(__('Invalid prestador'));
 		}

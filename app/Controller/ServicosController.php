@@ -55,9 +55,6 @@ class ServicosController extends AppController {
 				$this->Flash->error(__('The servico could not be saved. Please, try again.'));
 			}
 		}
-
-		$prestadores = $this->Servico->Prestador->find('list');
-		$this->set(compact('prestadores'));
 	}
 
 /**
@@ -82,8 +79,6 @@ class ServicosController extends AppController {
 			$options = array('conditions' => array('Servico.' . $this->Servico->primaryKey => $id));
 			$this->request->data = $this->Servico->find('first', $options);
 		}
-		$prestadores = $this->Servico->Prestadores->find('list');
-		$this->set(compact('prestadores'));
 	}
 
 /**

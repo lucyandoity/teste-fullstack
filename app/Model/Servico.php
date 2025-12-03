@@ -32,6 +32,9 @@ class Servico extends AppModel {
  *
  * @var array
  */
+
+public $displayField = 'nome';
+
 public $hasAndBelongsToMany = array(
     'Prestador' => array(                      // Nome da Associação (singular, CamelCase)
         'className' => 'Prestador',            // Nome da Classe do Model

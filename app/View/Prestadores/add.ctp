@@ -4,6 +4,7 @@
 		<legend><?php echo __('Add Prestador'); ?></legend>
 	<?php
 		echo $this->Form->input('nome');
+		echo $this->Form->input('Servico');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
@@ -15,3 +16,4 @@
 		<li><?php echo $this->Html->link(__('List Prestadores'), array('action' => 'index')); ?></li>
 	</ul>
 </div>
+
