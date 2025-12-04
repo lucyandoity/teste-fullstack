@@ -21,7 +21,8 @@
                 <tr>
                     <th>Prestador</th>
                     <th>Telefone</th>
-                    <th>Serviços</th>
+                    <th>Serviço</th>
+                    <th>Valor</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -50,23 +51,25 @@
                     </td>
                     <td><?php echo h($prestador['Prestador']['telefone']); ?></td>
                     
-
                     <td>
                         <?php
-
                             if (!empty($prestador['Servico']['nome'])) {
-                                
-
                                 echo h($prestador['Servico']['nome']);
-
-                                echo '<br><strong class="service-price">R$ ' . number_format($prestador['Prestador']['valor_servico'], 2, ',', '.') . '</strong>';
-
                             } else {
                                 echo '<span class="text-muted">Nenhum</span>';
                             }
                         ?>
                     </td>
-
+                    <td class="text-right">
+                        <?php
+                            if (!empty($prestador['Servico']['nome'])) {
+                                echo 'R$ ' . number_format($prestador['Prestador']['valor_servico'], 2, ',', '.');
+                            } else {
+                                echo '<span class="text-muted">-</span>';
+                            }
+                        ?>
+                    </td>
+                    
                     <td>
                         <div class="actions">
                             <?php echo $this->Html->link(
@@ -88,6 +91,10 @@
             </tbody>
         </table>
     </div>
+
+    <div class="pagination">
+    </div>
+</div>
 
     <div class="pagination">
         <div class="pagination-info">
