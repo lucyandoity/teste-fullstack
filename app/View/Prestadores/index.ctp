@@ -70,7 +70,8 @@
                     <td>
                         <?php 
                             if (!empty($prestador['Servico'])) {
-                                echo count($prestador['Servico']) . ' serviço(s)';
+                                 $nomesDosServicos = Hash::extract($prestador['Servico'], '{n}.nome');
+            					  echo h(implode(', ', $nomesDosServicos));
                             } else {
                                 echo 'Nenhum';
                             }

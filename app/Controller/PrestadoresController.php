@@ -14,7 +14,7 @@ class PrestadoresController extends AppController {
      * Prepara e exibe a lista de todos os prestadores.
      */
     public function index() {
-        $this->Prestador->recursive = 0; // Busca apenas dados diretos do Prestador
+        $this->Prestador->recursive = 1; // Busca apenas dados diretos do Prestador
         $prestadores = $this->Paginator->paginate();
 
         $coresAvatar = array('#8B5CF6', '#EC4899', '#10B981', '#F59E0B', '#3B82F6', '#EF4444');
