@@ -6,6 +6,7 @@
 		echo $this->Form->input('nome');
 		echo $this->Form->input('descricao');
 		echo $this->Form->input('valor');
+		echo $this->Form->input('Prestadore');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
@@ -16,6 +17,6 @@
 
 		<li><?php echo $this->Html->link(__('List Servicos'), array('action' => 'index')); ?></li>
 		<li><?php echo $this->Html->link(__('List Prestadores'), array('controller' => 'prestadores', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Prestadores'), array('controller' => 'prestadores', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Prestadore'), array('controller' => 'prestadores', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

@@ -24,6 +24,14 @@ class Prestador extends AppModel
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'email' => array(
+			'rule' => array('email', true),
+			'message' => 'Por favor, forneça um endereço de email válido.'
+		),
+		'isUnique' => array(
+			'rule' => 'isUnique',
+			'message' => 'Esse e-mail já está em uso.'
+		)
 	);
 
 	// The Associations below have been created with all possible keys, those that are not needed can be removed

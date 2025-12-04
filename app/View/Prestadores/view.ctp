@@ -11,6 +11,11 @@
 			<?php echo h($prestador['Prestador']['nome']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Email'); ?></dt>
+		<dd>
+			<?php echo h($prestador['Prestador']['email']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Created'); ?></dt>
 		<dd>
 			<?php echo h($prestador['Prestador']['created']); ?>

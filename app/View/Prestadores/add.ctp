@@ -4,6 +4,7 @@
 		<legend><?php echo __('Add Prestador'); ?></legend>
 	<?php
 		echo $this->Form->input('nome');
+		echo $this->Form->input('email');
 		echo $this->Form->input('Servico');
 	?>
 	</fieldset>

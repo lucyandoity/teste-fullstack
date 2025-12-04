@@ -49,6 +49,6 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('New Servico'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Prestadores'), array('controller' => 'prestadores', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Prestadores'), array('controller' => 'prestadores', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Prestadore'), array('controller' => 'prestadores', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

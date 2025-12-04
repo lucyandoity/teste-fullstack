@@ -5,6 +5,7 @@
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('nome'); ?></th>
+			<th><?php echo $this->Paginator->sort('email'); ?></th>
 			<th><?php echo $this->Paginator->sort('created'); ?></th>
 			<th><?php echo $this->Paginator->sort('modified'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
@@ -15,8 +16,10 @@
 	<tr>
 		<td><?php echo h($prestador['Prestador']['id']); ?>&nbsp;</td>
 		<td><?php echo h($prestador['Prestador']['nome']); ?>&nbsp;</td>
+		<td><?php echo h($prestador['Prestador']['email']); ?>&nbsp;</td>
 		<td><?php echo h($prestador['Prestador']['created']); ?>&nbsp;</td>
 		<td><?php echo h($prestador['Prestador']['modified']); ?>&nbsp;</td>
+		
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $prestador['Prestador']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $prestador['Prestador']['id'])); ?>
