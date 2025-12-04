@@ -74,12 +74,12 @@ preços → Contata o prestador.
 
 ### 4.1 Entidades Principais
 
-A modelagem foi desenhada para atender à relação 1:N (Um Prestador possui N Serviços), otimizando a leitura e a especificidade dos valores cobrados por cada profissional.
+A modelagem utiliza uma relação N:N entre Prestadores e Serviços através de uma tabela pivô,
+permitindo que múltiplos prestadores ofereçam o mesmo tipo de serviço com preços diferentes.
 
--   **Providers (Prestadores):** Dados pessoais imutáveis + foto do
-    perfil.\
--   **Services (Serviços):** Especialização, descrição e valor de cada
-    prestador.
+-   **Providers (Prestadores):** Dados pessoais + foto do perfil.
+-   **Services (Catálogo):** Lista mestre de tipos de serviço disponíveis.
+-   **Provider_Services (Pivô):** Vincula prestador ao serviço com seu preço específico.
 
 ``` mermaid
 erDiagram
@@ -95,22 +95,30 @@ erDiagram
 
     SERVICES {
         INT id PK "AUTO_INCREMENT"
-        INT provider_id FK
-        VARCHAR name
+        VARCHAR name "Tipo de serviço"
         TEXT description
-        DECIMAL value
         DATETIME created
         DATETIME modified
     }
 
-    PROVIDERS ||--o{ SERVICES : "possui"
+    PROVIDER_SERVICES {
+        INT id PK "AUTO_INCREMENT"
+        INT provider_id FK
+        INT service_id FK
+        DECIMAL value "Preço do prestador"
+        DATETIME created
+        DATETIME modified
+    }
+
+    PROVIDERS ||--o{ PROVIDER_SERVICES : "oferece"
+    SERVICES ||--o{ PROVIDER_SERVICES : "é oferecido por"
 ```
 
 ### 4.2 Dicionário de Dados Simplificado
 
--   **providers.photo:** Caminho relativo armazenado no volume do
-    servidor.\
--   **services.value:** `DECIMAL(10,2)` garantindo precisão monetária.
+-   **providers.photo:** Caminho relativo armazenado no volume do servidor.
+-   **services:** Catálogo de tipos de serviço (ex: "Eletricista", "Encanador").
+-   **provider_services.value:** `DECIMAL(10,2)` - preço específico do prestador para o serviço.
 
 ------------------------------------------------------------------------
 
@@ -120,11 +128,13 @@ erDiagram
 
 - **Cadastro:** Deve permitir upload de imagens (JPG/PNG). O sistema deve renomear o arquivo (hash único) para evitar conflitos.
 - **Validação:** Email deve ser único no sistema. Telefone deve seguir máscara padrão.
+- **Serviços:** Ao cadastrar um prestador, selecionar serviços do catálogo e definir o preço de cada um.
 
 ### RF02 -- Catálogo de Serviços
 
-- **Associação:** Um serviço só pode existir se vinculado a um prestador existente (ON DELETE CASCADE).
-- **Precificação**: O valor é obrigatório e deve ser tratado numericamente.
+- **Lista Mestre:** Serviços são tipos padronizados que podem ser oferecidos por múltiplos prestadores.
+- **Independência:** O catálogo existe independentemente dos prestadores.
+- **Precificação:** O valor é definido por prestador na tabela pivô (provider_services).
 
 ### RF03 -- Importação em Massa
 
