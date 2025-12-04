@@ -67,6 +67,13 @@ class ProviderBusinessService {
 
         return array(
             'conditions' => $conditions,
+            'contain' => array(
+                'ProviderService' => array(
+                    'Service' => array(
+                        'fields' => array('Service.id', 'Service.name')
+                    )
+                )
+            ),
             'limit' => 10,
             'order' => array('Provider.created' => 'desc')
         );
@@ -237,51 +244,40 @@ class ProviderBusinessService {
  * @return array Dados processados com resultado do upload
  */
     protected function _processPhotoUpload($data) {
-        if (empty($data['Provider']['photo']['name'])) {
-            unset($data['Provider']['photo']);
-            return array('success' => true, 'data' => $data);
-        }
+		// 1. Verifica se existe arquivo enviado
+		if (empty($data['Provider']['photo']['name'])) {
+			unset($data['Provider']['photo']);
+			return array('success' => true, 'data' => $data);
+		}
 
-        $file = $data['Provider']['photo'];
+		$file = $data['Provider']['photo'];
+		$ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+		$allowed = array('jpg', 'jpeg', 'png', 'gif');
 
-        // Valida o arquivo
-        $validationResult = $this->_validateUploadedFile($file);
-        if (!$validationResult['valid']) {
-            unset($data['Provider']['photo']);
-            return array(
-                'success' => false,
-                'error' => $validationResult['message'],
-                'data' => $data
-            );
-        }
+		// 2. Valida Extensão
+		if (!in_array($ext, $allowed)) {
+			return array('success' => false, 'error' => 'Formato de imagem inválido (use JPG ou PNG).');
+		}
 
-        // Gera nome único para o arquivo
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        $newName = $this->_generateUniqueFileName($ext);
-        $uploadPath = $this->_getUploadPath();
+		// 3. Prepara Diretório
+		$new_name = uniqid() . '.' . $ext;
+		$path = WWW_ROOT . 'img' . DS . 'uploads';
 
-        // Cria diretório se não existir
-        if (!$this->_ensureUploadDirectory($uploadPath)) {
-            unset($data['Provider']['photo']);
-            return array(
-                'success' => false,
-                'error' => __('Erro ao criar diretório de uploads.'),
-                'data' => $data
-            );
-        }
+		// Tenta criar pasta se não existir
+		if (!file_exists($path)) {
+			if (!@mkdir($path, 0777, true) && !is_dir($path)) {
+				return array('success' => false, 'error' => 'Erro de permissão: Não foi possível criar a pasta de uploads.');
+			}
+		}
 
-        if (move_uploaded_file($file['tmp_name'], $uploadPath . DS . $newName)) {
-            $data['Provider']['photo'] = $this->_uploadDir . '/' . $newName;
-            return array('success' => true, 'data' => $data);
-        }
-
-        unset($data['Provider']['photo']);
-        return array(
-            'success' => false,
-            'error' => __('Falha no upload da imagem. Verifique as permissões do servidor.'),
-            'data' => $data
-        );
-    }
+		// 4. Move o arquivo
+		if (move_uploaded_file($file['tmp_name'], $path . DS . $new_name)) {
+			$data['Provider']['photo'] = 'uploads/' . $new_name;
+			return array('success' => true, 'data' => $data);
+		} else {
+			return array('success' => false, 'error' => 'Falha ao mover o arquivo. Verifique permissões da pasta img.');
+		}
+	}
 
 /**
  * Valida o arquivo enviado

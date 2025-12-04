@@ -46,17 +46,10 @@ class ProvidersController extends AppController {
  * @return void
  */
     public function index() {
-        $paginatorSettings = $this->_providerService->buildSearchConditions(
+        $this->Paginator->settings = $this->_providerService->buildSearchConditions(
             $this->request->query
         );
 
-        $paginatorSettings['contain'] = array(
-            'ProviderService' => array(
-                'Service'
-            )
-        );
-
-        $this->Paginator->settings = $paginatorSettings;
         $this->set('providers', $this->Paginator->paginate());
         $this->set('search', $this->request->query('search'));
     }
@@ -80,6 +73,13 @@ class ProvidersController extends AppController {
  */
     public function add() {
         if ($this->request->is('post')) {
+			if (isset($this->request->data['Provider']['first_name']) && isset($this->request->data['Provider']['last_name'])) {
+				$firstName = trim($this->request->data['Provider']['first_name']);
+				$lastName = trim($this->request->data['Provider']['last_name']);
+
+				$this->request->data['Provider']['name'] = $firstName . ' ' . $lastName;
+			}
+
             $result = $this->_providerService->create($this->request->data);
 
             if ($result['success']) {
