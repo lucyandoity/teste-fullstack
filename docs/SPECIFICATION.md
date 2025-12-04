@@ -139,4 +139,7 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
 
 - **Módulo de Ordens de Serviço (V2):** Registrar quais serviços foram efetivamente contratados pelos clientes finais.
 - **Dashboard de Métricas (V2):** Gráficos de "Serviços mais procurados" e "Prestadores mais ativos".
-- **API REST (V3):** Expor os dados para um futuro aplicativo mobile para os prestadores.
+- **Internacionalização e Idiomas (V3):** * Implementação de atributo "Idiomas Falados" (Relacionamento N:N) para os prestadores.
+    * Objetivo: Permitir que clientes não-lusófonos (turistas, expatriados) filtrem prestadores que falam idiomas além do português.
+- **API REST e App do Parceiro (V4):** * Desenvolvimento de API para um aplicativo restrito aos prestadores já homologados.
+    * Objetivo: Permitir que os prestadores recebam notificações de novos serviços e atualizem seu status de disponibilidade em tempo real, sem permitir o auto-cadastro externo (mantendo a curadoria centralizada no admin).
