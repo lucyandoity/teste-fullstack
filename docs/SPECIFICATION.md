@@ -146,7 +146,7 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
 
 ---
 
-## 10. Checklist de Progresso
+## 7. Checklist de Progresso
 
 ### 🏗️ Fase 1: Infraestrutura e Configuração
 - [x] Configuração do Docker (PHP 7.2 + Apache + MySQL 5.7).
