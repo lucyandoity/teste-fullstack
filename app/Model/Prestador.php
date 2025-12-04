@@ -11,7 +11,6 @@ class Prestador extends AppModel
 
 	/**
 	 * Validation rules
-	 * (Seu array de validação continua o mesmo)
 	 * @var array
 	 */
 	public $validate = array(
@@ -46,8 +45,6 @@ class Prestador extends AppModel
 			'foreignKey' => 'servico_id',
 		)
 	);
-
-	// --- FIM DA ATUALIZAÇÃO ---
 
 
 	/**

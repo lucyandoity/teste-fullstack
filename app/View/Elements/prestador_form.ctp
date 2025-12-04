@@ -1,15 +1,12 @@
 <?php
-// Título da página que aparecerá na aba do navegador
 $this->assign('title', isset($this->request->data['Prestador']['id']) ? 'Editar Prestador' : 'Cadastro de Prestador');
 
-// IMPORTANTE: Precisamos de 'type' => 'file' para o upload de arquivos funcionar!
 echo $this->Form->create('Prestador', array(
     'id' => 'providerForm',
     'novalidate' => true,
     'type' => 'file'
 ));
 
-// Se estivermos editando, este campo escondido com o ID diz ao CakePHP para fazer um UPDATE.
 if (!empty($this->request->data['Prestador']['id'])) {
     echo $this->Form->hidden('id');
 }
@@ -94,10 +91,6 @@ if (!empty($this->request->data['Prestador']['id'])) {
     </div>
 </div>
 
-<!-- ================================================================== -->
-<!-- ### INÍCIO DA ATUALIZAÇÃO ### -->
-<!-- A seção de serviços antiga foi substituída por esta versão simples. -->
-<!-- ================================================================== -->
 <div class="section">
     <div class="section-title">Serviço Principal</div>
     <div class="section-subtitle">Selecione o serviço principal que você presta e informe o valor.</div>
@@ -105,8 +98,6 @@ if (!empty($this->request->data['Prestador']['id'])) {
     <div class="form-group">
         <label class="form-label">Serviço Prestado</label>
         <?php
-            // Este helper cria o <select> para os serviços.
-            // O nome 'servico_id' corresponde à coluna no banco e será enviado como data[Prestador][servico_id].
             echo $this->Form->input('servico_id', array(
                 'label' => false,
                 'div' => false,
@@ -120,24 +111,18 @@ if (!empty($this->request->data['Prestador']['id'])) {
     <div class="form-group">
         <label class="form-label">Valor do serviço</label>
         <div class="currency-input">
-            <span class="currency-symbol">R$</span>
             <?php
-                // Este helper cria o campo de texto para o valor.
-                // O nome 'valor_servico' corresponde à coluna no banco e será enviado como data[Prestador][valor_servico].
                 echo $this->Form->input('valor_servico', array(
                     'type' => 'text',
                     'label' => false,
                     'div' => false,
                     'class' => 'form-control',
-                    'placeholder' => '0,00'
+                    'placeholder' => 'R$0,00'
                 ));
             ?>
         </div>
     </div>
 </div>
-<!-- ================================================================== -->
-<!-- ### FIM DA ATUALIZAÇÃO ### -->
-<!-- ================================================================== -->
 
 <div class="form-actions">
     <?php echo $this->Html->link('Cancelar', array('action' => 'index'), array('class' => 'btn btn-cancel')); ?>

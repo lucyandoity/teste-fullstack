@@ -23,7 +23,6 @@ class Servico extends AppModel
 		),
 	);
 
-	// --- INÍCIO DA ATUALIZAÇÃO ---
 
 	/**
 	 * hasMany associations
@@ -34,7 +33,7 @@ class Servico extends AppModel
 		'Prestador' => array(
 			'className' => 'Prestador',
 			'foreignKey' => 'servico_id',
-			'dependent' => false // false para não deletar os prestadores se o serviço for deletado
+			'dependent' => false
 		),
 		'Agendamento' => array(
 			'className' => 'Agendamento',
@@ -42,6 +41,4 @@ class Servico extends AppModel
 			'dependent' => false
 		)
 	);
-
-	// --- FIM DA ATUALIZAÇÃO ---
 }
