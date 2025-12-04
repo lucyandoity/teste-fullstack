@@ -2,9 +2,6 @@
 /**
  * Application model for CakePHP.
  *
- * This file is application-wide model file. You can put all
- * application-wide model-related methods here.
- *
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
@@ -24,10 +21,21 @@ App::uses('Model', 'Model');
 /**
  * Application model for Cake.
  *
- * Add your application-wide methods in the class below, your models
- * will inherit them.
- *
  * @package       app.Model
  */
 class AppModel extends Model {
+
+/**
+ * Comportamentos padrão para todos os models
+ *
+ * @var array
+ */
+    public $actsAs = array('Containable');
+
+/**
+ * Recursive padrão desabilitado para melhor performance
+ *
+ * @var int
+ */
+    public $recursive = -1;
 }

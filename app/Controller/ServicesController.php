@@ -1,107 +1,155 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('ServiceService', 'Lib/Service');
+
 /**
  * Services Controller
  *
+ * Controlador responsável pela gestão de serviços oferecidos pelos prestadores.
+ * Delega a lógica de negócios para a camada de serviço (ServiceService).
+ *
  * @property Service $Service
  * @property PaginatorComponent $Paginator
+ * @property FlashComponent $Flash
  */
 class ServicesController extends AppController {
 
 /**
- * Components
+ * Componentes utilizados
  *
  * @var array
  */
-	public $components = array('Paginator');
+    public $components = array('Paginator', 'Flash');
 
 /**
- * index method
+ * Instância do serviço de serviços
+ *
+ * @var ServiceService
+ */
+    protected $_serviceService;
+
+/**
+ * Callback executado antes de cada action
  *
  * @return void
  */
-	public function index() {
-		$this->Service->recursive = 0;
-		$this->set('services', $this->Paginator->paginate());
-	}
+    public function beforeFilter() {
+        parent::beforeFilter();
+        $this->_serviceService = new ServiceService();
+    }
 
 /**
- * view method
+ * Lista todos os serviços com busca e paginação
  *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->Service->exists($id)) {
-			throw new NotFoundException(__('Invalid service'));
-		}
-		$options = array('conditions' => array('Service.' . $this->Service->primaryKey => $id));
-		$this->set('service', $this->Service->find('first', $options));
-	}
-
-/**
- * add method
+ * Permite filtrar por prestador e buscar por nome ou descrição.
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->Service->create();
-			if ($this->Service->save($this->request->data)) {
-				$this->Flash->success(__('The service has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The service could not be saved. Please, try again.'));
-			}
-		}
-		$providers = $this->Service->Provider->find('list');
-		$this->set(compact('providers'));
-	}
+    public function index() {
+        $this->Service->recursive = 0;
+
+        $paginatorSettings = $this->_serviceService->buildSearchConditions(
+            $this->request->query
+        );
+
+        $this->Paginator->settings = $paginatorSettings;
+        $this->set('services', $this->Paginator->paginate());
+        $this->set('providers', $this->_serviceService->getProvidersList());
+        $this->set('search', $this->request->query('search'));
+    }
 
 /**
- * edit method
+ * Exibe detalhes de um serviço
  *
- * @throws NotFoundException
- * @param string $id
+ * @param string $id ID do serviço
  * @return void
+ * @throws NotFoundException Quando o serviço não é encontrado
  */
-	public function edit($id = null) {
-		if (!$this->Service->exists($id)) {
-			throw new NotFoundException(__('Invalid service'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Service->save($this->request->data)) {
-				$this->Flash->success(__('The service has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The service could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('Service.' . $this->Service->primaryKey => $id));
-			$this->request->data = $this->Service->find('first', $options);
-		}
-		$providers = $this->Service->Provider->find('list');
-		$this->set(compact('providers'));
-	}
+    public function view($id = null) {
+        $service = $this->_serviceService->findById($id);
+        $this->set('service', $service);
+    }
 
 /**
- * delete method
+ * Adiciona um novo serviço
  *
- * @throws NotFoundException
- * @param string $id
- * @return void
+ * @return CakeResponse|void Redireciona para index em caso de sucesso
  */
-	public function delete($id = null) {
-		if (!$this->Service->exists($id)) {
-			throw new NotFoundException(__('Invalid service'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Service->delete($id)) {
-			$this->Flash->success(__('The service has been deleted.'));
-		} else {
-			$this->Flash->error(__('The service could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
-	}
+    public function add() {
+        if ($this->request->is('post')) {
+            $result = $this->_serviceService->create($this->request->data);
+
+            if ($result['success']) {
+                $this->Flash->success($result['message']);
+                return $this->redirect(array('action' => 'index'));
+            }
+
+            $this->Flash->error($result['message']);
+
+            // Define erros de validação para exibição no formulário
+            if (!empty($result['validationErrors'])) {
+                $this->Service->validationErrors = $result['validationErrors'];
+            }
+        }
+
+        // Lista de prestadores para o select
+        $providers = $this->_serviceService->getProvidersList();
+        $this->set(compact('providers'));
+    }
+
+/**
+ * Edita um serviço existente
+ *
+ * @param string $id ID do serviço
+ * @return CakeResponse|void Redireciona para index em caso de sucesso
+ * @throws NotFoundException Quando o serviço não é encontrado
+ */
+    public function edit($id = null) {
+        // Valida existência antes de qualquer operação
+        $service = $this->_serviceService->findById($id);
+
+        if ($this->request->is(array('post', 'put'))) {
+            $result = $this->_serviceService->update($id, $this->request->data);
+
+            if ($result['success']) {
+                $this->Flash->success($result['message']);
+                return $this->redirect(array('action' => 'index'));
+            }
+
+            $this->Flash->error($result['message']);
+
+            if (!empty($result['validationErrors'])) {
+                $this->Service->validationErrors = $result['validationErrors'];
+            }
+        } else {
+            // Preenche o formulário com os dados atuais
+            $this->request->data = $service;
+        }
+
+        // Lista de prestadores para o select
+        $providers = $this->_serviceService->getProvidersList();
+        $this->set(compact('providers'));
+    }
+
+/**
+ * Remove um serviço
+ *
+ * @param string $id ID do serviço
+ * @return CakeResponse Redireciona para index
+ * @throws NotFoundException Quando o serviço não é encontrado
+ * @throws MethodNotAllowedException Quando o método HTTP não é POST ou DELETE
+ */
+    public function delete($id = null) {
+        $this->request->allowMethod(array('post', 'delete'));
+
+        $result = $this->_serviceService->delete($id);
+
+        if ($result['success']) {
+            $this->Flash->success($result['message']);
+        } else {
+            $this->Flash->error($result['message']);
+        }
+
+        return $this->redirect(array('action' => 'index'));
+    }
 }

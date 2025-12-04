@@ -2,9 +2,6 @@
 /**
  * Application level Controller
  *
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- *
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
@@ -24,11 +21,48 @@ App::uses('Controller', 'Controller');
 /**
  * Application Controller
  *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
- *
- * @package		app.Controller
- * @link		https://book.cakephp.org/2.0/en/controllers.html#the-app-controller
+ * @package       app.Controller
+ * @link          https://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+/**
+ * Componentes disponíveis em todos os controllers
+ *
+ * @var array
+ */
+    public $components = array(
+        'Flash',
+        'Session',
+        'RequestHandler'
+    );
+
+/**
+ * Helpers disponíveis em todas as views
+ *
+ * @var array
+ */
+    public $helpers = array(
+        'Html',
+        'Form',
+        'Flash',
+        'Session',
+        'Paginator'
+    );
+
+/**
+ * Callback executado antes de cada action
+ *
+ * @return void
+ */
+    public function beforeFilter() {
+        parent::beforeFilter();
+
+        // Headers de segurança
+        $this->response->header(array(
+            'X-Content-Type-Options' => 'nosniff',
+            'X-Frame-Options' => 'SAMEORIGIN',
+            'X-XSS-Protection' => '1; mode=block'
+        ));
+    }
 }
