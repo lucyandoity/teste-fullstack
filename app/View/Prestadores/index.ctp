@@ -1,51 +1,92 @@
-<div class="prestadores index">
-	<h2><?php echo __('Prestadores'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('nome'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($prestadores as $prestador): ?>
-	<tr>
-		<td><?php echo h($prestador['Prestador']['id']); ?>&nbsp;</td>
-		<td><?php echo h($prestador['Prestador']['nome']); ?>&nbsp;</td>
-		<td><?php echo h($prestador['Prestador']['email']); ?>&nbsp;</td>
-		<td><?php echo h($prestador['Prestador']['created']); ?>&nbsp;</td>
-		<td><?php echo h($prestador['Prestador']['modified']); ?>&nbsp;</td>
-		
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $prestador['Prestador']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $prestador['Prestador']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $prestador['Prestador']['id']), array('confirm' => __('Are you sure you want to delete # %s?', $prestador['Prestador']['id']))); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-		'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
-	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Prestador'), array('action' => 'add')); ?></li>
-	</ul>
+<?php $this->assign('title', 'Prestadores de Serviço'); ?>
+
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <h1>Prestadores de Serviço</h1>
+            <p>Gerencie seus prestadores de serviço</p>
+        </div>
+        <div class="header-right">
+            <?php echo $this->Html->link(
+                '<i class="fas fa-plus"></i> Add novo prestador',
+                array('controller' => 'prestadores', 'action' => 'add'),
+                array('class' => 'btn btn-add', 'escape' => false)
+            ); ?>
+        </div>
+    </div>
+
+    <!-- TODO: Caixa de Busca -->
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Prestador</th>
+                    <th>Telefone</th>
+                    <th>Serviços Associados</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($prestadores as $prestador): ?>
+                <tr>
+                    <td>
+                        <div class="provider-info">
+                            <!-- TODO: Avatar com iniciais ou imagem -->
+                            <div class="avatar" style="background-color: #8B5CF6;">
+                                <?php echo strtoupper(substr($prestador['Prestador']['nome'], 0, 1)); ?>
+                            </div>
+                            <div class="provider-details">
+                                <span class="provider-name"><?php echo h($prestador['Prestador']['nome']); ?></span>
+                                <span class="provider-email"><?php echo h($prestador['Prestador']['email']); ?></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td><?php echo h($prestador['Prestador']['telefone']); ?></td>
+                    <td>
+                        <?php 
+                            if (!empty($prestador['Servico'])) {
+                                echo count($prestador['Servico']) . ' serviço(s)';
+                            } else {
+                                echo 'Nenhum';
+                            }
+                        ?>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <?php echo $this->Html->link(
+                                '<i class="fas fa-pen"></i>',
+                                array('action' => 'edit', $prestador['Prestador']['id']),
+                                array('class' => 'action-btn edit', 'escape' => false, 'title' => 'Editar')
+                            ); ?>
+                            
+                            <?php echo $this->Form->postLink(
+                                '<i class="fas fa-trash"></i>',
+                                array('action' => 'delete', $prestador['Prestador']['id']),
+                                array('class' => 'action-btn delete', 'escape' => false, 'title' => 'Excluir'),
+                                __('Deseja realmente excluir # %s?', $prestador['Prestador']['id'])
+                            ); ?>
+                        </div>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        <div class="pagination-info">
+            <?php
+            echo $this->Paginator->counter(
+                'Página {:page} de {:pages}, mostrando {:current} registros de um total de {:count}'
+            );
+            ?>
+        </div>
+        <div class="pagination-buttons">
+            <?php
+                echo $this->Paginator->prev('Anterior', array('tag' => 'button'), null, array('class' => 'prev disabled', 'tag' => 'button'));
+                echo $this->Paginator->next('Próximo', array('tag' => 'button'), null, array('class' => 'next disabled', 'tag' => 'button'));
+            ?>
+        </div>
+    </div>
 </div>

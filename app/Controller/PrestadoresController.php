@@ -21,10 +21,19 @@ class PrestadoresController extends AppController
 	 *
 	 * @return void
 	 */
-	public function index()
-	{
-		$this->Prestador->recursive = 0;
-		$this->set('prestadores', $this->Paginator->paginate());
+	public function index() {
+		// Configura o Paginator para buscar os dados
+		$this->Paginator->settings = array(
+			'limit' => 10, // 10 prestadores por página
+			'order' => array('Prestador.nome' => 'asc')
+		);
+		$this->Prestador->recursive = 1; // Traz os dados associados (Serviços)
+		
+		// Executa a busca paginada
+		$prestadores = $this->Paginator->paginate('Prestador');
+		
+		// Envia os dados para a View
+		$this->set('prestadores', $prestadores);
 	}
 
 	/**
