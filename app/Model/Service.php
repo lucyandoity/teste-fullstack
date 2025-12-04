@@ -4,10 +4,11 @@ App::uses('AppModel', 'Model');
 /**
  * Service Model
  *
- * Modelo responsável pela entidade Serviço.
- * Representa os serviços oferecidos por cada prestador.
+ * Modelo responsável pelo Catálogo de Serviços.
+ * Representa os tipos de serviço disponíveis no sistema (Lista Mestre).
+ * O preço é definido na tabela pivô ProviderService.
  *
- * @property Provider $Provider
+ * @property ProviderService $ProviderService
  */
 class Service extends AppModel {
 
@@ -19,7 +20,7 @@ class Service extends AppModel {
     public $useTable = 'services';
 
 /**
- * Nome de exibição do registro
+ * Nome de exibição do registro (usado em find('list'))
  *
  * @var string
  */
@@ -35,27 +36,9 @@ class Service extends AppModel {
 /**
  * Regras de validação
  *
- * Define as validações para cada campo do formulário,
- * com mensagens em português para melhor UX.
- *
  * @var array
  */
     public $validate = array(
-        'provider_id' => array(
-            'notBlank' => array(
-                'rule' => array('notBlank'),
-                'message' => 'Selecione um prestador.',
-                'required' => true,
-            ),
-            'numeric' => array(
-                'rule' => array('numeric'),
-                'message' => 'Prestador inválido.',
-            ),
-            'providerExists' => array(
-                'rule' => array('validateProviderExists'),
-                'message' => 'O prestador selecionado não existe.',
-            ),
-        ),
         'name' => array(
             'notBlank' => array(
                 'rule' => array('notBlank'),
@@ -78,90 +61,21 @@ class Service extends AppModel {
                 'allowEmpty' => true,
             ),
         ),
-		'value' => array(
-			'notBlank' => array(
-				'rule' => array('notBlank'),
-				'message' => 'O valor é obrigatório.',
-				'last' => true,
-			),
-			'validAmount' => array(
-				// REGEX: Aceita números inteiros OU decimais com ponto ou vírgula
-				// ^\d+        -> Começa com um ou mais dígitos
-				// ([.,]\d{1,2})? -> Opcionalmente tem ponto/vírgula seguido de 1 ou 2 dígitos
-				// $           -> Fim da string
-				'rule' => array('custom', '/^\d+([.,]\d{1,2})?$/'),
-				'message' => 'Informe um valor válido (ex: 100, 100.00 ou 100,50)',
-			),
-		),
     );
 
 /**
- * Associação belongsTo com Provider
+ * Associação hasMany com ProviderService
  *
- * Todo serviço pertence a um prestador.
+ * Um tipo de serviço pode ser oferecido por muitos prestadores
+ * (através da tabela pivô provider_services).
  *
  * @var array
  */
-    public $belongsTo = array(
-        'Provider' => array(
-            'className' => 'Provider',
-            'foreignKey' => 'provider_id',
-            'conditions' => '',
-            'fields' => '',
-            'order' => ''
+    public $hasMany = array(
+        'ProviderService' => array(
+            'className' => 'ProviderService',
+            'foreignKey' => 'service_id',
+            'dependent' => true
         )
     );
-
-/**
- * Validação customizada: verifica se o prestador existe
- *
- * @param array $check Valor a ser validado
- * @return bool
- */
-    public function validateProviderExists($check) {
-        $providerId = array_values($check)[0];
-        $Provider = ClassRegistry::init('Provider');
-        return $Provider->exists($providerId);
-    }
-
-/**
- * Callback beforeSave
- *
- * Sanitiza os dados antes de salvar.
- *
- * @param array $options Opções de salvamento
- * @return bool
- */
-    public function beforeSave($options = array()) {
-        if (!empty($this->data[$this->alias]['value'])) {
-            // Troca vírgula por ponto para compatibiidade com o MySQL (100,50 -> 100.50)
-            $this->data[$this->alias]['value'] = str_replace(',', '.', $this->data[$this->alias]['value']);
-        }
-        return true;
-    }
-
-/**
- * Sanitiza valor monetário para formato decimal
- *
- * Converte formatos brasileiros (1.234,56) para formato padrão (1234.56)
- *
- * @param mixed $value Valor a ser sanitizado
- * @return float
- */
-    protected function _sanitizeDecimalValue($value) {
-        if (is_numeric($value)) {
-            return (float) $value;
-        }
-
-        // Remove R$, espaços e caracteres não numéricos exceto vírgula e ponto
-        $value = preg_replace('/[R$\s]/', '', $value);
-
-        // Se tem vírgula como separador decimal (formato brasileiro)
-        if (strpos($value, ',') !== false) {
-            $value = str_replace('.', '', $value);  // Remove pontos de milhar
-            $value = str_replace(',', '.', $value); // Troca vírgula por ponto
-        }
-
-        return (float) $value;
-    }
 }

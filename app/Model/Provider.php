@@ -7,7 +7,7 @@ App::uses('AppModel', 'Model');
  * Modelo responsável pela entidade Prestador de Serviço.
  * Define validações, relacionamentos e comportamentos.
  *
- * @property Service $Service
+ * @property ProviderService $ProviderService
  */
 class Provider extends AppModel {
 
@@ -91,21 +91,19 @@ class Provider extends AppModel {
     );
 
 /**
- * Associação hasMany com Service
+ * Associação hasMany com ProviderService
  *
- * Um prestador pode ter vários serviços cadastrados.
- * Ao excluir o prestador, os serviços associados são removidos (CASCADE).
+ * Um prestador pode oferecer vários serviços do catálogo.
+ * Ao excluir o prestador, os vínculos são removidos (CASCADE).
  *
  * @var array
  */
     public $hasMany = array(
-        'Service' => array(
-            'className' => 'Service',
+        'ProviderService' => array(
+            'className' => 'ProviderService',
             'foreignKey' => 'provider_id',
             'dependent' => true,
-            'conditions' => '',
-            'fields' => '',
-            'order' => 'Service.name ASC',
+            'order' => 'ProviderService.id ASC'
         )
     );
 
