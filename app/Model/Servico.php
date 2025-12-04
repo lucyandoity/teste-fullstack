@@ -3,54 +3,45 @@ App::uses('AppModel', 'Model');
 /**
  * Servico Model
  *
- * @property Prestadores $Prestadores
+ * @property Prestador $Prestador
+ * @property Agendamento $Agendamento
  */
 class Servico extends AppModel
 {
+	public $displayField = 'nome';
 
 	/**
 	 * Validation rules
-	 *
+	 * (Seu array de validação continua o mesmo)
 	 * @var array
 	 */
 	public $validate = array(
 		'nome' => array(
 			'notBlank' => array(
 				'rule' => array('notBlank'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);
 
-	// The Associations below have been created with all possible keys, those that are not needed can be removed
+	// --- INÍCIO DA ATUALIZAÇÃO ---
 
 	/**
-	 * hasAndBelongsToMany associations
-	 *
+	 * hasMany associations
+	 * UM Serviço agora TEM MUITOS Prestadores e Agendamentos.
 	 * @var array
 	 */
-
-	public $displayField = 'nome';
-
-	public $hasAndBelongsToMany = array(
-		'Prestador' => array(                      // Nome da Associação (singular, CamelCase)
-			'className' => 'Prestador',            // Nome da Classe do Model
-			'joinTable' => 'prestadores_servicos',
-			'foreignKey' => 'servico_id',
-			'associationForeignKey' => 'prestador_id',
-			'unique' => 'keepExisting',
-		)
-	);
-
 	public $hasMany = array(
+		'Prestador' => array(
+			'className' => 'Prestador',
+			'foreignKey' => 'servico_id',
+			'dependent' => false // false para não deletar os prestadores se o serviço for deletado
+		),
 		'Agendamento' => array(
 			'className' => 'Agendamento',
 			'foreignKey' => 'servico_id',
 			'dependent' => false
 		)
 	);
+
+	// --- FIM DA ATUALIZAÇÃO ---
 }

@@ -1,27 +1,18 @@
 <?php
 // Título da página que aparecerá na aba do navegador
-$this->assign('title', isset($this->request->data['Prestador']['id']) ? 'Editar Prestador' : 'Cadastro de Prestador'); 
+$this->assign('title', isset($this->request->data['Prestador']['id']) ? 'Editar Prestador' : 'Cadastro de Prestador');
 
-// IMPORTANTE: Precisamos de 'enctype' => 'multipart/form-data' para o upload de arquivos funcionar!
+// IMPORTANTE: Precisamos de 'type' => 'file' para o upload de arquivos funcionar!
 echo $this->Form->create('Prestador', array(
     'id' => 'providerForm',
-    'novalidate' => true, // Desativa a validação do navegador para usarmos a nossa
-    'type' => 'file' // Equivalente ao enctype
+    'novalidate' => true,
+    'type' => 'file'
 ));
 
-// ==================================================================
-// ### INÍCIO DA CORREÇÃO ###
-//
-// Se estivermos editando (ou seja, se já existe um ID nos dados),
-// este comando cria um campo de formulário escondido com o ID.
-// Isso diz ao CakePHP para fazer um UPDATE em vez de um INSERT.
+// Se estivermos editando, este campo escondido com o ID diz ao CakePHP para fazer um UPDATE.
 if (!empty($this->request->data['Prestador']['id'])) {
     echo $this->Form->hidden('id');
 }
-//
-// ### FIM DA CORREÇÃO ###
-// ==================================================================
-
 ?>
 
 <h1><?php echo isset($this->request->data['Prestador']['id']) ? 'Editar Prestador' : 'Cadastro de Prestador de Serviço'; ?></h1>
@@ -32,13 +23,13 @@ if (!empty($this->request->data['Prestador']['id'])) {
 
     <div class="form-group">
         <label class="form-label">Nome Completo</label>
-        <?php 
-            echo $this->Form->input('nome', array(
-                'label' => false,
-                'div' => false,
-                'class' => 'form-control',
-                'placeholder' => 'Ex: Eduardo Oliveira'
-            )); 
+        <?php
+        echo $this->Form->input('nome', array(
+            'label' => false,
+            'div' => false,
+            'class' => 'form-control',
+            'placeholder' => 'Ex: Eduardo Oliveira'
+        ));
         ?>
     </div>
 
@@ -46,13 +37,13 @@ if (!empty($this->request->data['Prestador']['id'])) {
         <label class="form-label">Email</label>
         <div class="input-icon">
             <i class="fas fa-envelope"></i>
-            <?php 
-                echo $this->Form->input('email', array(
-                    'label' => false,
-                    'div' => false,
-                    'class' => 'form-control',
-                    'placeholder' => 'eduardo@doity.com.br'
-                )); 
+            <?php
+            echo $this->Form->input('email', array(
+                'label' => false,
+                'div' => false,
+                'class' => 'form-control',
+                'placeholder' => 'eduardo@doity.com.br'
+            ));
             ?>
         </div>
     </div>
@@ -62,13 +53,12 @@ if (!empty($this->request->data['Prestador']['id'])) {
         <div class="section-subtitle">Ela aparecerá no seu perfil.</div>
         <div class="upload-area">
             <div class="avatar-preview" id="avatarPreview">
-                <!-- Se já houver uma foto, o CakePHP a mostrará aqui -->
                 <?php
-                    if (!empty($this->request->data['Prestador']['foto_url'])) {
-                        echo $this->Html->image($this->request->data['Prestador']['foto_url'], array('alt' => 'Avatar'));
-                    } else {
-                        echo '<i class="fas fa-user avatar-placeholder"></i>';
-                    }
+                if (!empty($this->request->data['Prestador']['foto_url'])) {
+                    echo $this->Html->image($this->request->data['Prestador']['foto_url'], array('alt' => 'Avatar'));
+                } else {
+                    echo '<i class="fas fa-user avatar-placeholder"></i>';
+                }
                 ?>
             </div>
             <div class="upload-box" id="uploadBox">
@@ -78,14 +68,13 @@ if (!empty($this->request->data['Prestador']['id'])) {
                 </div>
                 <div class="upload-hint">PNG, JPG (max. 2MB)</div>
                 <?php
-                    // O input de arquivo real, que será escondido pelo CSS
-                    echo $this->Form->input('foto', array(
-                        'type' => 'file',
-                        'label' => false,
-                        'div' => false,
-                        'class' => 'file-input',
-                        'id' => 'fileInput'
-                    ));
+                echo $this->Form->input('foto', array(
+                    'type' => 'file',
+                    'label' => false,
+                    'div' => false,
+                    'class' => 'file-input',
+                    'id' => 'fileInput'
+                ));
                 ?>
             </div>
         </div>
@@ -93,35 +82,62 @@ if (!empty($this->request->data['Prestador']['id'])) {
 
     <div class="form-group">
         <label class="form-label">Telefone</label>
-        <?php 
-            echo $this->Form->input('telefone', array(
+        <?php
+        echo $this->Form->input('telefone', array(
+            'label' => false,
+            'div' => false,
+            'class' => 'form-control',
+            'placeholder' => '(81) 99999-9999',
+            'id' => 'phoneNumber'
+        ));
+        ?>
+    </div>
+</div>
+
+<!-- ================================================================== -->
+<!-- ### INÍCIO DA ATUALIZAÇÃO ### -->
+<!-- A seção de serviços antiga foi substituída por esta versão simples. -->
+<!-- ================================================================== -->
+<div class="section">
+    <div class="section-title">Serviço Principal</div>
+    <div class="section-subtitle">Selecione o serviço principal que você presta e informe o valor.</div>
+
+    <div class="form-group">
+        <label class="form-label">Serviço Prestado</label>
+        <?php
+            // Este helper cria o <select> para os serviços.
+            // O nome 'servico_id' corresponde à coluna no banco e será enviado como data[Prestador][servico_id].
+            echo $this->Form->input('servico_id', array(
                 'label' => false,
                 'div' => false,
                 'class' => 'form-control',
-                'placeholder' => '(81) 99999-9999',
-                'id' => 'phoneNumber' // O JS vai usar este ID para a máscara
+                'options' => $servicos,
+                'empty' => 'Selecione um serviço...'
             ));
         ?>
     </div>
-</div>
-
-<div class="section">
-    <div class="section-title">Serviços</div>
-    <div class="section-subtitle">Quais serviços você vai prestar?</div>
 
     <div class="form-group">
-        <?php
-            // Usando o seletor de checkbox padrão do CakePHP que já estilizamos
-            echo $this->Form->input('Servico', array(
-                'label' => 'Selecione os serviços abaixo',
-                'type' => 'select',
-                'multiple' => 'checkbox',
-                'options' => $servicos,
-                'div' => 'form-group checkbox-group'
-            ));
-        ?>
+        <label class="form-label">Valor do serviço</label>
+        <div class="currency-input">
+            <span class="currency-symbol">R$</span>
+            <?php
+                // Este helper cria o campo de texto para o valor.
+                // O nome 'valor_servico' corresponde à coluna no banco e será enviado como data[Prestador][valor_servico].
+                echo $this->Form->input('valor_servico', array(
+                    'type' => 'text',
+                    'label' => false,
+                    'div' => false,
+                    'class' => 'form-control',
+                    'placeholder' => '0,00'
+                ));
+            ?>
+        </div>
     </div>
 </div>
+<!-- ================================================================== -->
+<!-- ### FIM DA ATUALIZAÇÃO ### -->
+<!-- ================================================================== -->
 
 <div class="form-actions">
     <?php echo $this->Html->link('Cancelar', array('action' => 'index'), array('class' => 'btn btn-cancel')); ?>
