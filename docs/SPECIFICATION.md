@@ -143,3 +143,52 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
     * Objetivo: Permitir que clientes não-lusófonos (turistas, expatriados) filtrem prestadores que falam idiomas além do português.
 - **API REST e App do Parceiro (V4):** * Desenvolvimento de API para um aplicativo restrito aos prestadores já homologados.
     * Objetivo: Permitir que os prestadores recebam notificações de novos serviços e atualizem seu status de disponibilidade em tempo real, sem permitir o auto-cadastro externo (mantendo a curadoria centralizada no admin).
+
+---
+
+## 10. Checklist de Progresso
+
+### 🏗️ Fase 1: Infraestrutura e Configuração
+- [x] Configuração do Docker (PHP 7.2 + Apache + MySQL 5.7).
+- [x] Instalação do CakePHP 2.10.24.
+- [x] Configuração de permissões de pasta (tmp/logs).
+- [x] Definição da Arquitetura MVC e Padrões de Projeto.
+- [x] Modelagem do Banco de Dados (Schema SQL).
+
+### ⚙️ Fase 2: Backend e Regras de Negócio
+- [x] **CRUD Prestadores:**
+    - [x] Listagem com Paginação.
+    - [x] Cadastro e Edição de dados pessoais.
+    - [x] Upload de Foto (Renomeação e movimentação de arquivo).
+    - [x] Exclusão lógica ou física (Cascade).
+- [x] **CRUD Serviços:**
+    - [x] Associação com Prestador (1:N).
+    - [x] Validação Monetária Flexível (Aceitar vírgula e ponto).
+    - [x] Sanitização de dados (`beforeSave`).
+- [x] **Funcionalidades Globais:**
+    - [x] Busca/Filtro de Prestadores por nome/email.
+    - [ ] Mensagens de Feedback (Flash Messages).
+
+### 🎨 Fase 3: Frontend e UI
+- [ ] **Fundação:**
+    - [ ] Limpeza do CSS nativo do CakePHP.
+    - [ ] Instalação/Link do Bootstrap 5.
+    - [ ] Definição do Layout Principal (`default.ctp`) com Sidebar.
+- [ ] **Componentes:**
+    - [ ] Sidebar de Navegação responsiva.
+    - [ ] Estilização da Tabela de Listagem (Avatares, Badges).
+    - [ ] Estilização de Formulários (Inputs, Botões).
+    - [ ] Modal de Importação (Frontend).
+
+### 🚀 Fase 4: Funcionalidades Avançadas (Atividade 02)
+- [ ] **Importação CSV:**
+    - [ ] Upload de arquivo `.csv`.
+    - [ ] Parsing e Leitura do arquivo.
+    - [ ] Validação de dados do CSV.
+    - [ ] Inserção em massa no Banco de Dados.
+
+### 🏁 Fase 5: Documentação e Entrega
+- [x] Documentação Técnica (SPECIFICATION.md).
+- [ ] Documentação de Instalação (README.md final).
+- [ ] Gravação do Vídeo Explicativo (Loom/YouTube).
+- [ ] Revisão Final de Código.
