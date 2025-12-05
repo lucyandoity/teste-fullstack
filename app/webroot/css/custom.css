@@ -157,12 +157,9 @@ td {
     color: #333;
 }
 
-
-tbody tr td.valor-coluna,
-tbody tr td.valor-coluna div {
+tbody tr td.valor-coluna {
     text-align: center !important;
     vertical-align: middle !important;
-    padding-right: 100%;
     white-space: nowrap;
 }
 
@@ -308,6 +305,16 @@ tbody tr:hover {
     margin-bottom: 8px;
 }
 
+/* ========================================= */
+/* ### INÍCIO DA CORREÇÃO ### */
+/* Corrige o posicionamento do ícone quando um erro de validação aparece. */
+/* ========================================= */
+.form-group .error-message {
+    padding-top: 5px;
+    font-size: 13px;
+    color: #ef4444;
+}
+
 .form-control {
     width: 100%;
     padding: 10px 12px;
@@ -327,10 +334,11 @@ tbody tr:hover {
     position: relative;
 }
 
+/* MUDANÇA-CHAVE: Trocamos top: 50% por um valor fixo em pixels para não ser afetado pela altura da div de erro */
 .input-icon i {
     position: absolute;
     left: 12px;
-    top: 50%;
+    top: 21px; /* Ajuste este valor se necessário para o seu campo */
     transform: translateY(-50%);
     color: #999;
 }
@@ -338,6 +346,9 @@ tbody tr:hover {
 .input-icon .form-control {
     padding-left: 38px;
 }
+/* ========================================= */
+/* ### FIM DA CORREÇÃO ### */
+/* ========================================= */
 
 .currency-input {
     position: relative;
