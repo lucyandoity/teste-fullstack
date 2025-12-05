@@ -156,3 +156,43 @@ h1, h2, h3, h4, h5 {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
+
+@media (max-width: 768px) {
+    .card-doity {
+        padding: 20px 16px;
+        border-radius: 8px;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem !important;
+    }
+
+    .btn-danger, .btn-light {
+        padding: 8px 12px;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-doity {
+        padding: 16px 12px;
+    }
+
+    h2.fs-3 {
+        font-size: 1.25rem !important;
+    }
+}
+
+/* Mobile services table */
+.table-sm.table-borderless td {
+    padding: 4px 0 !important;
+    border: none !important;
+    vertical-align: middle;
+}
+
+.table-sm.table-borderless {
+    margin-top: 8px;
+    background: #f9fafb;
+    border-radius: 6px;
+    padding: 8px;
+}

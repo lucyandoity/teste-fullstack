@@ -3,20 +3,20 @@
 
         <div class="card-doity">
 
-            <div class="d-flex justify-content-between align-items-start mb-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
                 <div>
                     <h2 class="fw-bold mb-1 fs-3">Prestadores de Serviço</h2>
-                    <p class="text-muted mb-0">Veja sua lista de prestadores de serviço</p>
+                    <p class="text-muted mb-0 d-none d-md-block">Veja sua lista de prestadores de serviço</p>
                 </div>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-shrink-0">
                     <button type="button" class="btn btn-light border d-flex align-items-center gap-2 px-3" data-bs-toggle="modal" data-bs-target="#importModal">
                         <i class="bi bi-upload"></i>
-                        <span>Importar</span>
+                        <span class="d-none d-sm-inline">Importar</span>
                     </button>
                     <a href="<?php echo $this->Html->url(array('action' => 'add')); ?>" class="btn btn-danger text-white d-flex align-items-center gap-2 px-3">
                         <i class="bi bi-plus-lg"></i>
-                        <span>Add novo prestador</span>
+                        <span class="d-none d-sm-inline">Add novo prestador</span>
                     </a>
                 </div>
             </div>
@@ -54,26 +54,22 @@
                 <table class="table align-middle mb-0">
                     <thead class="bg-light">
                         <tr>
-                            <th scope="col" class="py-3 ps-3 text-secondary small fw-bold" style="width: 35%;">
+                            <th scope="col" class="py-3 ps-3 text-secondary small fw-bold" style="min-width: 200px;">
                                 <?php echo $this->Paginator->sort('name', 'Prestador', array('class' => 'text-decoration-none text-secondary d-inline-flex align-items-center gap-1')); ?>
                             </th>
 
-                            <th scope="col" class="py-3 text-secondary small fw-bold" style="width: 20%;">
+                            <th scope="col" class="py-3 text-secondary small fw-bold d-none d-md-table-cell" style="width: 20%;">
                                 Telefone
                             </th>
 
-                            <th scope="col" class="py-3 text-secondary small fw-bold" style="width: 45%;">
+                            <th scope="col" class="py-3 text-secondary small fw-bold d-none d-lg-table-cell" style="width: 40%;">
                                 <div class="d-flex justify-content-between pe-3">
-                                    <span>
-                                        <?php echo $this->Paginator->sort('first_service_name', 'Serviços Prestados', array('class' => 'text-decoration-none text-secondary d-inline-flex align-items-center gap-1')); ?>
-                                    </span>
-                                    <span>
-                                        <?php echo $this->Paginator->sort('min_value', 'Valor', array('class' => 'text-decoration-none text-secondary d-inline-flex align-items-center gap-1')); ?>
-                                    </span>
+                                    <span>Serviços</span>
+                                    <span>Valor</span>
                                 </div>
                             </th>
 
-                            <th scope="col" class="py-3 pe-3 text-end" style="width: 50px;"></th>
+                            <th scope="col" class="py-3 pe-3 text-end d-none d-lg-table-cell" style="width: 50px;"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,25 +83,63 @@
                             <?php foreach ($providers as $provider): ?>
                             <tr style="border-bottom: 1px solid #EAECF0;">
                                 <td class="ps-3 py-4 align-top">
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-start">
                                         <?php
                                         $photoPath = !empty($provider['Provider']['photo']) ? $provider['Provider']['photo'] : null;
                                         if ($photoPath && file_exists(WWW_ROOT . 'img' . DS . $photoPath)) {
-                                            echo $this->Html->image($photoPath, array('class' => 'rounded-circle me-3', 'width' => '40', 'height' => '40', 'style' => 'object-fit: cover;'));
+                                            echo $this->Html->image($photoPath, array('class' => 'rounded-circle me-3 flex-shrink-0', 'width' => '40', 'height' => '40', 'style' => 'object-fit: cover;'));
                                         } else {
-                                            echo '<div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3 text-secondary fw-bold" style="width: 40px; height: 40px; background-color: #F2F4F7;">' . strtoupper(substr($provider['Provider']['name'], 0, 2)) . '</div>';
+                                            echo '<div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3 text-secondary fw-bold flex-shrink-0" style="width: 40px; height: 40px; background-color: #F2F4F7;">' . strtoupper(substr($provider['Provider']['name'], 0, 2)) . '</div>';
                                         }
                                         ?>
-                                        <div>
-                                            <div class="fw-bold text-dark"><?php echo h($provider['Provider']['name']); ?></div>
-                                            <div class="text-muted small"><?php echo h($provider['Provider']['email']); ?></div>
+                                        <div class="flex-grow-1">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <div class="fw-bold text-dark"><?php echo h($provider['Provider']['name']); ?></div>
+                                                    <div class="text-muted small"><?php echo h($provider['Provider']['email']); ?></div>
+                                                </div>
+                                                <!-- Mobile actions -->
+                                                <div class="d-lg-none d-flex gap-3 ms-2">
+                                                    <a href="<?php echo $this->Html->url(array('action' => 'edit', $provider['Provider']['id'])); ?>" class="text-secondary" title="Editar">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <?php echo $this->Form->postLink(
+                                                        '<i class="bi bi-trash"></i>',
+                                                        array('action' => 'delete', $provider['Provider']['id']),
+                                                        array('escape' => false, 'class' => 'text-secondary', 'title' => 'Excluir'),
+                                                        __('Tem certeza que deseja excluir %s?', $provider['Provider']['name'])
+                                                    ); ?>
+                                                </div>
+                                            </div>
+
+                                            <!-- Mobile only: Phone -->
+                                            <div class="d-md-none mt-2">
+                                                <span class="text-muted small"><i class="bi bi-telephone me-1"></i><?php echo h($provider['Provider']['phone']); ?></span>
+                                            </div>
+
+                                            <!-- Mobile only: Services -->
+                                            <div class="d-lg-none mt-3">
+                                                <?php if (!empty($provider['ProviderService'])): ?>
+                                                    <table class="table table-sm table-borderless mb-0" style="font-size: 12px;">
+                                                        <?php foreach ($provider['ProviderService'] as $ps): ?>
+                                                            <?php $serviceName = isset($ps['Service']['name']) ? $ps['Service']['name'] : 'Serviço'; ?>
+                                                            <tr>
+                                                                <td class="text-secondary ps-0 py-1" style="width: 60%;"><?php echo h($serviceName); ?></td>
+                                                                <td class="text-dark fw-medium text-end pe-0 py-1">R$ <?php echo number_format($ps['value'], 2, ',', '.'); ?></td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+                                                    </table>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
 
-                                <td class="text-muted align-top py-4"><?php echo h($provider['Provider']['phone']); ?></td>
+                                <td class="text-muted align-top py-4 d-none d-md-table-cell">
+                                    <i class="bi bi-telephone me-1"></i><?php echo h($provider['Provider']['phone']); ?>
+                                </td>
 
-                                <td class="align-top py-4">
+                                <td class="align-top py-4 d-none d-lg-table-cell">
                                     <?php if (!empty($provider['ProviderService'])): ?>
                                         <div class="d-flex flex-column gap-2">
                                             <?php foreach ($provider['ProviderService'] as $ps): ?>
@@ -123,7 +157,7 @@
                                     <?php endif; ?>
                                 </td>
 
-                                <td class="text-end pe-3 align-top py-4">
+                                <td class="text-end pe-3 align-top py-4 d-none d-lg-table-cell">
                                     <div class="d-flex gap-3 justify-content-end">
                                         <a href="<?php echo $this->Html->url(array('action' => 'edit', $provider['Provider']['id'])); ?>" class="text-secondary" title="Editar">
                                             <i class="bi bi-pencil"></i>
