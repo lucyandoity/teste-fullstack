@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="d-flex gap-2">
-                    <button class="btn btn-light border d-flex align-items-center gap-2 px-3">
+                    <button type="button" class="btn btn-light border d-flex align-items-center gap-2 px-3" data-bs-toggle="modal" data-bs-target="#importModal">
                         <i class="bi bi-upload"></i>
                         <span>Importar</span>
                     </button>
@@ -23,36 +23,59 @@
 
             <div class="mb-4">
                 <?php echo $this->Form->create('Provider', array('type' => 'get', 'url' => array('action' => 'index'))); ?>
-                <div class="input-group" style="max-width: 100%;"> <span class="input-group-text bg-white border-end-0 ps-3">
+                <div class="input-group" style="max-width: 100%;">
+                    <span class="input-group-text bg-white border-end-0 ps-3">
                         <i class="bi bi-search text-muted"></i>
                     </span>
                     <?php echo $this->Form->input('search', array(
                         'label' => false,
                         'div' => false,
                         'class' => 'form-control border-start-0 ps-2',
-                        'placeholder' => 'Buscar',
+                        'placeholder' => 'Buscar por nome, email ou telefone...',
                         'value' => $this->request->query('search')
                     )); ?>
                 </div>
                 <?php echo $this->Form->end(); ?>
             </div>
 
+            <?php if (!empty($this->request->query('search'))): ?>
+                <div class="alert alert-light border d-flex align-items-center justify-content-between mb-4" style="background-color: #F9FAFB;">
+                    <div class="text-muted small">
+                        <i class="bi bi-funnel me-1"></i>
+                        Exibindo resultados para: <strong><?php echo h($this->request->query('search')); ?></strong>
+                    </div>
+                    <a href="<?php echo $this->Html->url(array('action' => 'index')); ?>" class="text-decoration-none small text-danger fw-bold">
+                        <i class="bi bi-x-lg me-1"></i> Limpar filtro
+                    </a>
+                </div>
+            <?php endif; ?>
+
             <div class="table-responsive">
                 <table class="table align-middle mb-0">
                     <thead class="bg-light">
-						<tr>
-							<th scope="col" class="py-3 ps-3 text-secondary small text-uppercase fw-bold" style="width: 35%;">Prestador</th>
-							<th scope="col" class="py-3 text-secondary small text-uppercase fw-bold" style="width: 20%;">Telefone</th>
+                        <tr>
+                            <th scope="col" class="py-3 ps-3 text-secondary small fw-bold" style="width: 35%;">
+                                <?php echo $this->Paginator->sort('name', 'Prestador', array('class' => 'text-decoration-none text-secondary d-inline-flex align-items-center gap-1')); ?>
+                            </th>
 
-							<th scope="col" class="py-3 text-secondary small text-uppercase fw-bold" style="width: 45%;">
-								<div class="d-flex justify-content-between pe-3"> <span>Serviços Prestados</span>
-									<span>Valor</span>
-								</div>
-							</th>
+                            <th scope="col" class="py-3 text-secondary small fw-bold" style="width: 20%;">
+                                Telefone
+                            </th>
 
-							<th scope="col" class="py-3 pe-3 text-end" style="width: 50px;"></th>
-						</tr>
-					</thead>
+                            <th scope="col" class="py-3 text-secondary small fw-bold" style="width: 45%;">
+                                <div class="d-flex justify-content-between pe-3">
+                                    <span>
+                                        <?php echo $this->Paginator->sort('first_service_name', 'Serviços Prestados', array('class' => 'text-decoration-none text-secondary d-inline-flex align-items-center gap-1')); ?>
+                                    </span>
+                                    <span>
+                                        <?php echo $this->Paginator->sort('min_value', 'Valor', array('class' => 'text-decoration-none text-secondary d-inline-flex align-items-center gap-1')); ?>
+                                    </span>
+                                </div>
+                            </th>
+
+                            <th scope="col" class="py-3 pe-3 text-end" style="width: 50px;"></th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <?php if (empty($providers)): ?>
                             <tr>
@@ -63,7 +86,8 @@
                         <?php else: ?>
                             <?php foreach ($providers as $provider): ?>
                             <tr style="border-bottom: 1px solid #EAECF0;">
-                                <td class="ps-3 py-4 align-top"> <div class="d-flex align-items-center">
+                                <td class="ps-3 py-4 align-top">
+                                    <div class="d-flex align-items-center">
                                         <?php
                                         $photoPath = !empty($provider['Provider']['photo']) ? $provider['Provider']['photo'] : null;
                                         if ($photoPath && file_exists(WWW_ROOT . 'img' . DS . $photoPath)) {
@@ -73,7 +97,7 @@
                                         }
                                         ?>
                                         <div>
-                                            <div class="fw-bold text-dark" style="color: #101828;"><?php echo h($provider['Provider']['name']); ?></div>
+                                            <div class="fw-bold text-dark"><?php echo h($provider['Provider']['name']); ?></div>
                                             <div class="text-muted small"><?php echo h($provider['Provider']['email']); ?></div>
                                         </div>
                                     </div>
@@ -83,13 +107,11 @@
 
                                 <td class="align-top py-4">
                                     <?php if (!empty($provider['ProviderService'])): ?>
-                                        <div class="d-flex flex-column gap-2"> <?php foreach ($provider['ProviderService'] as $ps): ?>
+                                        <div class="d-flex flex-column gap-2">
+                                            <?php foreach ($provider['ProviderService'] as $ps): ?>
                                                 <?php $serviceName = isset($ps['Service']['name']) ? $ps['Service']['name'] : 'Serviço s/ nome'; ?>
-
                                                 <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-1" style="border-color: #f2f4f7 !important;">
-                                                    <span class="text-dark small me-3">
-                                                        <?php echo h($serviceName); ?>
-                                                    </span>
+                                                    <span class="text-dark small me-3"><?php echo h($serviceName); ?></span>
                                                     <span class="fw-medium text-muted small text-nowrap">
                                                         R$ <?php echo number_format($ps['value'], 2, ',', '.'); ?>
                                                     </span>
@@ -144,3 +166,82 @@
         </div>
     </div>
 </div>
+
+<style>
+    .modal-backdrop.show {
+        opacity: 0.25 !important;
+    }
+</style>
+
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+
+            <div class="modal-header border-0 pb-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold fs-5" id="importModalLabel">Faça o upload da sua lista de servidores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <?php echo $this->Form->create('Provider', array('url' => array('action' => 'import'), 'type' => 'file', 'id' => 'ImportForm')); ?>
+
+            <div class="modal-body px-4 pt-3 pb-4">
+                <div class="position-relative border border-dashed rounded-3 text-center bg-white p-5" style="border: 1px dashed #D0D5DD; transition: all 0.2s;" id="drop-zone">
+
+                    <?php echo $this->Form->input('file', array(
+                        'type' => 'file',
+                        'label' => false,
+                        'class' => 'position-absolute top-0 start-0 w-100 h-100',
+                        'style' => 'opacity: 0; cursor: pointer; z-index: 10;',
+                        'accept' => '.csv',
+                        'onchange' => "updateImportFile(this)"
+                    )); ?>
+
+                    <div class="d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-2 bg-light rounded-circle mb-3" style="background-color: #F2F4F7;">
+                            <i class="bi bi-cloud-upload fs-4 text-secondary"></i>
+                        </div>
+                        <div class="small text-muted mb-1">
+                            <span class="fw-bold text-danger">Clique para enviar</span> ou arraste e solte
+                        </div>
+                        <div class="text-muted" style="font-size: 0.75rem;">CSV, XLS, XLSX (max. 25 MB)</div>
+                    </div>
+                </div>
+
+                <div id="import-file-preview" class="border rounded-3 p-3 align-items-center justify-content-between d-none mt-3" style="border-color: #EAECF0 !important; display: flex;">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-light rounded p-2 text-danger" style="background-color: #FEF3F2;">
+                            <i class="bi bi-file-earmark-spreadsheet fs-5"></i>
+                        </div>
+                        <div>
+                            <div id="import-file-name" class="fw-medium text-dark small">arquivo.csv</div>
+                            <div id="import-file-size" class="text-muted" style="font-size: 0.7rem;">0 KB</div>
+                        </div>
+                    </div>
+                    <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                </div>
+            </div>
+
+            <div class="modal-footer border-0 px-4 pb-4 pt-0">
+                <div class="d-flex w-100 gap-2">
+                    <button type="button" class="btn btn-light border w-50" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger text-white w-50">Adicionar</button>
+                </div>
+            </div>
+
+            <?php echo $this->Form->end(); ?>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateImportFile(input) {
+    if (input.files && input.files[0]) {
+        var file = input.files[0];
+
+        document.getElementById('import-file-preview').classList.remove('d-none');
+
+        document.getElementById('import-file-name').textContent = file.name;
+        document.getElementById('import-file-size').textContent = (file.size / 1024).toFixed(2) + ' KB';
+    }
+}
+</script>
