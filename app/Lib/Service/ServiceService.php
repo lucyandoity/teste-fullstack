@@ -169,10 +169,23 @@ class ServiceService {
             );
         }
 
+        $order = array('Service.created' => 'desc');
+        if (!empty($queryParams['sort']) && !empty($queryParams['direction'])) {
+            $allowedFields = array('name');
+            $allowedDirections = array('asc', 'desc');
+
+            $sortField = $queryParams['sort'];
+            $sortDirection = strtolower($queryParams['direction']);
+
+            if (in_array($sortField, $allowedFields) && in_array($sortDirection, $allowedDirections)) {
+                $order = array('Service.' . $sortField => $sortDirection);
+            }
+        }
+
         return array(
             'conditions' => $conditions,
             'limit' => 10,
-            'order' => array('Service.created' => 'desc')
+            'order' => $order
         );
     }
 }
