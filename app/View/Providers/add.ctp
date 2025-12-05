@@ -160,9 +160,6 @@
             </div>
 
             <hr class="my-5 text-muted" style="opacity: 0.1">
-            </div>
-
-            <hr class="my-5 text-muted" style="opacity: 0.1">
 
             <div class="d-flex justify-content-end gap-3">
                 <a href="<?php echo $this->Html->url(array('action' => 'index')); ?>" class="btn btn-light border bg-white text-secondary">Cancelar</a>
