@@ -4,7 +4,8 @@ $parts = explode(' ', $fullName, 2);
 $firstName = isset($parts[0]) ? $parts[0] : '';
 $lastName = isset($parts[1]) ? $parts[1] : '';
 
-$currentPhoto = !empty($this->request->data['Provider']['photo']) ? $this->request->data['Provider']['photo'] : null;
+$photoData = isset($this->request->data['Provider']['photo']) ? $this->request->data['Provider']['photo'] : null;
+$currentPhoto = is_string($photoData) && !empty($photoData) ? $photoData : null;
 ?>
 
 <div class="row justify-content-center">
@@ -166,12 +167,14 @@ $currentPhoto = !empty($this->request->data['Provider']['photo']) ? $this->reque
                                 <div class="col-md-7">
                                     <div class="input-group">
                                         <span class="input-group-text bg-white border-end-0 text-muted">R$</span>
-                                        <?php echo $this->Form->input("ProviderService.$index.value", array(
+                                        <?php
+                                        $serviceValue = isset($service['value']) && is_numeric($service['value']) ? $service['value'] : 0;
+                                        echo $this->Form->input("ProviderService.$index.value", array(
                                             'label' => false,
                                             'div' => false,
                                             'type' => 'text',
                                             'class' => 'form-control border-start-0 ps-2',
-                                            'value' => number_format($service['value'], 2, ',', '')
+                                            'value' => number_format($serviceValue, 2, ',', '')
                                         )); ?>
                                     </div>
                                 </div>
