@@ -113,6 +113,12 @@ class ProvidersController extends AppController {
         $provider = $this->_providerService->findById($id);
 
         if ($this->request->is(array('post', 'put'))) {
+            if (isset($this->request->data['Provider']['first_name']) && isset($this->request->data['Provider']['last_name'])) {
+                $firstName = trim($this->request->data['Provider']['first_name']);
+                $lastName = trim($this->request->data['Provider']['last_name']);
+                $this->request->data['Provider']['name'] = $firstName . ' ' . $lastName;
+            }
+
             $result = $this->_providerService->update($id, $this->request->data);
 
             if ($result['success']) {
@@ -126,7 +132,6 @@ class ProvidersController extends AppController {
                 $this->Provider->validationErrors = $result['validationErrors'];
             }
         } else {
-            // Preenche o formulário com os dados atuais
             $this->request->data = $provider;
         }
 
