@@ -41,16 +41,22 @@ class ProvidersController extends AppController {
 /**
  * Lista todos os prestadores com busca e paginação
  *
- * Permite busca por nome, email ou telefone através do parâmetro 'search'.
+ * Permite busca por nome, email, telefone ou serviço através do parâmetro 'search'.
  *
  * @return void
  */
     public function index() {
-        $this->Paginator->settings = $this->_providerService->buildSearchConditions(
-            $this->request->query
+        // Mescla query params com named params (page vem como named param do CakePHP)
+        $params = array_merge(
+            $this->request->query,
+            $this->request->params['named']
         );
 
-        $this->set('providers', $this->Paginator->paginate());
+        $result = $this->_providerService->listWithFilters($params);
+
+        $this->request->params['paging']['Provider'] = $result['paging'];
+        $this->set('providers', $result['providers']);
+        $this->set('providersCount', $result['totalCount']);
         $this->set('search', $this->request->query('search'));
     }
 
@@ -73,13 +79,6 @@ class ProvidersController extends AppController {
  */
     public function add() {
         if ($this->request->is('post')) {
-			if (isset($this->request->data['Provider']['first_name']) && isset($this->request->data['Provider']['last_name'])) {
-				$firstName = trim($this->request->data['Provider']['first_name']);
-				$lastName = trim($this->request->data['Provider']['last_name']);
-
-				$this->request->data['Provider']['name'] = $firstName . ' ' . $lastName;
-			}
-
             $result = $this->_providerService->create($this->request->data);
 
             if ($result['success']) {
@@ -113,12 +112,6 @@ class ProvidersController extends AppController {
         $provider = $this->_providerService->findById($id);
 
         if ($this->request->is(array('post', 'put'))) {
-            if (isset($this->request->data['Provider']['first_name']) && isset($this->request->data['Provider']['last_name'])) {
-                $firstName = trim($this->request->data['Provider']['first_name']);
-                $lastName = trim($this->request->data['Provider']['last_name']);
-                $this->request->data['Provider']['name'] = $firstName . ' ' . $lastName;
-            }
-
             $result = $this->_providerService->update($id, $this->request->data);
 
             if ($result['success']) {
