@@ -99,17 +99,18 @@
     </div>
 </div>
 
+<!-- Modal de Importação com IDs exclusivos -->
 <div id="importModal" class="modal-overlay">
     <div class="modal-container">
         <h2 class="modal-title">Faça o upload da sua lista de prestadores</h2>
         <?php echo $this->Form->create('Prestador', ['id' => 'importForm', 'type' => 'file', 'url' => ['action' => 'importar_xls']]); ?>
-        <div class="upload-area" id="uploadArea">
+        <div class="upload-area" id="uploadAreaImport">
             <i class="fas fa-cloud-arrow-up upload-icon"></i>
             <div class="upload-text"><span>Clique para enviar</span> ou arraste e solte</div>
             <div class="upload-hint">XLS, XLSX (max. 25 MB)</div>
-            <?php echo $this->Form->input('arquivo', ['type' => 'file', 'label' => false, 'div' => false, 'class' => 'file-input', 'id' => 'fileInput', 'accept' => '.xls,.xlsx']); ?>
+            <?php echo $this->Form->input('arquivo', ['type' => 'file', 'label' => false, 'div' => false, 'class' => 'file-input', 'id' => 'fileInputImport', 'accept' => '.xls,.xlsx']); ?>
         </div>
-        <div class="file-preview" id="filePreview"></div>
+        <div class="file-preview" id="filePreviewImport"></div>
         <div id="import-feedback" style="display: none;"></div>
         <div class="modal-form-actions">
             <button type="button" class="btn btn-cancel" id="cancelImportBtn">Cancelar</button>
@@ -127,9 +128,7 @@ $this->Html->scriptBlock("
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearSearchBtn');
         if (!searchInput || !clearBtn) return;
-        function toggleClearButton() {
-            clearBtn.style.display = (searchInput.value.length > 0) ? 'block' : 'none';
-        }
+        function toggleClearButton() { clearBtn.style.display = (searchInput.value.length > 0) ? 'block' : 'none'; }
         toggleClearButton();
         searchInput.addEventListener('input', toggleClearButton);
     });
@@ -137,22 +136,15 @@ $this->Html->scriptBlock("
 
 $this->Html->scriptBlock("
 $(document).ready(function() {
-    // ===============================================
-    // ### A CORREÇÃO SIMPLES ESTÁ AQUI ###
-    // Este `if` garante que este script SÓ vai rodar se o botão de importação existir.
-    // Assim, ele não interfere com a página de 'adicionar'.
-    // ===============================================
-    if ($('#openImportModalBtn').length === 0) {
-        return;
-    }
+    if ($('#openImportModalBtn').length === 0) return;
 
     const modal = $('#importModal');
     const openBtn = $('#openImportModalBtn');
     const cancelBtn = $('#cancelImportBtn');
     const submitBtn = $('#submitImportBtn');
-    const uploadArea = $('#uploadArea');
-    const fileInput = $('#fileInput');
-    const filePreview = $('#filePreview');
+    const uploadArea = $('#uploadAreaImport');
+    const fileInput = $('#fileInputImport');
+    const filePreview = $('#filePreviewImport');
     const feedbackDiv = $('#import-feedback');
     let selectedFile = null;
 
@@ -160,16 +152,28 @@ $(document).ready(function() {
         modal.css('display', 'flex').hide().fadeIn(200);
     });
 
-    cancelBtn.click(resetAndCloseModal);
-    modal.click(e => { if ($(e.target).is(modal)) resetAndCloseModal(); });
-
     function resetAndCloseModal() {
         removeFile();
         feedbackDiv.empty().hide();
         modal.fadeOut(200);
     }
+    
+    cancelBtn.click(resetAndCloseModal);
+    
+    modal.click(function(e) { 
+        if ($(e.target).is(modal)) {
+            resetAndCloseModal();
+        }
+    });
 
-    uploadArea.click(() => fileInput.click());
+    // Clique para abrir arquivo apenas na área de upload
+    uploadArea.click(function(e) {
+        // se clicar no botão de remover, não abre o seletor
+        if ($(e.target).closest('.remove-file').length) return;
+        fileInput.click();
+    });
+
+    // Drag & drop
     fileInput.change(e => processFile(e.target.files[0]));
     uploadArea.on('dragover', e => { e.preventDefault(); uploadArea.addClass('drag-over'); });
     uploadArea.on('dragleave', e => { e.preventDefault(); uploadArea.removeClass('drag-over'); });

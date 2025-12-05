@@ -81,6 +81,7 @@ h1 {
     background: #dc2626;
 }
 
+/* ... Estilos da Tabela e Paginação (sem alterações) ... */
 .search-box { position: relative; margin-bottom: 20px; max-width: 350px; }
 .search-box input { width: 100%; padding: 10px 40px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.2s; }
 .search-box input:focus { outline: none; border-color: #3b82f6; }
@@ -112,6 +113,7 @@ tbody tr:hover { background: #fafafa; }
 .pagination-buttons button:hover:not(:disabled) { background: #f9f9f9; }
 .pagination-buttons button:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* ... Estilos dos Formulários ... */
 .section { margin-bottom: 30px; }
 .section-title { font-size: 16px; font-weight: 600; color: #333; margin-bottom: 5px; }
 .section-subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
@@ -131,10 +133,10 @@ tbody tr:hover { background: #fafafa; }
 .form-group-with-button .btn { flex-shrink: 0; }
 
 /* =============================================== */
-/* ### A CORREÇÃO ESTÁ AQUI ### */
-/* Esta regra é para o upload de foto do FORMULÁRIO e eu a apaguei sem querer. */
+/* Upload (formulário) — corrigido com position: relative */
 /* =============================================== */
 .upload-area { 
+    position: relative;  /* ADICIONADO */
     display: flex; 
     align-items: center; 
     gap: 20px; 
@@ -149,7 +151,6 @@ tbody tr:hover { background: #fafafa; }
 .upload-box .upload-text span { color: #3b82f6; font-weight: 500; }
 .upload-box .upload-hint { font-size: 12px; color: #999; }
 .file-input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
-
 
 .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e5e5; }
 .btn-cancel { background: white; border: 1px solid #ddd; color: #333; }
@@ -193,14 +194,14 @@ tbody tr:hover { background: #fafafa; }
 .modal-form-actions { display: flex; gap: 12px; margin-top: 25px; }
 #modal-error-message { color: #ef4444; background-color: #fee2e2; border: 1px solid #fca5a5; border-radius: 6px; padding: 10px; margin-bottom: 15px; font-size: 14px; }
 
-
 /* =============================================== */
 /* ### ESTILOS ESPECÍFICOS: MODAL DE IMPORTAÇÃO ### */
 /* =============================================== */
 
-/* Aqui, sobrescrevemos o 'display: flex' da regra genérica de .upload-area */
+/* Sobrescreve display e adiciona position: relative para conter o input */
 #importModal .upload-area {
-    display: block; /* Garante que o conteúdo fique empilhado */
+    position: relative;  /* ADICIONADO */
+    display: block;      /* mantém o layout empilhado no modal */
     border: 2px dashed #d1d5db;
     border-radius: 12px;
     padding: 40px 20px;
