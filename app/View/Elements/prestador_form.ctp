@@ -84,7 +84,7 @@ if (!empty($this->request->data['Prestador']['id'])) {
             'label' => false,
             'div' => false,
             'class' => 'form-control',
-            'placeholder' => '(81) 99999-9999',
+            'placeholder' => '(82) 99999-9999',
             'id' => 'phoneNumber'
         ));
         ?>
