@@ -177,18 +177,31 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
     - [x] Sanitização de dados (`beforeSave`).
 - [x] **Funcionalidades Globais:**
     - [x] Busca/Filtro de Prestadores por nome/email.
-    - [ ] Mensagens de Feedback (Flash Messages).
+    - [x] Busca por telefone (independente do formato).
+    - [x] Busca por nome do serviço prestado.
+    - [x] Mensagens de Feedback (Flash Messages).
+- [x] **Refatoração de Serviços:**
+    - [x] `ProviderQueryService` - Extraído para busca e paginação.
+    - [x] `ProviderCrudService` - Extraído para operações CRUD.
+    - [x] `PhotoUploadService` - Extraído para upload de imagens.
+    - [x] `ProviderBusinessService` - Fachada simplificada.
 
 ### 🎨 Fase 3: Frontend e UI
-- [ ] **Fundação:**
-    - [ ] Limpeza do CSS nativo do CakePHP.
-    - [ ] Instalação/Link do Bootstrap 5.
-    - [ ] Definição do Layout Principal (`default.ctp`) com Sidebar.
-- [ ] **Componentes:**
-    - [ ] Sidebar de Navegação responsiva.
-    - [ ] Estilização da Tabela de Listagem (Avatares, Badges).
-    - [ ] Estilização de Formulários (Inputs, Botões).
-    - [ ] Modal de Importação (Frontend).
+- [x] **Fundação:**
+    - [x] Limpeza do CSS nativo do CakePHP.
+    - [x] Instalação/Link do Bootstrap 5.
+    - [x] Definição do Layout Principal (`default.ctp`) com Sidebar.
+- [x] **Componentes:**
+    - [x] Sidebar de Navegação responsiva.
+    - [x] Estilização da Tabela de Listagem (Avatares, Badges).
+    - [x] Estilização de Formulários (Inputs, Botões).
+    - [x] Modal de Importação (Frontend).
+- [x] **UX Improvements:**
+    - [x] Contador de resultados na listagem.
+    - [x] Banner de filtro ativo com opção de limpar.
+    - [x] Empty states para listas vazias.
+    - [x] Paginação preservando parâmetros de busca.
+    - [x] Botão de submit no mobile para busca.
 
 ### 🚀 Fase 4: Funcionalidades Avançadas (Atividade 02)
 - [ ] **Importação CSV:**

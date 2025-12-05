@@ -9,6 +9,103 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+### UX Improvements
+
+#### Adicionado - Interface de Listagem
+- **Contador de resultados** na listagem de prestadores e serviços
+  - Exibe total de registros encontrados ("X prestador(es) encontrado(s)")
+  - Atualiza dinamicamente com filtros de busca
+
+- **Banner de filtro ativo** quando há busca aplicada
+  - Mostra termo pesquisado em destaque
+  - Botão "Limpar filtro" para reset rápido
+  - Responsivo: layout flexível para mobile
+
+- **Empty states** para listas vazias
+  - Mensagem amigável quando não há resultados
+  - Ícone ilustrativo e texto orientativo
+
+- **Busca inteligente por telefone**
+  - Busca funciona independente do formato digitado
+  - "82982136275" encontra "(82) 98213-6275"
+  - Normalização de dígitos no backend
+
+- **Busca por nome de serviço**
+  - Campo de busca agora pesquisa também pelo serviço prestado
+  - SQL otimizado com subquery para performance
+
+#### Corrigido - Paginação
+- **Paginação preservando parâmetros de busca**
+  - Links "Anterior/Próximo" mantêm filtros aplicados
+  - Corrigido merge de named params com query params
+  - Contador de páginas correto com resultados filtrados
+
+#### Corrigido - Formulários
+- **Botão de submit no mobile** para busca
+  - Adicionado botão com ícone de seta
+  - Teclado móvel não bloqueava submissão
+
+- **Formulário de cadastro** (add.ctp)
+  - Corrigido HTML malformado (div extra)
+  - Botão "Salvar Cadastro" funciona no primeiro clique
+
+---
+
+### Refatoração de Arquitetura (Suporte às melhorias de UX)
+
+> **Contexto:** O `ProviderBusinessService` cresceu significativamente (~500 linhas)
+> devido à implementação das melhorias de UX (busca avançada, paginação customizada,
+> filtros dinâmicos). A refatoração em serviços menores foi uma necessidade natural
+> para manter o código manutenível e garantir segurança nas queries SQL.
+
+#### Arquitetura de Serviços (SRP)
+
+**Antes:** `ProviderBusinessService` monolítico (~400 linhas)
+- Misturava CRUD, queries, upload de foto e lógica de apresentação
+
+**Depois:** Serviços especializados
+```
+ProviderBusinessService (Fachada - ~100 linhas)
+├── ProviderQueryService   → Busca, filtros, ordenação, paginação
+├── ProviderCrudService    → Create, Update, Delete
+└── PhotoUploadService     → Upload e validação de imagens
+```
+
+#### Novos Arquivos Criados
+- `app/Lib/Service/ProviderQueryService.php`
+  - Busca otimizada com SQL e prepared statements
+  - Subquery para busca por nome de serviço
+  - Paginação manual com validação de página
+  - Ordenação por valor (soma dos serviços)
+
+- `app/Lib/Service/ProviderCrudService.php`
+  - Operações de persistência com transações
+  - Processamento de nome completo (first + last)
+  - Integração com PhotoUploadService
+
+- `app/Lib/Service/PhotoUploadService.php`
+  - Validação de extensão e tamanho
+  - Geração de nome único
+  - Remoção segura de arquivos
+
+#### Segurança
+- **SQL Injection corrigido** na busca por telefone
+  - Antes: concatenação direta de string
+  - Depois: `$db->value()` para prepared statements
+
+- **Sanitização de LIKE patterns**
+  - Escape de caracteres especiais (%, _, \)
+
+#### Controller Simplificado
+- `ProvidersController` agora só faz:
+  - Receber requisições HTTP
+  - Delegar para serviços
+  - Definir variáveis para views
+  - Gerenciar Flash messages
+  - Redirecionar
+
+---
+
 ### Frontend UI Implementation (Fase 3)
 
 #### Adicionado
