@@ -160,8 +160,10 @@ td {
 tbody tr td.valor-coluna {
     text-align: center !important;
     vertical-align: middle !important;
+    padding-right: 50%;
     white-space: nowrap;
 }
+
 
 
 tbody tr:hover {
