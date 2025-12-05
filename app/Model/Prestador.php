@@ -23,16 +23,21 @@ class Prestador extends AppModel
 		'email' => array(
 			'email' => array(
 				'rule' => array('email', true),
-				'message' => 'Por favor, forneça um endereço de email válido.'
+				'message' => 'Tipo de e-mail inválido.'
 			),
 			'isUnique' => array(
 				'rule' => 'isUnique',
 				'message' => 'Esse e-mail já está em uso.'
 			)
-		)
+		),
+		'valor_servico' => array(
+			'decimal' => array(
+				'rule' => array('decimal', 2), 
+				'message' => 'Por favor, insira um valor válido (ex: 150,50).',
+				'allowEmpty' => false,
+			),
+		),
 	);
-
-	// --- INÍCIO DA ATUALIZAÇÃO ---
 
 	/**
 	 * belongsTo associations
@@ -56,7 +61,7 @@ class Prestador extends AppModel
 		'Agendamento' => array(
 			'className' => 'Agendamento',
 			'foreignKey' => 'prestador_id',
-			'dependent' => false 
+			'dependent' => false
 		)
 	);
 }
