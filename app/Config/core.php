@@ -395,3 +395,15 @@ Cache::config('_cake_model_', array(
 	'serialize' => ($engine === 'File'),
 	'duration' => $duration
 ));
+
+/**
+ * Configure the cache for dashboard metrics.
+ * Cache duration: 15 minutes (900 seconds)
+ */
+Cache::config('dashboard', array(
+	'engine' => $engine,
+	'prefix' => $prefix . 'dashboard_',
+	'path' => CACHE . 'persistent' . DS,
+	'serialize' => ($engine === 'File'),
+	'duration' => '+15 minutes'
+));

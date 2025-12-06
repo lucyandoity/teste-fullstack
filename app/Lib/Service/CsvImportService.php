@@ -16,6 +16,7 @@
 
 App::uses('CsvFileValidator', 'Lib/Service');
 App::uses('CsvRowValidator', 'Lib/Service');
+App::uses('DashboardService', 'Lib/Service');
 
 class CsvImportService {
 
@@ -32,6 +33,13 @@ class CsvImportService {
  * @var CsvRowValidator
  */
     protected $_rowValidator;
+
+/**
+ * Serviço do Dashboard (para invalidação de cache)
+ *
+ * @var DashboardService
+ */
+    protected $_dashboardService;
 
 /**
  * Instância do Model Service
@@ -91,6 +99,7 @@ class CsvImportService {
     ) {
         $this->_fileValidator = $fileValidator ?: new CsvFileValidator();
         $this->_rowValidator = $rowValidator ?: new CsvRowValidator();
+        $this->_dashboardService = new DashboardService();
         $this->_Service = ClassRegistry::init('Service');
         $this->_Provider = ClassRegistry::init('Provider');
     }
@@ -309,6 +318,9 @@ class CsvImportService {
             }
 
             $dataSource->commit();
+
+            // Invalida cache do dashboard após importação bem-sucedida
+            $this->_dashboardService->invalidateCache();
 
             return $this->_buildSuccessResponse();
 
