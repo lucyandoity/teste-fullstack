@@ -195,7 +195,7 @@ CsvImportService (Orquestrador)
 Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi preparada para futuras expansões:
 
 - **Módulo de Ordens de Serviço (V2):** Registrar quais serviços foram efetivamente contratados pelos clientes finais.
-- **Dashboard de Métricas (V2):** Gráficos de "Serviços mais procurados" e "Prestadores mais ativos".
+- ~~**Dashboard de Métricas (V2):**~~ ✅ **Implementado!** Gráficos de serviços por prestadores e métricas em tempo real.
 - **Internacionalização e Idiomas (V3):** * Implementação de atributo "Idiomas Falados" (Relacionamento N:N) para os prestadores.
     * Objetivo: Permitir que clientes não-lusófonos (turistas, expatriados) filtrem prestadores que falam idiomas além do português.
 - **API REST e App do Parceiro (V4):** * Desenvolvimento de API para um aplicativo restrito aos prestadores já homologados.
@@ -264,3 +264,17 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
 - [ ] Documentação de Instalação (README.md final).
 - [ ] Gravação do Vídeo Explicativo (Loom/YouTube).
 - [ ] Revisão Final de Código.
+
+### ⭐ Fase Bônus: Diferenciais Competitivos
+- [x] **Dashboard de Métricas:**
+    - [x] Total de prestadores cadastrados.
+    - [x] Total de tipos de serviços no catálogo.
+    - [x] Ticket médio dos serviços.
+    - [x] Serviço mais popular (com mais prestadores).
+    - [x] Faixa de preços (mínimo e máximo).
+    - [x] Últimos prestadores cadastrados com serviços.
+    - [x] Gráfico de barras (Chart.js) - Prestadores por serviço.
+- [x] **Cache de Métricas (Performance):**
+    - [x] Cache de 15 minutos para reduzir queries ao banco.
+    - [x] Invalidação automática ao alterar dados.
+    - [x] Configuração via `core.php` do CakePHP.

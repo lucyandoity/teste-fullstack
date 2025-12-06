@@ -95,6 +95,10 @@ h1, h2, h3, h4, h5 {
     border-bottom: 1px solid #EAECF0;
 }
 
+.table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
 /* Notificações (Toasts) */
 .flash-message {
     position: fixed;
@@ -198,10 +202,17 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Hover effect on table rows */
-.provider-row:hover,
-.service-row:hover {
-    background-color: #F9FAFB;
+.table tbody tr.provider-row:hover,
+.table tbody tr.service-row:hover,
+tr.provider-row:hover,
+tr.service-row:hover {
+    background-color: #E5E7EB !important;
     transition: background-color 0.15s ease-in-out;
+}
+
+.provider-row:hover td,
+.service-row:hover td {
+    background-color: #E5E7EB !important;
 }
 
 /* Link hover underline effect */

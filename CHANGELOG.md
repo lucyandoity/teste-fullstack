@@ -9,6 +9,34 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+### Dashboard de Métricas
+
+#### Adicionado - Painel de Controle Completo
+- **Métricas em Tempo Real:**
+  - Total de prestadores cadastrados
+  - Total de tipos de serviços no catálogo
+  - Ticket médio dos serviços
+  - Serviço mais popular (com mais prestadores)
+  - Faixa de preços (mínimo e máximo)
+  - Últimos prestadores cadastrados com seus serviços
+
+- **Gráfico de Barras (Chart.js):**
+  - Visualização de prestadores por serviço
+  - Top 10 serviços com mais prestadores
+  - Cores alinhadas com identidade visual Doity
+
+- **Cache de Métricas:**
+  - Cache de 15 minutos para otimizar performance
+  - Invalidação automática ao criar/editar/excluir prestadores
+  - Invalidação após importação CSV
+
+- **Arquitetura:**
+  - `DashboardService` - Serviço de métricas com cache integrado
+  - `HomeController` - Controller dedicado para o dashboard
+  - Rota `/` agora direciona para o dashboard
+
+---
+
 ### Importação CSV de Prestadores
 
 #### Adicionado - Funcionalidade de Importação em Massa

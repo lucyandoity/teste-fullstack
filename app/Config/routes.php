@@ -21,11 +21,11 @@
  */
 
 /**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/View/Pages/home.ctp)...
+ * Here, we are connecting '/' (base path) to controller called 'Home',
+ * its action called 'index', which renders the Dashboard.
  */
-	Router::connect('/', array('controller' => 'providers', 'action' => 'index'));
+	Router::connect('/', array('controller' => 'home', 'action' => 'index'));
+
 /**
  * ...and connect the rest of 'Pages' controller's URLs.
  */
