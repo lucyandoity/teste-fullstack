@@ -1,81 +1,63 @@
-# Teste FullStack
-Este repositório contém o desafio técnico para a vaga de FullStack.
+# Sistema de Gestão de Serviços - Seu João
 
-## 🎯 Objetivo  
-Implementar o desafio FullStack utilizando o stack exigido, com foco em fidelidade ao UX e comportamento funcional.
+Este projeto foi desenvolvido utilizando o framework **CakePHP 2.10** e **MySQL** para gerenciar prestadores de serviços.
 
----
+## Requisitos
 
-## 🔗 Teste técnico (backend + lógica + instruções)  
-Link oficial do teste:  
-https://doity.notion.site/Teste-FullStack-b67c69625967440e97d48d475af366c7?pvs=74
+- PHP 7.4 ou superior
+- MySQL
+- Composer
 
----
+## Instalação
 
-## 🎨 Design + UX (Figma)  
-Link do layout:  
-https://www.figma.com/design/pv3ebrXHaUZNHqsqR24Wvi/Desafio-Full-Stack?m=dev
+1. Clone o repositório.
+2. Instale as dependências (se necessário, embora o CakePHP venha junto):
+   ```bash
+   composer install
+   ```
+3. Configure o banco de dados:
+   - O arquivo `app/Config/database.php` já está configurado para `localhost`, usuário `root` e senha vazia.
+   - Banco de dados: `desafio_tecnico`
+   - Se suas credenciais forem diferentes, edite `app/Config/database.php`.
 
-### 🔐 Credenciais para acesso ao Figma  
-- Usuário: selecao@doity.com.br  
-- Senha: Selecao@dev123
-  
----
+4. Crie o banco de dados e as tabelas:
+   - Importe o arquivo SQL (schema.sql) ou crie manualmente conforme a estrutura nos Models.
 
-## 🔗 Vídeo explicativo
-Link do vídeo:  
-https://www.loom.com/share/e820a6488cef45bbad345b1e6be8e799
+## Funcionalidades
 
----
+### 1. Cadastro de Prestadores
+- **Listagem com paginação** e ordenação (mais recentes primeiro).
+- **Busca funcional**: Filtre prestadores por nome ou email.
+- **Cadastro Completo**:
+  - Upload de foto com pré-visualização.
+  - Máscara e validação de telefone único.
+  - Adição dinâmica de serviços (modal para novos serviços, select para existentes).
+- **Edição e Exclusão**: Funcionalidades completas de CRUD.
+- **Exportação CSV**: Botão para baixar lista completa de prestadores.
 
-## 🛠 Stack obrigatório  
-O candidato deve utilizar:
+### 2. Importação Avançada
+- Suporte a arquivos **CSV, XLS e XLSX** (Excel).
+- Validação de extensão e tamanho máximo (25MB).
+- **Upload via AJAX** com barra de progresso visual.
+- Modal de sucesso client-side com redirecionamento automático.
+- Utilização da biblioteca `PhpSpreadsheet` para leitura de planilhas.
 
-- PHP (CakePHP2)  
-- MySQL  
-- HTML  
-- CSS  
-- JavaScript  
-- jQuery  
+### 3. Interface e UX (Bônus)
+- **Design Moderno**: Tailwind CSS para estilização responsiva.
+- **Ícones**: Integração com *Lucide Icons* para ícones vetoriais nítidos.
+- **Flash Messages**: Notificações de sucesso/erro estilizadas.
+- **Dashboard**: Cards com estatísticas:
+  - Total de Prestadores
+  - Total de Serviços
+  - Média de Valor dos Serviços
 
----
+## Tecnologias e Decisões
+- **Design Moderno**: Utilizando Tailwind CSS para uma interface limpa e responsiva.
+- **CakePHP 2**: Framework robusto MVC.
+- **Git Flow**: Branches master/develop utilizadas.
 
-## 🧪 Entrega do teste  
-A entrega será feita pelo GitHub.
-
-### Como enviar:
-1. Faça um **Fork** deste repositório  
-2. Desenvolva o projeto no seu fork  
-3. Crie um `README.md` no seu repositório contendo:
-   - como instalar o ambiente  
-   - como configurar o banco de dados  
-   - como inicializar o projeto  
-   - credenciais, se necessário  
-   - link do vídeo explicando o desenvolvimento  
-4. Envie o link do seu fork para avaliação  
-
----
-
-## 📹 Vídeo explicativo obrigatório  
-Grave um vídeo curto (Loom, YouTube não listado ou similar) explicando:
-
-- fluxo de funcionalidades  
-- demonstração da interface  
+## Autor
+Desenvolvido para o desafio técnico da Doity.
 
 ---
-
-## 🧩 O que será avaliado
-- Fidelidade ao projeto de UX  
-- Fidelidade à lógica funcional  
-- Qualidade e clareza do código  
-- Organização de pastas e estrutura  
-- Boas práticas em CakePHP2  
-- Modelagem e queries do MySQL  
-- Uso correto de HTML, CSS, JS e jQuery  
-- Autonomia e capacidade de resolução de problemas  
-
----
-
-## 💬 Suporte  
-Se houver qualquer dúvida ou dificuldade (acesso a Doity, Figma, vídeos ou arquivo de links), entre em contato:  
-📩 lucyan@doity.com.br
+*Este projeto é uma solução para o [Teste Técnico FullStack da Doity](https://doity.notion.site/Teste-FullStack-b67c69625967440e97d48d475af366c7).*
