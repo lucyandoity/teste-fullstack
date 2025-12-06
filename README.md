@@ -21,11 +21,7 @@ Este projeto foi desenvolvido utilizando o framework **CakePHP 2.10** e **MySQL*
    - Se suas credenciais forem diferentes, edite `app/Config/database.php`.
 
 4. Crie o banco de dados e as tabelas:
-   - Execute o script de configuração:
-     ```bash
-     php setup_db.php
-     ```
-   - Ou importe o arquivo SQL (se fornecido) ou crie manualmente conforme a estrutura nos Models.
+   - Importe o arquivo SQL (schema.sql) ou crie manualmente conforme a estrutura nos Models.
 
 ## Funcionalidades
 
