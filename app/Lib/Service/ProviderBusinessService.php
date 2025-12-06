@@ -12,6 +12,7 @@
 
 App::uses('ProviderQueryService', 'Lib/Service');
 App::uses('ProviderCrudService', 'Lib/Service');
+App::uses('DashboardService', 'Lib/Service');
 
 class ProviderBusinessService {
 
@@ -30,11 +31,19 @@ class ProviderBusinessService {
     protected $_crudService;
 
 /**
+ * Serviço do Dashboard (para invalidação de cache)
+ *
+ * @var DashboardService
+ */
+    protected $_dashboardService;
+
+/**
  * Construtor
  */
     public function __construct() {
         $this->_queryService = new ProviderQueryService();
         $this->_crudService = new ProviderCrudService();
+        $this->_dashboardService = new DashboardService();
     }
 
 /**
@@ -65,7 +74,11 @@ class ProviderBusinessService {
  * @return array Resultado da operação com status e mensagem
  */
     public function create($data) {
-        return $this->_crudService->create($data);
+        $result = $this->_crudService->create($data);
+        if ($result['success']) {
+            $this->_dashboardService->invalidateCache();
+        }
+        return $result;
     }
 
 /**
@@ -77,7 +90,11 @@ class ProviderBusinessService {
  * @throws NotFoundException
  */
     public function update($id, $data) {
-        return $this->_crudService->update($id, $data);
+        $result = $this->_crudService->update($id, $data);
+        if ($result['success']) {
+            $this->_dashboardService->invalidateCache();
+        }
+        return $result;
     }
 
 /**
@@ -88,6 +105,10 @@ class ProviderBusinessService {
  * @throws NotFoundException
  */
     public function delete($id) {
-        return $this->_crudService->delete($id);
+        $result = $this->_crudService->delete($id);
+        if ($result['success']) {
+            $this->_dashboardService->invalidateCache();
+        }
+        return $result;
     }
 }
