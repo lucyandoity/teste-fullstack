@@ -47,12 +47,20 @@ class ServiceProvidersController extends AppController {
             if (!empty($this->request->data['ServiceProvider']['photo']['name'])) {
                 $photo = $this->request->data['ServiceProvider']['photo'];
 
-            // Verificação de tamanho máximo 5MB
+                // Verificação de tipo de arquivo
+                $extension = pathinfo($photo['name'], PATHINFO_EXTENSION);
+                if (!in_array(strtolower($extension), array('jpg', 'jpeg', 'png'))) {
+                    $this->Flash->notification('Por favor, envie um arquivo de foto(JPG, JPEG, PNG)  válido.', array('params' => array('class' => 'error')));
+                    return $this->redirect(array('action' => 'create'));
+                }
+
+                // Verificação de tamanho máximo 5MB
                 $photosize = filesize($photo['tmp_name']);
                 if ($photosize > 5 * 1024 * 1024) { // Limite de 5MB
                     $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'create'));
                 }
+
                 $filename = $this->request->data['ServiceProvider']['photo']['name'];
                 $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
                 
@@ -111,7 +119,21 @@ class ServiceProvidersController extends AppController {
             // Upload de Foto
             if (!empty($this->request->data['ServiceProvider']['photo']['name'])) {
                 $photo = $this->request->data['ServiceProvider']['photo'];
+
+                // Verificação de tipo de arquivo
                 $extension = pathinfo($photo['name'], PATHINFO_EXTENSION);
+                if (!in_array(strtolower($extension), array('jpg', 'jpeg', 'png'))) {
+                    $this->Flash->notification('Por favor, envie um arquivo de foto(JPG, JPEG, PNG)  válido.', array('params' => array('class' => 'error')));
+                    return $this->redirect(array('action' => 'edit', $id));
+                }
+
+                // Verificação de tamanho máximo 5MB
+                $photosize = filesize($photo['tmp_name']);
+                if ($photosize > 5 * 1024 * 1024) { // Limite de 5MB
+                    $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
+                    return $this->redirect(array('action' => 'create'));
+                }
+
                 $filename = uniqid('photo_') . '.' . $extension;
                 $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
                 
