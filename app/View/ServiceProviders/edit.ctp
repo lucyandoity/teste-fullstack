@@ -12,10 +12,6 @@ echo $this->Html->css('edit');
                 <p class="subtitle">Informações Pessoais</p>
                 <p class="subtitle small">Atualize suas informações e foto.</p>
             </div>
-            <nav>
-                <?php echo $this->Html->link('Início', '/', array('class' => 'nav-link')); ?>
-                <?php echo $this->Html->link('Voltar', array('action' => 'index'), array('class' => 'nav-link')); ?>
-            </nav>
         </header>
 
         <main>

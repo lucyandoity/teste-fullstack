@@ -127,12 +127,12 @@
 }
 
 .flash-title {
-color: var(--gray-900);
-font-size: 18px;
-font-style: normal;
-font-weight: 600;
-line-height: 28px; /* 155.556% */
-text-align: center;
+    color: var(--gray-900);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px; /* 155.556% */
+    text-align: center;
 }
 
 .flash-subtitle {
@@ -144,6 +144,65 @@ text-align: center;
     text-align: center;
 }
 
+.svg-suc {
+    background: var(--green-100);
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.svg-suc::before {
+    content: '';
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background: var(--green-50);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.svg-error {
+    background: #FEE2E2;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.svg-error::before {
+    content: '';
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background: #FEF2F2;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.icon-wrapper-outer {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.flash-success .icon-wrapper-outer {
+    background: var(--green-50);
+}
+
+.modal.error .icon-wrapper-outer,
+.modal.flash-error .icon-wrapper-outer {
+    background: #FEF2F2;
+}
 
 @media (max-width: 480px) {
     .flash-notification {
