@@ -60,7 +60,7 @@ Este projeto foi desenvolvido utilizando o framework **CakePHP 2.10** e **MySQL*
 Desenvolvido para o desafio técnico da Doity.
 
 ## Video
-https://youtu.be/G1Ox3O2SaiE
+[Clique aqui para assistir](https://youtu.be/G1Ox3O2SaiE)
 
 ---
 *Este projeto é uma solução para o [Teste Técnico FullStack da Doity](https://doity.notion.site/Teste-FullStack-b67c69625967440e97d48d475af366c7).*
