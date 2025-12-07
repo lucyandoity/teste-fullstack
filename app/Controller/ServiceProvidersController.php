@@ -39,7 +39,6 @@ class ServiceProvidersController extends AppController {
     }
 
     public function create() {
-        // o If aqui está servindo para não processar o form quando a request é um GET (Rota do formulário)
         if ($this->request->is('post')) {
             $this->ServiceProvider->create();
             
@@ -50,35 +49,39 @@ class ServiceProvidersController extends AppController {
                 // Verificação de tipo de arquivo
                 $extension = pathinfo($photo['name'], PATHINFO_EXTENSION);
                 if (!in_array(strtolower($extension), array('jpg', 'jpeg', 'png'))) {
-                    $this->Flash->notification('Por favor, envie um arquivo de foto(JPG, JPEG, PNG)  válido.', array('params' => array('class' => 'error')));
+                    $this->Flash->notification('Por favor, envie um arquivo de foto(JPG, JPEG, PNG) válido.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'create'));
                 }
 
                 // Verificação de tamanho máximo 5MB
-                $photosize = filesize($photo['tmp_name']);
-                if ($photosize > 5 * 1024 * 1024) { // Limite de 5MB
-                    $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
-                    return $this->redirect(array('action' => 'create'));
-                }
+                if ($photo['error'] === UPLOAD_ERR_OK) {
+                    $photosize = filesize($photo['tmp_name']);
+                    if ($photosize > 5 * 1024 * 1024) {
+                        $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
+                        return $this->redirect(array('action' => 'create'));
+                    }
 
-                $filename = $this->request->data['ServiceProvider']['photo']['name'];
-                $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
-                
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
-                }
-                
-                if (move_uploaded_file($photo['tmp_name'], $uploadDir . $filename)) {
-                    $this->request->data['ServiceProvider']['photo'] = 'uploads/' . $filename;
-                // Esse if é para caso o upload falhe, a foto também ficará como null, mas o usuário poderá editar depois
+                    $filename = uniqid('photo_') . '.' . $extension;
+                    $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
+                    
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+                    
+                    $targetPath = $uploadDir . $filename;
+                    
+                    if (move_uploaded_file($photo['tmp_name'], $targetPath)) {
+                        $this->request->data['ServiceProvider']['photo'] = 'uploads/' . $filename;
+                    } else {
+                        $this->request->data['ServiceProvider']['photo'] = null;
+                    }
                 } else {
                     $this->request->data['ServiceProvider']['photo'] = null;
                 }
-            // Se nenhum arquivo foi enviado a foto fica como null (Avatarzinho bonitinho com as letras iniciais do nome/sobrenome)
             } else {
                 $this->request->data['ServiceProvider']['photo'] = null;
             }
-            // Aqui é para preparação dos dados para validação
+            
             $this->ServiceProvider->set($this->request->data);
             
             if ($this->ServiceProvider->validates()) {
@@ -89,7 +92,6 @@ class ServiceProvidersController extends AppController {
             }
         }
 
-        // Popular as options do dropdown de serviços 
         $serviceSuggestions = $this->Service->find('list', array('fields' => array('name', 'name')));
         $this->set(compact('serviceSuggestions'));
     }
@@ -114,40 +116,42 @@ class ServiceProvidersController extends AppController {
             $this->Flash->notification('Prestador não encontrado!', array('params' => array('class' => 'error')));
             return $this->redirect(array('action' => 'index'));
         }
-        // o If aqui está servindo para não processar o form quando a request é um GET (Rota do formulário) ;^)
+        
         if ($this->request->is(array('post', 'put'))) {
             // Upload de Foto
             if (!empty($this->request->data['ServiceProvider']['photo']['name'])) {
                 $photo = $this->request->data['ServiceProvider']['photo'];
 
-                // Verificação de tipo de arquivo
                 $extension = pathinfo($photo['name'], PATHINFO_EXTENSION);
                 if (!in_array(strtolower($extension), array('jpg', 'jpeg', 'png'))) {
-                    $this->Flash->notification('Por favor, envie um arquivo de foto(JPG, JPEG, PNG)  válido.', array('params' => array('class' => 'error')));
+                    $this->Flash->notification('Por favor, envie um arquivo de foto(JPG, JPEG, PNG) válido.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'edit', $id));
                 }
 
-                // Verificação de tamanho máximo 5MB
-                $photosize = filesize($photo['tmp_name']);
-                if ($photosize > 5 * 1024 * 1024) { // Limite de 5MB
-                    $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
-                    return $this->redirect(array('action' => 'create'));
-                }
+                if ($photo['error'] === UPLOAD_ERR_OK) {
+                    $photosize = filesize($photo['tmp_name']);
+                    if ($photosize > 5 * 1024 * 1024) {
+                        $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
+                        return $this->redirect(array('action' => 'edit', $id));
+                    }
 
-                $filename = uniqid('photo_') . '.' . $extension;
-                $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
-                
-                if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0755, true);
-                }
-                
-                if (move_uploaded_file($photo['tmp_name'], $uploadDir . $filename)) {
-                    $this->request->data['ServiceProvider']['photo'] = 'uploads/' . $filename;
-                // Se o upload falhar, removemos a chave 'photo' para manter a foto atual
+                    $filename = uniqid('photo_') . '.' . $extension;
+                    $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
+                    
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, true);
+                    }
+                    
+                    $targetPath = $uploadDir . $filename;
+                    
+                    if (move_uploaded_file($photo['tmp_name'], $targetPath)) {
+                        $this->request->data['ServiceProvider']['photo'] = 'uploads/' . $filename;
+                    } else {
+                        unset($this->request->data['ServiceProvider']['photo']); 
+                    }
                 } else {
                     unset($this->request->data['ServiceProvider']['photo']); 
                 }
-            // Se nenhum arquivo foi enviado, removemos a chave 'photo' para manter a foto atual
             } else {
                 unset($this->request->data['ServiceProvider']['photo']); 
             }
@@ -157,12 +161,10 @@ class ServiceProvidersController extends AppController {
                 return $this->redirect(array('action' => 'index'));
             }
             $this->Flash->notification('Erro ao atualizar. Verifique os dados.', array('params' => array('class' => 'error')));
-        // Se não for post ou put, preenche os inputs com os dados atuais do prestador
         } else {
             $this->request->data = $this->ServiceProvider->findById($id);
         }
         
-        // Popular as options do dropdown de serviços 
         $serviceSuggestions = $this->Service->find('list', array('fields' => array('name', 'name')));
         $this->set(compact('serviceSuggestions'));
     }
@@ -186,41 +188,44 @@ class ServiceProvidersController extends AppController {
     public function import() {
         if ($this->request->is('post')) {
             
-            // Verificação se o arquivo existe no request
             if (!empty($this->request->data['ServiceProvider']['csv_file']['tmp_name'])) {
                 $file = $this->request->data['ServiceProvider']['csv_file'];
                 
-                // Verificação se o usuário enviou um arquivo CSV válido :C
                 $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
                 if (strtolower($extension) !== 'csv') {
                     $this->Flash->modalnotification('Por favor, envie um arquivo CSV válido.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'index'));
                 }
 
-                // Tamanho máximo de 25MB
-                $fileSize = filesize($file['tmp_name']);
-                if ($fileSize > 25 * 1024 * 1024) { // Limite de 25MB
-                    $this->Flash->modalnotification('O arquivo é muito grande. O tamanho máximo permitido é 25MB.', array('params' => array('class' => 'error')));
-                    return $this->redirect(array('action' => 'index'));
-                }
+                if ($file['error'] === UPLOAD_ERR_OK) {
+                    $fileSize = filesize($file['tmp_name']);
+                    if ($fileSize > 25 * 1024 * 1024) {
+                        $this->Flash->modalnotification('O arquivo é muito grande. O tamanho máximo permitido é 25MB.', array('params' => array('class' => 'error')));
+                        return $this->redirect(array('action' => 'index'));
+                    }
 
-                // Bloco da lógica principal(BULK INSERT)
-                try {
-                    $db = ConnectionManager::getDataSource('default');
-                    
-                    $bulkInsertQuery = "LOAD DATA LOCAL INFILE '" . addslashes($file['tmp_name']) . "' 
-                        INTO TABLE service_providers
-                        FIELDS TERMINATED BY ','
-                        ENCLOSED BY '\"'
-                        LINES TERMINATED BY '\\n'
-                        IGNORE 1 ROWS
-                        (first_name, last_name, email, phone, service, description, price);";
+                    try {
+                        $db = ConnectionManager::getDataSource('default');
+                        
+                        // Usar caminho absoluto do arquivo temporário
+                        $tmpPath = str_replace('\\', '/', $file['tmp_name']);
+                        
+                        $bulkInsertQuery = "LOAD DATA LOCAL INFILE '" . $tmpPath . "' 
+                            INTO TABLE service_providers
+                            FIELDS TERMINATED BY ','
+                            ENCLOSED BY '\"'
+                            LINES TERMINATED BY '\\n'
+                            IGNORE 1 ROWS
+                            (first_name, last_name, email, phone, service, description, price)";
 
-                    $db->rawQuery($bulkInsertQuery);
-                    
-                    $this->Flash->modalnotification('Lista enviada com sucesso!');
-                } catch (Exception $e) {
-                    $this->Flash->modalnotification('Erro ao importar', array('params' => array('class' => 'error')));
+                        $db->rawQuery($bulkInsertQuery);
+                        
+                        $this->Flash->modalnotification('Lista enviada com sucesso!');
+                    } catch (Exception $e) {
+                        $this->Flash->modalnotification('Erro ao importar: ' . $e->getMessage(), array('params' => array('class' => 'error')));
+                    }
+                } else {
+                    $this->Flash->modalnotification('Erro no upload do arquivo.', array('params' => array('class' => 'error')));
                 }
             } else {
                 $this->Flash->modalnotification('Nenhum arquivo selecionado.', array('params' => array('class' => 'error')));
