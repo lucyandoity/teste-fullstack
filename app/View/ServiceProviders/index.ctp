@@ -11,8 +11,20 @@ echo $this->Html->css('index');
             <p class="subtitle">Veja sua lista de prestadores de serviço</p>
             </div>
             <nav>
-                <?php echo $this->Html->link('<i class="ph ph-upload-simple"></i> Importar', array('action' => 'import'), array('class' => 'nav-link btn-import', 'escape' => false)); ?>
-                <?php echo $this->Html->link('<i class="ph ph-plus"></i> Add Novo Prestador', array('action' => 'create'), array('class' => 'nav-link btn-primary', 'escape' => false)); ?>
+                <?php echo $this->Html->link(
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="#414651" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg> Importar', 
+                    array('action' => 'import'), 
+                    array('class' => 'nav-link btn-import', 'escape' => false)
+                ); ?>
+                <?php echo $this->Html->link(
+                    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M9.99999 4.16669V15.8334M4.16666 10H15.8333" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg> Add Novo Prestador', 
+                    array('action' => 'create'), 
+                    array('class' => 'nav-link btn-primary', 'escape' => false)
+                ); ?>
             </nav>
         </header>
 
@@ -73,9 +85,28 @@ echo $this->Html->css('index');
                             <td class="provider-price">R$ <?php echo number_format($provider['ServiceProvider']['price'], 2, ',', '.'); ?></td>
                             <td>
                                 <div class="provider-actions">
-                                    <?php echo $this->Html->link('<i class="ph ph-eye"></i>', '#', array('class' => 'btn btn-info btn-view', 'data-id' => $provider['ServiceProvider']['id'], 'escape' => false)); ?>
-                                    <?php echo $this->Html->link('<i class="ph ph-pencil-simple-line"></i>', array('action' => 'edit', $provider['ServiceProvider']['id']), array('class' => 'btn btn-warning', 'escape' => false)); ?>
-                                    <?php echo $this->Form->postLink('<i class="ph ph-trash"></i>', array('action' => 'delete', $provider['ServiceProvider']['id']), array('class' => 'btn btn-danger', 'confirm' => 'Tem certeza que deseja excluir?', 'escape' => false)); ?>
+                                    <?php echo $this->Html->link(
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M0.833328 10C0.833328 10 4.16666 3.33334 10 3.33334C15.8333 3.33334 19.1667 10 19.1667 10C19.1667 10 15.8333 16.6667 10 16.6667C4.16666 16.6667 0.833328 10 0.833328 10Z" stroke="#535862" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#535862" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>', 
+                                        '#', 
+                                        array('class' => 'btn btn-info btn-view', 'data-id' => $provider['ServiceProvider']['id'], 'escape' => false)
+                                    ); ?>
+                                    <?php echo $this->Html->link(
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M10 16.6667H17.5M13.75 2.91669C14.0815 2.58517 14.5312 2.39893 15 2.39893C15.2321 2.39893 15.462 2.44465 15.6765 2.53349C15.891 2.62233 16.0858 2.75254 16.25 2.91669C16.4142 3.08084 16.5444 3.27572 16.6332 3.4902C16.722 3.70467 16.7678 3.93455 16.7678 4.16669C16.7678 4.39884 16.722 4.62871 16.6332 4.84319C16.5444 5.05766 16.4142 5.25254 16.25 5.41669L5.83333 15.8334L2.5 16.6667L3.33333 13.3334L13.75 2.91669Z" stroke="#535862" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>', 
+                                        array('action' => 'edit', $provider['ServiceProvider']['id']), 
+                                        array('class' => 'btn btn-warning', 'escape' => false)
+                                    ); ?>
+                                    <?php echo $this->Form->postLink(
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M2.5 4.99996H4.16667M4.16667 4.99996H17.5M4.16667 4.99996V16.6666C4.16667 17.1087 4.34226 17.5326 4.65482 17.8451C4.96738 18.1577 5.39131 18.3333 5.83333 18.3333H14.1667C14.6087 18.3333 15.0326 18.1577 15.3452 17.8451C15.6577 17.5326 15.8333 17.1087 15.8333 16.6666V4.99996H4.16667ZM6.66667 4.99996V3.33329C6.66667 2.89127 6.84226 2.46734 7.15482 2.15478C7.46738 1.84222 7.89131 1.66663 8.33333 1.66663H11.6667C12.1087 1.66663 12.5326 1.84222 12.8452 2.15478C13.1577 2.46734 13.3333 2.89127 13.3333 3.33329V4.99996M8.33333 9.16663V14.1666M11.6667 9.16663V14.1666" stroke="#535862" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>', 
+                                        array('action' => 'delete', $provider['ServiceProvider']['id']), 
+                                        array('class' => 'btn btn-danger', 'confirm' => 'Tem certeza que deseja excluir?', 'escape' => false)
+                                    ); ?>
                                 </div>
                             </td>
                         </tr>
@@ -121,8 +152,6 @@ echo $this->Html->css('index');
             </div>
         </div>
     </div>
-</body>
-
 </body>
 
 <script>

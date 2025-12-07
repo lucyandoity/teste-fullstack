@@ -88,7 +88,7 @@ header {
 
 .title {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--gray-900);
 }
 
@@ -109,6 +109,14 @@ nav {
     padding: 10px 20px;
     border-radius: 12px;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link svg {
+    vertical-align: middle;
+    flex-shrink: 0;
 }
 
 .nav-link:hover {
@@ -192,6 +200,7 @@ tbody tr {
 }
 
 tbody tr td {
+    font-size: 14px;
     border-top: 1px solid #eee;
 }
 
