@@ -11,13 +11,12 @@ echo $this->Html->css('index');
             <p class="subtitle">Veja sua lista de prestadores de serviço</p>
             </div>
             <nav>
-                <?php echo $this->Html->link(
-                    '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <a href="#" class="nav-link btn-import" id="btn-open-import">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="#414651" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg> Importar', 
-                    array('action' => 'import'), 
-                    array('class' => 'nav-link btn-import', 'escape' => false)
-                ); ?>
+                    </svg>
+                    Importar
+                </a>
                 <?php echo $this->Html->link(
                     '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <path d="M9.99999 4.16669V15.8334M4.16666 10H15.8333" stroke="white" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
@@ -130,7 +129,7 @@ echo $this->Html->css('index');
         </main>
     </div>
 
-    <!-- Modal -->
+    <!-- Modal do show -->
     <div id="viewModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -152,10 +151,66 @@ echo $this->Html->css('index');
             </div>
         </div>
     </div>
+
+    <!-- Modal de Importação CSV -->
+    <div id="importModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Importar Prestadores</h2>
+                <button class="modal-close" id="close-import-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <?php 
+                echo $this->Form->create('ServiceProvider', array(
+                    'url' => array('controller' => 'service_providers', 'action' => 'import'),
+                    'type' => 'file',
+                    'id' => 'import-form'
+                ));
+                ?>
+                
+                <div class="import-info">
+                    <div class="import-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 20 20" fill="none">
+                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="#535862" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <p class="import-description">Selecione um arquivo CSV para importar prestadores de serviço.</p>
+                </div>
+
+                <div class="file-input-wrapper">
+                    <input type="file" name="csv_file" id="csv_file" accept=".csv" class="file-input" required>
+                    <label for="csv_file" class="file-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span id="file-name">Escolher arquivo CSV</span>
+                    </label>
+                </div>
+
+                <div class="import-format-info">
+                    <p><strong>Formato esperado:</strong></p>
+                    <code>first_name,last_name,email,phone,service,description,price</code>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="btn-cancel-import">Cancelar</button>
+                    <button type="submit" class="btn-submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Importar
+                    </button>
+                </div>
+
+                <?php echo $this->Form->end(); ?>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script>
 $(document).ready(function() {
+    // Modal View - existing code
     $('.btn-view').on('click', function() {
         var id = $(this).data('id');
         
@@ -193,15 +248,48 @@ $(document).ready(function() {
         });
     });
 
-    $('.modal-close, .modal').on('click', function(e) {
+    $('.modal-close, #viewModal').on('click', function(e) {
         if (e.target === this) {
             $('#viewModal').removeClass('show');
         }
     });
 
+    // Modal Import
+    $('#btn-open-import').on('click', function(e) {
+        e.preventDefault();
+        $('#importModal').addClass('show');
+    });
+
+    $('#close-import-modal, #btn-cancel-import, #importModal').on('click', function(e) {
+        if (e.target === this) {
+            $('#importModal').removeClass('show');
+            $('#import-form')[0].reset();
+            $('#file-name').text('Escolher arquivo CSV');
+        }
+    });
+
+    // Prevenir fechamento ao clicar no conteúdo do modal
+    $('.modal-content').on('click', function(e) {
+        e.stopPropagation();
+    });
+
+    // Mostrar nome do arquivo selecionado
+    $('#csv_file').on('change', function() {
+        var fileName = $(this).val().split('\\').pop();
+        if (fileName) {
+            $('#file-name').text(fileName);
+        } else {
+            $('#file-name').text('Escolher arquivo CSV');
+        }
+    });
+
+    // Fechar modais com ESC
     $(document).on('keydown', function(e) {
         if (e.key === 'Escape') {
             $('#viewModal').removeClass('show');
+            $('#importModal').removeClass('show');
+            $('#import-form')[0].reset();
+            $('#file-name').text('Escolher arquivo CSV');
         }
     });
 });
