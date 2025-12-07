@@ -12,8 +12,8 @@ class ServiceProvider extends AppModel {
                 'message' => 'Nome é obrigatório'
             ),
             'maxLength' => array(
-                'rule' => array('maxLength', 100),
-                'message' => 'Nome não deve ultrapassar 100 caracteres'
+                'rule' => array('maxLength', 15),
+                'message' => 'Nome não deve ultrapassar 15 caracteres'
             )
         ),
         'last_name' => array(
@@ -22,8 +22,8 @@ class ServiceProvider extends AppModel {
                 'message' => 'Sobrenome é obrigatório'
             ),
             'maxLength' => array(
-                'rule' => array('maxLength', 100),
-                'message' => 'Sobrenome não deve ultrapassar 100 caracteres'
+                'rule' => array('maxLength', 35),
+                'message' => 'Sobrenome não deve ultrapassar 30 caracteres'
             )
         ),
         'email' => array(
@@ -36,8 +36,8 @@ class ServiceProvider extends AppModel {
                 'message' => 'Email inválido'
             ),
             'maxLength' => array(
-                'rule' => array('maxLength', 100),
-                'message' => 'E-mail deve ter no máximo 100 caracteres'
+                'rule' => array('maxLength', 45),
+                'message' => 'E-mail deve ter no máximo 45 caracteres'
             )
         ),
         'phone' => array(

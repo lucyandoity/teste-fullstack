@@ -11,7 +11,7 @@ class ServiceProvidersController extends AppController {
     public $paginate = array(
         'limit' => 7,
         'order' => array(
-            'ServiceProvider.first_name' => 'asc'
+            'ServiceProvider.created' => 'desc'
         )
     );
 
@@ -46,6 +46,13 @@ class ServiceProvidersController extends AppController {
             // Upload de Foto
             if (!empty($this->request->data['ServiceProvider']['photo']['name'])) {
                 $photo = $this->request->data['ServiceProvider']['photo'];
+
+            // Verificação de tamanho máximo 5MB
+                $photosize = filesize($photo['tmp_name']);
+                if ($photosize > 5 * 1024 * 1024) { // Limite de 5MB
+                    $this->Flash->notification('A foto é muito grande. O tamanho máximo permitido é 5MB.', array('params' => array('class' => 'error')));
+                    return $this->redirect(array('action' => 'create'));
+                }
                 $filename = $this->request->data['ServiceProvider']['photo']['name'];
                 $uploadDir = WWW_ROOT . 'img' . DS . 'uploads' . DS;
                 

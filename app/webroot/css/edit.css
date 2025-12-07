@@ -148,6 +148,120 @@ nav {
     background-color: var(--gray-200);
 }
 
+/* Campo de Foto Estilizado */
+.photo-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.photo-row > label {
+    flex: 0 0 30%;
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+    padding-top: 10px;
+}
+
+.photo-text {
+    font-weight: 400;
+    color: var(--gray-500);
+    font-size: 0.85rem;
+}
+
+.photo-input-container {
+    flex: 0 0 60%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.photo-preview {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px dashed var(--gray-300);
+}
+
+.photo-preview.has-image {
+    border: 2px solid var(--gray-300);
+}
+
+.photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.photo-preview svg {
+    width: 32px;
+    height: 32px;
+}
+
+.photo-input-container .file-input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.photo-input-container .file-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+    top: 0;
+    left: 0;
+}
+
+.photo-input-container .import-info {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.photo-input-container .file-input-wrapper:hover .import-info {
+    border-color: var(--primary-red);
+    background-color: #FFF5F5;
+}
+
+.photo-input-container .import-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.photo-input-container .import-description {
+    color: var(--gray-600);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.photo-input-container .import-description-bold {
+    color: var(--primary-red);
+    font-weight: 600;
+}
+
+.photo-input-container .import-file-size {
+    color: var(--gray-500);
+    font-size: 0.75rem;
+    margin: 0;
+}
+
 .form-row {
     display: flex;
     align-items: flex-start;
@@ -241,7 +355,6 @@ nav {
     color: var(--primary-red);
 }
 
-/* Erros */
 .input.error input,
 .input.error textarea {
     border-color: var(--primary-red);
@@ -251,7 +364,7 @@ nav {
     color: var(--primary-red);
     font-size: 0.75rem;
     margin-top: 4px;
-    margin-left: 30%;
+    margin-left: 2%;
 }
 
 .form-actions {
@@ -302,7 +415,6 @@ input[type="submit"]:hover {
     border-color: var(--primary-red-hover);
 }
 
-/* Responsividade para celulares e tablets */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
@@ -361,5 +473,21 @@ input[type="submit"]:hover {
 
     .form-container {
         padding: 20px;
+    }
+
+    .photo-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .photo-row > label {
+        flex: none;
+        width: 100%;
+        padding-top: 0;
+    }
+
+    .photo-input-container {
+        flex: none;
+        width: 100%;
     }
 }
