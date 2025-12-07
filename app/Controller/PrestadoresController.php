@@ -1,12 +1,8 @@
 <?php
 App::uses('AppController', 'Controller');
 
-// ===============================================
-// ### INÍCIO DA ATUALIZAÇÃO (1/2) ###
-// Adicionamos a importação da biblioteca PHPExcel.
-// Esta é a forma correta do CakePHP 2 "encontrar" a biblioteca na pasta Vendor.
-// ===============================================
-App::import('Vendor', 'PHPExcel/Classes/PHPExcel');
+require_once APP . 'Vendor' . DS . 'PHPExcel' . DS . 'PHPExcel.php';
+require_once APP . 'Vendor' . DS . 'PHPExcel' . DS . 'PHPExcel' . DS . 'IOFactory.php';
 
 class PrestadoresController extends AppController
 {
@@ -114,14 +110,12 @@ class PrestadoresController extends AppController
     }
 
     // ===============================================
-    // ### INÍCIO DA ATUALIZAÇÃO (2/2) ###
-    // A nova action para processar o arquivo XLS
+    // Importação XLS/XLSX
     // ===============================================
     public function importar_xls() {
         $this->autoRender = false;
         $this->response->type('json');
 
-        // 1. Validação inicial do arquivo
         if (empty($this->request->data['Prestador']['arquivo']['tmp_name']) || $this->request->data['Prestador']['arquivo']['error'] !== UPLOAD_ERR_OK) {
             $this->response->statusCode(400);
             return json_encode(['success' => false, 'message' => 'Nenhum arquivo enviado ou erro no upload.']);
@@ -130,24 +124,29 @@ class PrestadoresController extends AppController
         $caminhoArquivo = $this->request->data['Prestador']['arquivo']['tmp_name'];
 
         try {
-            // 2. Carregar o arquivo XLS/XLSX com PHPExcel
             $objPHPExcel = PHPExcel_IOFactory::load($caminhoArquivo);
             $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
-            
-            // 3. Processar os dados da planilha
-            array_shift($sheetData); // Remove a linha do cabeçalho
+
+            // Esperado cabeçalho: A=nome_completo, B=email, C=telefone, D=servico, E=valor
+            array_shift($sheetData); // remove header
             $dadosParaSalvar = array();
-            $this->loadModel('Servico'); // Carrega o model de Serviço para consulta
+            $this->loadModel('Servico');
 
             foreach ($sheetData as $linha) {
                 $nomePrestador = trim($linha['A']);
-                if (empty($nomePrestador)) continue; // Pula linhas vazias
+                if (empty($nomePrestador)) continue;
 
-                // Lógica para encontrar ou criar o serviço na hora
+                $email       = trim($linha['B']);
+                $telefone    = trim($linha['C']);
                 $nomeServico = trim($linha['D']);
+                $valorStr    = trim($linha['E']);
+
                 $servico_id = null;
                 if (!empty($nomeServico)) {
-                    $servico = $this->Servico->findByName($nomeServico);
+                    $servico = $this->Servico->find('first', [
+                        'conditions' => ['Servico.nome' => $nomeServico],
+                        'recursive'  => -1
+                    ]);
                     if ($servico) {
                         $servico_id = $servico['Servico']['id'];
                     } else {
@@ -157,22 +156,28 @@ class PrestadoresController extends AppController
                     }
                 }
 
-                // 4. Preparar o array para salvar no banco
+                $valorDecimal = ($valorStr !== '') ? str_replace(',', '.', $valorStr) : null;
+
                 $dadosParaSalvar[] = [
-                    'nome' => $nomePrestador,
-                    'email' => trim($linha['B']),
-                    'telefone' => trim($linha['C']),
-                    'servico_id' => $servico_id,
-                    'valor_servico' => str_replace(',', '.', trim($linha['E'])), // Converte vírgula para ponto
+                    'nome'          => $nomePrestador,
+                    'email'         => $email,
+                    'telefone'      => $telefone,
+                    'servico_id'    => $servico_id,
+                    'valor_servico' => $valorDecimal,
                 ];
             }
 
-            // 5. Tentar salvar todos os registros de uma vez (muito mais rápido)
+            if (empty($dadosParaSalvar)) {
+                $this->response->statusCode(400);
+                $this->response->body(json_encode(['success' => false, 'message' => 'Nenhuma linha válida encontrada no arquivo.']));
+                return $this->response;
+            }
+
             if ($this->Prestador->saveAll($dadosParaSalvar, ['validate' => true, 'atomic' => true])) {
-                $this->response->body(json_encode(['success' => true, 'message' => count($dadosParaSalvar) . ' prestadores importados com sucesso!']));
+                $this->response->body(json_encode(['success' => true, 'message' => count($dadosParaSalvar) . ' prestador(es) importado(s) com sucesso!']));
             } else {
                 $this->response->statusCode(400);
-                $this->response->body(json_encode(['success' => false, 'message' => 'Ocorreram erros de validação ao salvar os dados. Verifique o arquivo.']));
+                $this->response->body(json_encode(['success' => false, 'message' => 'Erros de validação ao salvar os dados. Verifique o arquivo (e-mails duplicados, valor inválido, etc.).']));
             }
 
         } catch (Exception $e) {
@@ -182,10 +187,6 @@ class PrestadoresController extends AppController
 
         return $this->response;
     }
-    // ===============================================
-    // ### FIM DA ATUALIZAÇÃO ###
-    // ===============================================
-
 
     private function _handleFileUpload($data)
     {
