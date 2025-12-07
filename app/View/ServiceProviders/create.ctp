@@ -27,7 +27,18 @@ echo $this->Html->css('create');
                     </div>
                 </div>
 
-                <?php echo $this->Form->input('email', array('label' => 'E-mail', 'placeholder' => 'seuemail@exemplo.com')); ?>
+                <!-- E-mail com ícone -->
+                <div class="input with-icon email-field">
+                    <label for="ServiceProviderEmail">E-mail</label>
+                    <div class="field-control">
+                        <span class="input-icon email-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="15" viewBox="0 0 19 15" fill="none">
+                                <path d="M17.5 2.50004C17.5 1.58337 16.75 0.833374 15.8334 0.833374H2.50004C1.58337 0.833374 0.833374 1.58337 0.833374 2.50004M17.5 2.50004V12.5C17.5 13.4167 16.75 14.1667 15.8334 14.1667H2.50004C1.58337 14.1667 0.833374 13.4167 0.833374 12.5V2.50004M17.5 2.50004L9.16671 8.33337L0.833374 2.50004" stroke="#717680" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <input type="email" name="data[ServiceProvider][email]" id="ServiceProviderEmail" placeholder="seuemail@exemplo.com">
+                    </div>
+                </div>
                 
                 <div class="form-row photo-row">
                     <label>Sua foto <br><span class="photo-text">Ela aparecerá no seu perfil</span></label>
@@ -76,7 +87,15 @@ echo $this->Html->css('create');
                 </div>
 
                 <?php echo $this->Form->input('description', array('label' => 'Descrição', 'type' => 'textarea', 'placeholder' => 'Conte-nos mais sobre o serviço oferecido...')); ?>
-                <?php echo $this->Form->input('price', array('label' => 'Preço', 'placeholder' => 'R$ 200,00')); ?>
+
+                <!-- Preço com prefixo R$ -->
+                <div class="input with-prefix price-field">
+                    <label for="ServiceProviderPrice">Preço</label>
+                    <div class="field-control">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" step="0.01" name="data[ServiceProvider][price]" id="ServiceProviderPrice" placeholder="200,00">
+                    </div>
+                </div>
 
                 <div class="form-actions">
                     <?php echo $this->Html->link('Cancelar', array('controller' => 'ServiceProviders', 'action' => 'index'), array('class' => 'btn-cancel')); ?>

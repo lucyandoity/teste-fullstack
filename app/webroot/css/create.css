@@ -415,6 +415,56 @@ input[type="submit"]:hover {
     border-color: var(--primary-red-hover);
 }
 
+.input.with-icon,
+.input.with-prefix {
+    position: relative;
+}
+
+.input .field-control {
+    flex: 0 0 60%;
+    position: relative;
+}
+
+.input .field-control input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--gray-300);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: white;
+    color: var(--gray-900);
+    box-sizing: border-box;
+}
+
+.input.with-icon .field-control input,
+.input.with-prefix .field-control input {
+    padding-left: 44px;
+}
+
+.input-icon,
+.input-prefix {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-icon {
+    width: 19px;
+    height: 15px;
+}
+
+.input-prefix {
+    font-weight: 600;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+/* mobile fix */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
