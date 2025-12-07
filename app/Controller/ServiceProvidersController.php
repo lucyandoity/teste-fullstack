@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('ConnectionManager', 'Model');
 
 class ServiceProvidersController extends AppController {
     // Aqui ficam as configurações do controller :)
@@ -150,30 +151,46 @@ class ServiceProvidersController extends AppController {
         return $this->redirect(array('action' => 'index'));
     }
 
+    // Na função de import decidi por fazer um LOAD DATA INFILE(BULK INSERT), que é a forma mais performática para importar grandes volumes de dados
+    // (testei com 10k de linhas e foi instantâneo).Sendo bastante simples de implementar também, ele evita loops desnecessários no PHP(otimizando) e vários inserts individuais
+    // não precisando também de libs extras somente para isso
     public function import() {
         if ($this->request->is('post')) {
-            $file = $this->request->data['ServiceProvider']['csv_file'];
-            if ($file['error'] === UPLOAD_ERR_OK) {
-                $filePath = $file['tmp_name'];
-                $handle = fopen($filePath, 'r');
-                if ($handle !== false) {
-                    $header = fgetcsv($handle, 1000, ',');
-                    while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                        $record = array_combine($header, $data);
-                        $this->ServiceProvider->create();
-                        if (!$this->ServiceProvider->save($record)) {
-                            $this->Flash->notification('Erro ao importar alguns registros.', array('params' => array('class' => 'error')));
-                        }
-                    }
-                    fclose($handle);
-                    $this->Flash->notification('Importação concluída com sucesso!');
+            
+            // Verificação se o arquivo existe no request
+            if (!empty($this->request->data['ServiceProvider']['csv_file']['tmp_name'])) {
+                $file = $this->request->data['ServiceProvider']['csv_file'];
+                
+                // Verificação se o usuário enviou um arquivo CSV válido :C
+                $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+                if (strtolower($extension) !== 'csv') {
+                    $this->Flash->notification('Por favor, envie um arquivo CSV válido.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'index'));
-                } else {
-                    $this->Flash->notification('Erro ao abrir o arquivo.', array('params' => array('class' => 'error')));
+                }
+
+                // Bloco da lógica principal(BULK INSERT)
+                try {
+                    $db = ConnectionManager::getDataSource('default');
+                    
+                    $bulkInsertQuery = "LOAD DATA LOCAL INFILE '" . addslashes($file['tmp_name']) . "' 
+                        INTO TABLE service_providers
+                        FIELDS TERMINATED BY ','
+                        ENCLOSED BY '\"'
+                        LINES TERMINATED BY '\\n'
+                        IGNORE 1 ROWS
+                        (first_name, last_name, email, phone, service, description, price);";
+
+                    $db->rawQuery($bulkInsertQuery);
+                    
+                    $this->Flash->notification('Prestadores importados com sucesso!');
+                } catch (Exception $e) {
+                    $this->Flash->notification('Erro ao importar', array('params' => array('class' => 'error')));
                 }
             } else {
-                $this->Flash->notification('Erro no upload do arquivo.', array('params' => array('class' => 'error')));
+                $this->Flash->notification('Nenhum arquivo selecionado.', array('params' => array('class' => 'error')));
             }
         }
+        
+        return $this->redirect(array('action' => 'index'));
     }
 }

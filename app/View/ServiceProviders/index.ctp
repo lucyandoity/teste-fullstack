@@ -178,8 +178,14 @@ echo $this->Html->css('index');
                 </div>
 
                 <div class="file-input-wrapper">
-                    <input type="file" name="csv_file" id="csv_file" accept=".csv" class="file-input" required>
-                    <label for="csv_file" class="file-label">
+                    <?php 
+                    echo $this->Form->file('csv_file', array(
+                        'accept' => '.csv',
+                        'class' => 'file-input',
+                        'required' => true
+                    ));
+                    ?>
+                    <label for="ServiceProviderCsvFile" class="file-label">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -273,15 +279,26 @@ $(document).ready(function() {
         e.stopPropagation();
     });
 
-    // Mostrar nome do arquivo selecionado
-    $('#csv_file').on('change', function() {
-        var fileName = $(this).val().split('\\').pop();
-        if (fileName) {
-            $('#file-name').text(fileName);
+    // Mostrar nome do arquivo selecionado - usando a classe em vez do ID
+    $('.file-input').on('change', function() {
+        var file = this.files[0];
+        if (file) {
+            var fileName = file.name;
+            var fileSize = formatFileSize(file.size);
+            $('#file-name').text(fileName + ' (' + fileSize + ')');
         } else {
             $('#file-name').text('Escolher arquivo CSV');
         }
     });
+
+    // Função para formatar tamanho do arquivo
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        var k = 1024;
+        var sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
 
     // Fechar modais com ESC
     $(document).on('keydown', function(e) {
