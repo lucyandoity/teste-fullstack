@@ -47,6 +47,42 @@ graph LR
 | **Ambiente**          | Docker & Compose          | **Reprodutibilidade:** Elimina o problema de "funciona na minha máquina". Isola as dependências de versões antigas do PHP (7.2). |
 | **Frontend**          | Bootstrap 5 + jQuery       | **Eficiência de UI:** Permite fidelidade ao design Figma responsivo sem a complexidade de build tools (Webpack) desnecessárias para este escopo. |
 
+### 2.3 Padrões Arquiteturais Adotados
+
+O sistema utiliza uma arquitetura em camadas com separação clara de responsabilidades:
+
+- **Service Layer Pattern:** Lógica de negócio isolada em serviços reutilizáveis
+- **Facade Pattern:** Interfaces simplificadas que coordenam serviços especializados
+- **Query/CRUD Separation:** Separação entre operações de leitura e escrita
+- **Organização por Features:** Serviços organizados em diretórios por domínio de negócio
+
+**Estrutura de Serviços:**
+
+```
+app/Lib/Service/
+├── Provider/          # Módulo de Prestadores
+│   ├── ProviderBusinessService.php (Facade)
+│   ├── ProviderQueryService.php
+│   └── ProviderCrudService.php
+├── Service/           # Módulo de Catálogo
+│   ├── ServiceService.php (Facade)
+│   ├── ServiceQueryService.php
+│   └── ServiceCrudService.php
+├── Csv/               # Módulo de Importação
+│   ├── CsvImportService.php
+│   ├── CsvFileValidator.php
+│   └── CsvRowValidator.php
+├── PhotoUploadService.php (utilitário compartilhado)
+└── DashboardService.php (utilitário compartilhado)
+```
+
+**Documentação Arquitetural:**
+
+Para mais detalhes sobre arquitetura, padrões e fluxos de dados, consulte:
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - Filosofia, camadas e padrões
+- [DATAFLOW.md](./DATAFLOW.md) - Fluxos de dados e comunicação
+- [REFERENCE.md](./REFERENCE.md) - Referência completa de APIs
+
 
 ------------------------------------------------------------------------
 
@@ -232,6 +268,10 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
     - [x] `ProviderCrudService` - Extraído para operações CRUD.
     - [x] `PhotoUploadService` - Extraído para upload de imagens.
     - [x] `ProviderBusinessService` - Fachada simplificada.
+    - [x] `ServiceService` - Refatorado para padrão Facade.
+    - [x] `ServiceQueryService` - Criado para consultas.
+    - [x] `ServiceCrudService` - Criado para operações CRUD.
+    - [x] Organização de serviços em diretórios por feature (Provider/, Service/, Csv/).
 
 ### 🎨 Fase 3: Frontend e UI
 - [x] **Fundação:**
@@ -260,10 +300,13 @@ Embora fora do escopo do MVP (Minimum Viable Product), a arquitetura foi prepara
     - [x] Mensagem de feedback com erros detalhados.
 
 ### 🏁 Fase 5: Documentação e Entrega
-- [x] Documentação Técnica (SPECIFICATION.md).
-- [ ] Documentação de Instalação (README.md final).
-- [ ] Gravação do Vídeo Explicativo (Loom/YouTube).
-- [ ] Revisão Final de Código.
+- [x] Documentação Técnica [SPECIFICATION.md](./SPECIFICATION.md).
+- [x] Documentação de Instalação [README.md](../README.md).
+- [x] Documentação Arquitetural [ARCHITECTURE.md](./ARCHITECTURE.md).
+- [x] Documentação de Fluxos [DATAFLOW.md](./DATAFLOW.md).
+- [x] Referência de APIs [REFERENCE.md](./REFERENCE.md).
+- [x] Gravação do Vídeo Explicativo (Loom/YouTube).
+- [x] Revisão Final de Código.
 
 ### ⭐ Fase Bônus: Diferenciais Competitivos
 - [x] **Dashboard de Métricas:**

@@ -31,19 +31,11 @@ class ServiceService {
     protected $_crudService;
 
 /**
- * Instância do Model Provider (para getProvidersList)
- *
- * @var Provider
- */
-    protected $_Provider;
-
-/**
  * Construtor
  */
     public function __construct() {
         $this->_queryService = new ServiceQueryService();
         $this->_crudService = new ServiceCrudService();
-        $this->_Provider = ClassRegistry::init('Provider');
     }
 
 /**
@@ -55,18 +47,6 @@ class ServiceService {
  */
     public function findById($id) {
         return $this->_queryService->findById($id);
-    }
-
-/**
- * Lista todos os prestadores para seleção
- *
- * @return array Lista de prestadores no formato id => name
- */
-    public function getProvidersList() {
-        return $this->_Provider->find('list', array(
-            'fields' => array('Provider.id', 'Provider.name'),
-            'order' => array('Provider.name' => 'asc')
-        ));
     }
 
 /**

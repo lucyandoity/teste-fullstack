@@ -9,7 +9,66 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
-### CI/CD - Integração e Entrega Contínua
+### Revisão de Código e Documentação (`3ee3e3c` - 07/12/2025)
+
+#### Adicionado - Documentação Técnica Completa
+- **README.md:**
+  - Instruções de instalação para desenvolvimento (docker-compose.yml)
+  - Instruções de instalação rápida para produção (docker-compose.prod.yml)
+  - Estrutura do projeto e tecnologias utilizadas
+  - Comandos úteis para desenvolvimento
+
+- **ARCHITECTURE.md:**
+  - Filosofia de design e separação de responsabilidades
+  - Visão em camadas (Controllers → Services → Models → Database)
+  - Estrutura de módulos organizados por feature
+  - Padrões adotados (Facade, Service Layer, Query/CRUD Separation)
+  - Organização de diretórios
+
+- **DATAFLOW.md:**
+  - Modelo de fluxo de dados no CakePHP 2
+  - Padrão de atualização unidirecional
+  - Comunicação entre componentes
+  - Fluxos detalhados por feature (Cadastro, Importação CSV, Busca, Dashboard)
+  - Estado Global vs Local (Cache, Session)
+
+- **REFERENCE.md:**
+  - Referência completa de todos os Services (métodos, parâmetros, retornos)
+  - Referência de Models (validações, relacionamentos, callbacks)
+  - Referência de Controllers (actions, componentes)
+  - Estruturas de dados padronizadas
+
+- **SPECIFICATION.md:**
+  - Atualizado com seção sobre padrões arquiteturais
+  - Referências aos novos documentos de arquitetura
+  - Documentação da nova organização de diretórios
+
+#### Alterado - Organização de Serviços por Feature
+- **Estrutura de Diretórios:**
+  - Serviços organizados em `app/Lib/Service/Provider/` (prestadores)
+  - Serviços organizados em `app/Lib/Service/Service/` (catálogo)
+  - Serviços organizados em `app/Lib/Service/Csv/` (importação)
+  - Utilitários compartilhados mantidos na raiz (PhotoUploadService, DashboardService)
+
+- **Refatoração de ServiceService:**
+  - Refatorado para padrão Facade (consistente com ProviderBusinessService)
+  - Criado `ServiceQueryService` para consultas e busca
+  - Criado `ServiceCrudService` para operações CRUD
+  - Removido método `getProvidersList()` (não utilizado e fora de contexto)
+
+- **Atualização de Imports:**
+  - Todos os `App::uses()` atualizados para refletir novos caminhos
+  - Controllers atualizados para usar novos paths dos serviços
+
+#### Melhorado - Consistência Arquitetural
+- Todos os serviços seguem o mesmo padrão Facade
+- Separação clara entre Query Services e CRUD Services
+- Código mais organizado e fácil de manter
+- Melhor rastreabilidade de responsabilidades
+
+---
+
+### CI/CD - Integração e Entrega Contínua (`c6bc447`, `74d9fb4`, `4398c45` - 06/12/2025)
 
 #### Adicionado - Pipelines GitHub Actions
 - **Workflow de Integração Contínua (CI):**
@@ -32,7 +91,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-### Dashboard de Métricas
+### Dashboard de Métricas (`a70cebe`, `533dade`, `6477ffa`, `468672a` - 06/12/2025)
 
 #### Adicionado - Painel de Controle Completo
 - **Métricas em Tempo Real:**
@@ -60,7 +119,7 @@ e este projeto adere ao [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
-### Importação CSV de Prestadores
+### Importação CSV de Prestadores (`9c4ff8c` - 06/12/2025)
 
 #### Adicionado - Funcionalidade de Importação em Massa
 - **Upload de arquivo CSV** via modal na listagem de prestadores
@@ -123,7 +182,7 @@ Ana Santos,ana@email.com,(82) 77776-5555,,
 
 ---
 
-### UX Improvements
+### UX Improvements (`da70b15`, `d444291`, `c358490`, `6758f6e`, `adb7840`, `3635f5b`, `a8706cc`, `1649464` - 05/12/2025)
 
 #### Adicionado - Interface de Listagem
 - **Contador de resultados** na listagem de prestadores e serviços
@@ -165,7 +224,7 @@ Ana Santos,ana@email.com,(82) 77776-5555,,
 
 ---
 
-### Refatoração de Arquitetura (Suporte às melhorias de UX)
+### Refatoração de Arquitetura (Suporte às melhorias de UX) (`6758f6e`, `adb7840`, `3635f5b` - 05/12/2025)
 
 > **Contexto:** O `ProviderBusinessService` cresceu significativamente (~500 linhas)
 > devido à implementação das melhorias de UX (busca avançada, paginação customizada,
@@ -220,39 +279,39 @@ ProviderBusinessService (Fachada - ~100 linhas)
 
 ---
 
-### Frontend UI Implementation (Fase 3)
+### Frontend UI Implementation (Fase 3) (`5781457`, `0970144`, `563bea3`, `d60c7aa`, `33177da`, `54c74f6`, `abf664e`, `b0212e4`, `33556ce`, `ef10fea`, `0af77d0`, `3a4983d` - 04/12/2025 - 05/12/2025)
 
 #### Adicionado
-- **Layout Bootstrap 5** (`5781457`)
+- **Layout Bootstrap 5** (`5781457` - 2025-12-04)
   - Substituído layout padrão do CakePHP por Bootstrap 5
   - Fonte Inter e variáveis CSS customizadas
   - Navbar responsiva com branding
   - Removido `cake.generic.css` deprecado
 
-- **Componentes de UI** (`0970144`)
+- **Componentes de UI** (`0970144` - 2025-12-04)
   - `sidebar.ctp`: Navegação lateral com links para Prestadores e Serviços
   - `Flash/success.ctp`: Template de mensagem de sucesso estilizado
   - `Flash/error.ctp`: Template de mensagem de erro estilizado
   - Ícones Bootstrap Icons integrados
 
-- **Views de Prestadores Estilizadas** (`b5b6284`)
+- **Views de Prestadores Estilizadas** (`563bea3` - 2025-12-04)
   - `index.ctp`: Listagem em cards com avatares, badges e coluna de serviços
   - `add.ctp`: Formulário moderno com dropzone de foto e campos dinâmicos
   - `edit.ctp`: Consistente com add, dados pré-populados
   - Labels e placeholders em Português Brasileiro
 
-- **Rota da Página Inicial** (`f24234e`)
+- **Rota da Página Inicial** (`f24234e` - 2025-12-04)
   - `/` agora redireciona para listagem de prestadores
   - Usuários aterrisam diretamente no CRUD principal
 
 #### Corrigido
-- **Carregamento de Serviços na Listagem** (`e1f38e7`)
+- **Carregamento de Serviços na Listagem** (`e1f38e7` - 2025-12-04)
   - `buildSearchConditions()` agora inclui `contain` para ProviderService.Service
   - Controller simplificado, removida duplicação de contain
 
 ---
 
-### Refatoração: Modelo de Dados Corrigido (RF02)
+### Refatoração: Modelo de Dados Corrigido (RF02) (`b758c2d`, `89fb0ca`, `7ef1dee`, `7ea721f`, `7b32c7a`, `70022a6`, `b8199bd`, `fbad7a4` - 2025-12-04)
 
 > **Motivação:** A implementação inicial usava relação 1:N simples (Service pertence a Provider),
 > mas os requisitos RF02 indicam que serviços são **tipos padronizados** que podem ser oferecidos
@@ -307,7 +366,7 @@ providers (N) <──── provider_services ────> (N) services
 
 ---
 
-## [0.2.0] - 2025-12-05
+## [0.2.0] - 05/12/2025
 
 ### 📅 05/12/2025 - Dia 4: Frontend UI com Bootstrap 5
 
@@ -363,7 +422,7 @@ providers (N) <──── provider_services ────> (N) services
 
 ---
 
-## [0.1.0] - 2025-12-04
+## [0.1.0] - 04/12/2025
 
 ---
 
@@ -511,29 +570,63 @@ providers (N) <──── provider_services ────> (N) services
 
 | Hash | Data/Hora | Tipo | Descrição |
 |------|-----------|------|-----------|
-| `e7e421d` | 02/12 16:37 | docs | Instruções do desafio |
-| `abd6725` | 02/12 16:38 | build | Setup Docker PHP 7.2 + MySQL 5.7 |
-| `2d842dc` | 02/12 16:41 | chore | Instalação CakePHP 2.10.24 |
-| `60032e9` | 02/12 17:03 | feat | Schema do banco de dados |
-| `299f092` | 03/12 20:14 | feat | Scaffold CRUD via cake bake |
-| `7f45dd0` | 03/12 20:55 | docs | Especificação técnica (SDD) |
-| `cc1794d` | 03/12 23:56 | chore | .dockerignore e .gitignore |
-| `302c214` | 04/12 00:05 | refactor | Adiciona camada de serviços |
-| `03a74f5` | 04/12 00:06 | refactor | Delega lógica para service layer |
-| `11a43e5` | 04/12 00:06 | chore | Remove testes auto-gerados |
-| `28228d5` | 04/12 00:07 | fix | Formulários de upload de foto |
-| `ab83f42` | 04/12 12:32 | feat | Validação monetária flexível (vírgula/ponto) |
-| `cca7935` | 04/12 12:41 | docs | Atualiza roadmap com idiomas e API |
-| `c5eeaeb` | 04/12 12:49 | feat | Implementa filtros de busca nas listagens |
-| `aaeb7ee` | 04/12 12:54 | docs | Adiciona checklist de progresso |
-| `5781457` | 05/12 | feat | Layout Bootstrap 5 com CSS customizado |
-| `0970144` | 05/12 | feat | Navegação lateral e flash messages |
-| `563bea3` | 05/12 | feat | Views de prestadores com Bootstrap 5 |
-| `33177da` | 05/12 | feat | Catálogo de serviços estilizado |
-| `d60c7aa` | 05/12 | feat | Formulários de serviços com Bootstrap 5 |
-| `54c74f6` | 05/12 | feat | Modal de importação CSV |
-| `b0212e4` | 05/12 | style | Ajustes de font-size e uppercase |
-| `33556ce` | 05/12 | fix | Concatenação de nome no edit |
-| `ef10fea` | 05/12 | merge | Integra fix de edição de prestadores |
-| `abf664e` | 05/12 | fix | Responsividade mobile e limpeza do layout |
+| `e7e421d` | 02/12/2025 16:37 | docs | Instruções do desafio |
+| `abd6725` | 02/12/2025 16:38 | build | Setup Docker PHP 7.2 + MySQL 5.7 |
+| `2d842dc` | 02/12/2025 16:41 | chore | Instalação CakePHP 2.10.24 |
+| `60032e9` | 02/12/2025 17:03 | feat | Schema do banco de dados |
+| `299f092` | 03/12/2025 20:14 | feat | Scaffold CRUD via cake bake |
+| `7f45dd0` | 03/12/2025 20:55 | docs | Especificação técnica (SDD) |
+| `cc1794d` | 03/12/2025 23:56 | chore | .dockerignore e .gitignore |
+| `302c214` | 04/12/2025 00:05 | refactor | Adiciona camada de serviços |
+| `03a74f5` | 04/12/2025 00:06 | refactor | Delega lógica para service layer |
+| `11a43e5` | 04/12/2025 00:06 | chore | Remove testes auto-gerados |
+| `28228d5` | 04/12/2025 00:07 | fix | Formulários de upload de foto |
+| `ab83f42` | 04/12/2025 12:32 | feat | Validação monetária flexível (vírgula/ponto) |
+| `cca7935` | 04/12/2025 12:41 | docs | Atualiza roadmap com idiomas e API |
+| `c5eeaeb` | 04/12/2025 12:49 | feat | Implementa filtros de busca nas listagens |
+| `aaeb7ee` | 04/12/2025 12:54 | docs | Adiciona checklist de progresso |
+| `f24234e` | 04/12/2025 | feat | Define providers index como homepage |
+| `e1f38e7` | 04/12/2025 | fix | Adiciona contain em buildSearchConditions para services |
+| `5781457` | 04/12/2025 | feat | Layout Bootstrap 5 com CSS customizado |
+| `0970144` | 04/12/2025 | feat | Navegação lateral e flash messages |
+| `563bea3` | 04/12/2025 | feat | Views de prestadores com Bootstrap 5 |
+| `b758c2d` | 04/12/2025 | fix | Corrige modelo de dados para N:N (RF02) |
+| `89fb0ca` | 04/12/2025 | fix | Adapta models para estrutura N:N |
+| `7ef1dee` | 04/12/2025 | fix | Atualiza controllers para modelo de catálogo |
+| `7ea721f` | 04/12/2025 | fix | Atualiza views de providers para seleção de serviços |
+| `3b32c7a` | 04/12/2025 | fix | Atualiza views de services para interface de catálogo |
+| `70022a6` | 04/12/2025 | refactor | Renomeia ProviderService para ProviderBusinessService |
+| `b8199bd` | 04/12/2025 | docs | Atualiza documentação para refatoração N:N |
+| `fbad7a4` | 04/12/2025 | merge | Integra refatoração de modelo de dados (N:N) |
+| `60e5757` | 04/12/2025 | docs | Adiciona entradas de implementação UI no changelog |
+| `3a4983d` | 05/12/2025 | docs | Adiciona entradas de implementação UI no changelog v0.2.0 |
+| `0af77d0` | 05/12/2025 | merge | Finaliza implementação de UI frontend com Bootstrap 5 |
+| `33177da` | 05/12/2025 | feat | Catálogo de serviços estilizado |
+| `d60c7aa` | 05/12/2025 | feat | Formulários de serviços com Bootstrap 5 |
+| `54c74f6` | 05/12/2025 | feat | Modal de importação CSV |
+| `b0212e4` | 05/12/2025 | style | Ajustes de font-size e uppercase |
+| `33556ce` | 05/12/2025 | fix | Concatenação de nome no edit |
+| `ef10fea` | 05/12/2025 | merge | Integra fix de edição de prestadores |
+| `abf664e` | 05/12/2025 | fix | Responsividade mobile e limpeza do layout |
+| `da70b15` | 05/12/2025 | feat | Adiciona contador de resultados, banner de filtro e empty states |
+| `d444291` | 05/12/2025 | fix | Corrige HTML malformado no formulário de cadastro |
+| `c358490` | 05/12/2025 | style | Adiciona estilos para empty states e responsividade |
+| `6758f6e` | 05/12/2025 | refactor | Extrai serviços do ProviderBusinessService para suportar melhorias de UX |
+| `adb7840` | 05/12/2025 | refactor | Simplifica ProviderBusinessService como fachada |
+| `3635f5b` | 05/12/2025 | refactor | Simplifica ProvidersController delegando para serviços |
+| `a8706cc` | 05/12/2025 | docs | Atualiza changelog e especificação com melhorias de UX |
+| `1649464` | 05/12/2025 | merge | Finaliza feature UX improvements |
+| `9c4ff8c` | 06/12/2025 | feat | Implementa importação em massa de prestadores via CSV |
+| `6138979` | 06/12/2025 | merge | Integra importação CSV de prestadores |
+| `a70cebe` | 06/12/2025 | feat | Adiciona painel de métricas com gráficos |
+| `533dade` | 06/12/2025 | feat | Implementa cache de métricas do dashboard |
+| `6477ffa` | 06/12/2025 | merge | Integra cache de métricas do dashboard |
+| `468672a` | 06/12/2025 | merge | Integra dashboard de métricas com gráficos |
+| `8f820cb` | 06/12/2025 | fix | Corrige encoding UTF-8 na conexão com banco |
+| `a34e01d` | 06/12/2025 | merge | Corrige encoding UTF-8 para suporte a acentos |
+| `c6bc447` | 06/12/2025 | feat | Cria fluxo de CI para qualidade de código (linter) |
+| `4398c45` | 06/12/2025 | chore | Adiciona target prod no Dockerfile e compose para avaliação local |
+| `74d9fb4` | 06/12/2025 | docs | Atualiza CHANGELOG e SPECIFICATION com detalhes de CI/CD |
+| `b20f4b1` | 06/12/2025 | merge | Merge branch 'feature/ci-cd' into develop |
+| `3ee3e3c` | 07/12/2025 | refactor | Organiza serviços por feature e refatora ServiceService para padrão Facade |
 
