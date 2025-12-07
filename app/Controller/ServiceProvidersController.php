@@ -193,14 +193,14 @@ class ServiceProvidersController extends AppController {
                 // Verificação se o usuário enviou um arquivo CSV válido :C
                 $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
                 if (strtolower($extension) !== 'csv') {
-                    $this->Flash->notification('Por favor, envie um arquivo CSV válido.', array('params' => array('class' => 'error')));
+                    $this->Flash->modalnotification('Por favor, envie um arquivo CSV válido.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'index'));
                 }
 
                 // Tamanho máximo de 25MB
                 $fileSize = filesize($file['tmp_name']);
                 if ($fileSize > 25 * 1024 * 1024) { // Limite de 25MB
-                    $this->Flash->notification('O arquivo é muito grande. O tamanho máximo permitido é 25MB.', array('params' => array('class' => 'error')));
+                    $this->Flash->modalnotification('O arquivo é muito grande. O tamanho máximo permitido é 25MB.', array('params' => array('class' => 'error')));
                     return $this->redirect(array('action' => 'index'));
                 }
 
@@ -218,12 +218,12 @@ class ServiceProvidersController extends AppController {
 
                     $db->rawQuery($bulkInsertQuery);
                     
-                    $this->Flash->notification('Prestadores importados com sucesso!');
+                    $this->Flash->modalnotification('Lista enviada com sucesso!');
                 } catch (Exception $e) {
-                    $this->Flash->notification('Erro ao importar', array('params' => array('class' => 'error')));
+                    $this->Flash->modalnotification('Erro ao importar', array('params' => array('class' => 'error')));
                 }
             } else {
-                $this->Flash->notification('Nenhum arquivo selecionado.', array('params' => array('class' => 'error')));
+                $this->Flash->modalnotification('Nenhum arquivo selecionado.', array('params' => array('class' => 'error')));
             }
         }
         
