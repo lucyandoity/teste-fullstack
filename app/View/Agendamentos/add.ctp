@@ -79,8 +79,11 @@
 		</div>
 	</div>
 	<div class="form-actions">
-		<?php echo $this->Form->end('<i class="fas fa-save"></i> Salvar'); ?>
+		<button type="submit" class="btn btn-save">
+			<i class="fas fa-save"></i> Salvar
+		</button>
 		<?php echo $this->Html->link('<i class="fas fa-times"></i> Cancelar', array('controller' => 'agendamentos', 'action' => 'index'), array('class' => 'btn btn-cancel', 'escape' => false)); ?>
+		<?php echo $this->Form->end(); ?>
 	</div>
 	<?php echo $this->Flash->render(); ?>
 </div>

@@ -51,8 +51,6 @@ class AgendamentosController extends AppController {
 			if ($this->Agendamento->save($this->request->data)) {
 				$this->Flash->success(__('The agendamento has been saved.'));
 				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The agendamento could not be saved. Please, try again.'));
 			}
 		}
 		$prestadores = $this->Agendamento->Prestador->find('list');
@@ -82,8 +80,6 @@ class AgendamentosController extends AppController {
 			if ($this->Agendamento->save($this->request->data)) {
 				$this->Flash->success(__('The agendamento has been saved.'));
 				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The agendamento could not be saved. Please, try again.'));
 			}
 		} else {
 			$options = array('conditions' => array('Agendamento.' . $this->Agendamento->primaryKey => $id));
@@ -119,9 +115,7 @@ class AgendamentosController extends AppController {
 		}
 		$this->request->allowMethod('post', 'delete');
 		if ($this->Agendamento->delete($id)) {
-			$this->Flash->success(__('The agendamento has been deleted.'));
-		} else {
-			$this->Flash->error(__('The agendamento could not be deleted. Please, try again.'));
+			$this->Flash->success(__(''));
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
