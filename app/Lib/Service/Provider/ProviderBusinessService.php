@@ -10,8 +10,8 @@
  * @package app.Lib.Service
  */
 
-App::uses('ProviderQueryService', 'Lib/Service');
-App::uses('ProviderCrudService', 'Lib/Service');
+App::uses('ProviderQueryService', 'Lib/Service/Provider');
+App::uses('ProviderCrudService', 'Lib/Service/Provider');
 App::uses('DashboardService', 'Lib/Service');
 
 class ProviderBusinessService {

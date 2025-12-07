@@ -1,6 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
-App::uses('ServiceService', 'Lib/Service');
+App::uses('ServiceService', 'Lib/Service/Service');
 
 /**
  * Services Controller

@@ -1,7 +1,7 @@
 <?php
 App::uses('AppController', 'Controller');
-App::uses('ProviderBusinessService', 'Lib/Service');
-App::uses('CsvImportService', 'Lib/Service');
+App::uses('ProviderBusinessService', 'Lib/Service/Provider');
+App::uses('CsvImportService', 'Lib/Service/Csv');
 
 /**
  * Providers Controller

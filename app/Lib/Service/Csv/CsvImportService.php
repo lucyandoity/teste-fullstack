@@ -14,8 +14,8 @@
  * @package app.Lib.Service
  */
 
-App::uses('CsvFileValidator', 'Lib/Service');
-App::uses('CsvRowValidator', 'Lib/Service');
+App::uses('CsvFileValidator', 'Lib/Service/Csv');
+App::uses('CsvRowValidator', 'Lib/Service/Csv');
 App::uses('DashboardService', 'Lib/Service');
 
 class CsvImportService {
