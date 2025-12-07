@@ -1,81 +1,48 @@
-# Teste FullStack
-Este repositório contém o desafio técnico para a vaga de FullStack.
+# CakePHP
 
-## 🎯 Objetivo  
-Implementar o desafio FullStack utilizando o stack exigido, com foco em fidelidade ao UX e comportamento funcional.
+[![Latest Stable Version](https://poser.pugx.org/cakephp/cakephp/v/stable.svg)](https://packagist.org/packages/cakephp/cakephp)
+[![License](https://poser.pugx.org/cakephp/cakephp/license.svg)](https://packagist.org/packages/cakephp/cakephp)
+[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](https://travis-ci.org/cakephp/cakephp)
+[![Code consistency](https://squizlabs.github.io/PHP_CodeSniffer/analysis/cakephp/cakephp/grade.svg)](https://squizlabs.github.io/PHP_CodeSniffer/analysis/cakephp/cakephp/)
 
----
+CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
+Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
 
-## 🔗 Teste técnico (backend + lógica + instruções)  
-Link oficial do teste:  
-https://doity.notion.site/Teste-FullStack-b67c69625967440e97d48d475af366c7?pvs=74
 
----
+## Some Handy Links
 
-## 🎨 Design + UX (Figma)  
-Link do layout:  
-https://www.figma.com/design/pv3ebrXHaUZNHqsqR24Wvi/Desafio-Full-Stack?m=dev
+[CakePHP](https://cakephp.org) - The rapid development PHP framework
 
-### 🔐 Credenciais para acesso ao Figma  
-- Usuário: selecao@doity.com.br  
-- Senha: Selecao@dev123
-  
----
+[CookBook](https://book.cakephp.org) - THE CakePHP user documentation; start learning here!
 
-## 🔗 Vídeo explicativo
-Link do vídeo:  
-https://www.loom.com/share/e820a6488cef45bbad345b1e6be8e799
+[API](https://api.cakephp.org) - A reference to CakePHP's classes
 
----
+[Plugins](https://plugins.cakephp.org) - A repository of extensions to the framework
 
-## 🛠 Stack obrigatório  
-O candidato deve utilizar:
+[The Bakery](https://bakery.cakephp.org) - Tips, tutorials and articles
 
-- PHP (CakePHP2)  
-- MySQL  
-- HTML  
-- CSS  
-- JavaScript  
-- jQuery  
+[Community Center](https://community.cakephp.org) - A source for everything community related
 
----
+[Training](https://training.cakephp.org) - Join a live session and get skilled with the framework
 
-## 🧪 Entrega do teste  
-A entrega será feita pelo GitHub.
+[CakeFest](https://cakefest.org) - Don't miss our annual CakePHP conference
 
-### Como enviar:
-1. Faça um **Fork** deste repositório  
-2. Desenvolva o projeto no seu fork  
-3. Crie um `README.md` no seu repositório contendo:
-   - como instalar o ambiente  
-   - como configurar o banco de dados  
-   - como inicializar o projeto  
-   - credenciais, se necessário  
-   - link do vídeo explicando o desenvolvimento  
-4. Envie o link do seu fork para avaliação  
+[Cake Software Foundation](https://cakefoundation.org) - Promoting development related to CakePHP
 
----
 
-## 📹 Vídeo explicativo obrigatório  
-Grave um vídeo curto (Loom, YouTube não listado ou similar) explicando:
+## Get Support!
 
-- fluxo de funcionalidades  
-- demonstração da interface  
+[#cakephp](https://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake
 
----
+[Google Group](https://groups.google.com/group/cake-php) - Community mailing list and forum
 
-## 🧩 O que será avaliado
-- Fidelidade ao projeto de UX  
-- Fidelidade à lógica funcional  
-- Qualidade e clareza do código  
-- Organização de pastas e estrutura  
-- Boas práticas em CakePHP2  
-- Modelagem e queries do MySQL  
-- Uso correto de HTML, CSS, JS e jQuery  
-- Autonomia e capacidade de resolução de problemas  
+[GitHub Issues](https://github.com/cakephp/cakephp/issues) - Got issues? Please tell us!
 
----
+[Roadmaps](https://github.com/cakephp/cakephp/wiki#roadmaps) - Want to contribute? Get involved!
 
-## 💬 Suporte  
-Se houver qualquer dúvida ou dificuldade (acesso a Doity, Figma, vídeos ou arquivo de links), entre em contato:  
-📩 lucyan@doity.com.br
+
+## Contributing
+
+[CONTRIBUTING.md](CONTRIBUTING.md) - Quick pointers for contributing to the CakePHP project
+
+[CookBook "Contributing" Section (2.x)](https://book.cakephp.org/2.0/en/contributing.html) [(3.x)](https://book.cakephp.org/3.0/en/contributing.html) - Version-specific details about contributing to the project
