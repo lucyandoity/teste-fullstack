@@ -109,9 +109,7 @@ class PrestadoresController extends AppController
         return $this->redirect(array('action' => 'index'));
     }
 
-    // ===============================================
-    // Importação XLS/XLSX
-    // ===============================================
+
     public function importar_xls() {
         $this->autoRender = false;
         $this->response->type('json');
@@ -127,8 +125,7 @@ class PrestadoresController extends AppController
             $objPHPExcel = PHPExcel_IOFactory::load($caminhoArquivo);
             $sheetData = $objPHPExcel->getActiveSheet()->toArray(null, true, true, true);
 
-            // Esperado cabeçalho: A=nome_completo, B=email, C=telefone, D=servico, E=valor
-            array_shift($sheetData); // remove header
+            array_shift($sheetData); 
             $dadosParaSalvar = array();
             $this->loadModel('Servico');
 
@@ -190,7 +187,6 @@ class PrestadoresController extends AppController
 
     private function _handleFileUpload($data)
     {
-        // ... (esta função permanece exatamente a mesma) ...
         if (isset($data['Prestador']['foto']['error']) && $data['Prestador']['foto']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = APP . 'webroot' . DS . 'img' . DS . 'uploads' . DS . 'prestadores' . DS;
             if (!is_dir($uploadDir)) {

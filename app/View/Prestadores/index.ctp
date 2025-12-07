@@ -7,6 +7,11 @@
             <p>Gerencie seus prestadores de serviço</p>
         </div>
         <div class="header-right">
+            <?php echo $this->Html->link(
+                '<i class="fas fa-calendar"></i> Ver Agendamentos',
+                array('controller' => 'agendamentos', 'action' => 'index'),
+                array('class' => 'btn btn-secondary', 'escape' => false)
+            ); ?>
             <button type="button" id="openImportModalBtn" class="btn btn-secondary">
                 <i class="fas fa-upload"></i> Importar
             </button>
