@@ -101,7 +101,7 @@ echo $this->Html->css('index');
                                     ); ?>
                                     <?php echo $this->Form->postLink(
                                         '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                            <path d="M2.5 4.99996H4.16667M4.16667 4.99996H17.5M4.16667 4.99996V16.6666C4.16667 17.1087 4.34226 17.5326 4.65482 17.8451C4.96738 18.1577 5.39131 18.3333 5.83333 18.3333H14.1667C14.6087 18.3333 15.0326 18.1577 15.3452 17.8451C15.6577 17.5326 15.8333 17.1087 15.8333 16.6666V4.99996H4.16667ZM6.66667 4.99996V3.33329C6.66667 2.89127 6.84226 2.46734 7.15482 2.15478C7.46738 1.84222 7.89131 1.66663 8.33333 1.66663H11.6667C12.1087 1.66663 12.5326 1.84222 12.8452 2.15478C13.1577 2.46734 13.3333 2.89127 13.3333 3.33329V4.99996M8.33333 9.16663V14.1666M11.6667 9.16663V14.1666" stroke="#535862" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M2.5 4.99996H4.16667M4.16667 4.99996H17.5M4.16667 4.99996V16.6666C4.16667 17.1087 4.34226 17.5326 4.65482 17.8451C4.96738 18.1577 5.39131 18.3333 5.83333 18.3333H14.1667C14.6087 18.3333 15.0326 18.1577 15.3452 17.8451C15.6577 17.5326 15.8333 17.1087 15.8333 16.6666V4.99996H4.16667ZM6.66667 4.99996V3.33329C6.66667 2.89127 6.84226 2.46734 7.15482 2.15478C7.46738 1.84222 7.89131 1.66663 8.33333 1.66663H11.6667C12.1087 1.66663 12.5326 1.84222 12.8452 2.15478C13.1577 2.46734 13.3333 2.89127 13.3333 3.33329V4.99996" stroke="#535862" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>', 
                                         array('action' => 'delete', $provider['ServiceProvider']['id']), 
                                         array('class' => 'btn btn-danger', 'confirm' => 'Tem certeza que deseja excluir?', 'escape' => false)
@@ -156,7 +156,7 @@ echo $this->Html->css('index');
     <div id="importModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Importar Prestadores</h2>
+                <h2>Faça o upload da sua lista de servidores</h2>
                 <button class="modal-close" id="close-import-modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -168,15 +168,6 @@ echo $this->Html->css('index');
                 ));
                 ?>
                 
-                <div class="import-info">
-                    <div class="import-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 20 20" fill="none">
-                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="#535862" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                    <p class="import-description">Selecione um arquivo CSV para importar prestadores de serviço.</p>
-                </div>
-
                 <div class="file-input-wrapper">
                     <?php 
                     echo $this->Form->file('csv_file', array(
@@ -185,27 +176,55 @@ echo $this->Html->css('index');
                         'required' => true
                     ));
                     ?>
-                    <label for="ServiceProviderCsvFile" class="file-label">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <div class="import-info">
+                        <div class="import-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <g clip-path="url(#clip0_841_205)">
+                                    <path d="M13.3333 13.3334L10 10M10 10L6.66666 13.3334M10 10V17.5M16.9917 15.325C17.8044 14.8819 18.4465 14.1808 18.8166 13.3322C19.1866 12.4837 19.2635 11.5361 19.0352 10.6389C18.8068 9.74182 18.2862 8.94629 17.5556 8.3779C16.8249 7.80951 15.9257 7.50064 15 7.50003H13.95C13.6978 6.5244 13.2276 5.61864 12.575 4.85085C11.9223 4.08307 11.104 3.47324 10.1817 3.0672C9.25946 2.66116 8.25712 2.46949 7.25009 2.5066C6.24307 2.5437 5.25755 2.80861 4.36764 3.28142C3.47774 3.75422 2.70659 4.42261 2.11218 5.23635C1.51777 6.05008 1.11557 6.98797 0.935814 7.97952C0.756055 8.97107 0.803418 9.99047 1.07434 10.9611C1.34527 11.9317 1.8327 12.8282 2.5 13.5834" stroke="#535862" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                            </svg>
+                        </div>
+                        <p class="import-description"><span class="import-description-bold">Clique para enviar</span> ou arraste e solte</p>
+                        <p class="import-file-size">CSV (max. 25MB)</p>
+                    </div>
+                </div>
+
+                <!-- Informações do arquivo -->
+                <div class="file-preview" id="file-preview">
+                    <div class="file-preview-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M8.66669 1.33337H4.00002C3.6464 1.33337 3.30726 1.47385 3.05721 1.7239C2.80716 1.97395 2.66669 2.31309 2.66669 2.66671V13.3334C2.66669 13.687 2.80716 14.0261 3.05721 14.2762C3.30726 14.5262 3.6464 14.6667 4.00002 14.6667H12C12.3536 14.6667 12.6928 14.5262 12.9428 14.2762C13.1929 14.0261 13.3334 13.687 13.3334 13.3334V6.00004M8.66669 1.33337L13.3334 6.00004M8.66669 1.33337V6.00004H13.3334" stroke="#FF2B34" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span id="file-name">Escolher arquivo CSV</span>
-                    </label>
+                    </div>
+                    <div class="file-preview-details">
+                        <div class="file-preview-header">
+                            <div class="file-preview-info">
+                                <span class="file-preview-name" id="file-preview-name"></span>
+                                <span class="file-preview-size" id="file-preview-size"></span>
+                            </div>
+                            <button type="button" class="file-remove" id="file-remove">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
+                                    <path d="M2.5 4.99996H4.16667M4.16667 4.99996H17.5M4.16667 4.99996V16.6666C4.16667 17.1087 4.34226 17.5326 4.65482 17.8451C4.96738 18.1577 5.39131 18.3333 5.83333 18.3333H14.1667C14.6087 18.3333 15.0326 18.1577 15.3452 17.8451C15.6577 17.5326 15.8333 17.1087 15.8333 16.6666V4.99996H4.16667ZM6.66667 4.99996V3.33329C6.66667 2.89127 6.84226 2.46734 7.15482 2.15478C7.46738 1.84222 7.89131 1.66663 8.33333 1.66663H11.6667C12.1087 1.66663 12.5326 1.84222 12.8452 2.15478C13.1577 2.46734 13.3333 2.89127 13.3333 3.33329V4.99996" stroke="#98A2B3" stroke-width="1.67" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="progress-wrapper">
+                            <div class="progress-container">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                            <span class="progress-percent" id="progress-percent">0%</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="import-format-info">
-                    <p><strong>Formato esperado:</strong></p>
+                    <p><strong>Formato esperado (com cabeçalho)</strong></p>
                     <code>first_name,last_name,email,phone,service,description,price</code>
                 </div>
 
                 <div class="modal-actions">
                     <button type="button" class="btn-cancel" id="btn-cancel-import">Cancelar</button>
-                    <button type="submit" class="btn-submit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" fill="none">
-                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M14.1667 6.66667L10 2.5M10 2.5L5.83333 6.66667M10 2.5V12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Importar
-                    </button>
+                    <button type="submit" class="btn-submit" id="btn-submit-import">Adicionar</button>
                 </div>
 
                 <?php echo $this->Form->end(); ?>
@@ -216,7 +235,7 @@ echo $this->Html->css('index');
 
 <script>
 $(document).ready(function() {
-    // Modal View - existing code
+    // Modal de View
     $('.btn-view').on('click', function() {
         var id = $(this).data('id');
         
@@ -268,27 +287,12 @@ $(document).ready(function() {
 
     $('#close-import-modal, #btn-cancel-import, #importModal').on('click', function(e) {
         if (e.target === this) {
-            $('#importModal').removeClass('show');
-            $('#import-form')[0].reset();
-            $('#file-name').text('Escolher arquivo CSV');
+            resetImportModal();
         }
     });
 
-    // Prevenir fechamento ao clicar no conteúdo do modal
     $('.modal-content').on('click', function(e) {
         e.stopPropagation();
-    });
-
-    // Mostrar nome do arquivo selecionado - usando a classe em vez do ID
-    $('.file-input').on('change', function() {
-        var file = this.files[0];
-        if (file) {
-            var fileName = file.name;
-            var fileSize = formatFileSize(file.size);
-            $('#file-name').text(fileName + ' (' + fileSize + ')');
-        } else {
-            $('#file-name').text('Escolher arquivo CSV');
-        }
     });
 
     // Função para formatar tamanho do arquivo
@@ -300,13 +304,55 @@ $(document).ready(function() {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    // Fechar modais com ESC
+    // Função para resetar o modal
+    function resetImportModal() {
+        $('#importModal').removeClass('show');
+        $('#import-form')[0].reset();
+        $('#file-preview').removeClass('show');
+        $('#progress-bar').css('width', '0%');
+        $('#progress-percent').text('0%');
+    }
+
+    // Mostrar preview do arquivo ao selecionar
+    $('.file-input').on('change', function() {
+        var file = this.files[0];
+        
+        if (file) {
+            $('#file-preview-name').text(file.name);
+            $('#file-preview-size').text(formatFileSize(file.size));
+            $('#file-preview').addClass('show');
+            
+            var progress = 0;
+            $('#progress-bar').css('width', '0%');
+            $('#progress-percent').text('0%');
+            
+            var interval = setInterval(function() {
+                progress += Math.random() * 30;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                }
+                $('#progress-bar').css('width', progress + '%');
+                $('#progress-percent').text(Math.round(progress) + '%');
+            }, 100);
+        } else {
+            $('#file-preview').removeClass('show');
+        }
+    });
+
+    // Remover arquivo
+    $('#file-remove').on('click', function() {
+        $('.file-input').val('');
+        $('#file-preview').removeClass('show');
+        $('#progress-bar').css('width', '0%');
+        $('#progress-percent').text('0%');
+    });
+
+    // Fechar modais com o esc
     $(document).on('keydown', function(e) {
         if (e.key === 'Escape') {
             $('#viewModal').removeClass('show');
-            $('#importModal').removeClass('show');
-            $('#import-form')[0].reset();
-            $('#file-name').text('Escolher arquivo CSV');
+            resetImportModal();
         }
     });
 });
