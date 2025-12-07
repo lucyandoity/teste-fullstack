@@ -168,6 +168,13 @@ class ServiceProvidersController extends AppController {
                     return $this->redirect(array('action' => 'index'));
                 }
 
+                // Tamanho máximo de 25MB
+                $fileSize = filesize($file['tmp_name']);
+                if ($fileSize > 25 * 1024 * 1024) { // Limite de 25MB
+                    $this->Flash->notification('O arquivo é muito grande. O tamanho máximo permitido é 25MB.', array('params' => array('class' => 'error')));
+                    return $this->redirect(array('action' => 'index'));
+                }
+
                 // Bloco da lógica principal(BULK INSERT)
                 try {
                     $db = ConnectionManager::getDataSource('default');
