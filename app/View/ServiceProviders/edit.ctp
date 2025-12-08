@@ -27,6 +27,16 @@ echo $this->Html->css('edit');
                         <input type="text" name="data[ServiceProvider][first_name]" placeholder="Nome" id="ServiceProviderFirstName" value="<?php echo h($this->request->data['ServiceProvider']['first_name']); ?>">
                         <input type="text" name="data[ServiceProvider][last_name]" placeholder="Sobrenome" id="ServiceProviderLastName" value="<?php echo h($this->request->data['ServiceProvider']['last_name']); ?>">
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.first_name')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.first_name'); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.last_name')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.last_name'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="input with-icon email-field">
@@ -39,6 +49,11 @@ echo $this->Html->css('edit');
                         </span>
                         <input type="email" name="data[ServiceProvider][email]" id="ServiceProviderEmail" value="<?php echo h($this->request->data['ServiceProvider']['email']); ?>">
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.email')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.email'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 
                 <div class="form-row photo-row">
@@ -89,6 +104,11 @@ echo $this->Html->css('edit');
                         <input type="text" name="data[ServiceProvider][service]" id="ServiceProviderService" placeholder="Digite ou selecione um serviço..." autocomplete="off" value="<?php echo h($this->request->data['ServiceProvider']['service']); ?>">
                         <div id="ServiceDropdown" class="autocomplete-dropdown"></div>
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.service')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.service'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <?php echo $this->Form->input('description', array('label' => 'Descrição', 'type' => 'textarea')); ?>
@@ -99,6 +119,11 @@ echo $this->Html->css('edit');
                         <span class="input-prefix">R$</span>
                         <input type="number" step="0.01" name="data[ServiceProvider][price]" id="ServiceProviderPrice" value="<?php echo h($this->request->data['ServiceProvider']['price']); ?>">
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.price')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.price'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-actions">

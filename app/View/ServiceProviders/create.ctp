@@ -25,6 +25,16 @@ echo $this->Html->css('create');
                         <input type="text" name="data[ServiceProvider][first_name]" placeholder="Nome" id="ServiceProviderFirstName">
                         <input type="text" name="data[ServiceProvider][last_name]" placeholder="Sobrenome" id="ServiceProviderLastName">
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.first_name')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.first_name'); ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.last_name')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.last_name'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <!-- E-mail com ícone -->
@@ -38,6 +48,11 @@ echo $this->Html->css('create');
                         </span>
                         <input type="email" name="data[ServiceProvider][email]" id="ServiceProviderEmail" placeholder="seuemail@exemplo.com">
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.email')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.email'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 
                 <div class="form-row photo-row">
@@ -84,6 +99,11 @@ echo $this->Html->css('create');
                         <input type="text" name="data[ServiceProvider][service]" id="ServiceProviderService" placeholder="Digite ou selecione um serviço..." autocomplete="off">
                         <div id="ServiceDropdown" class="autocomplete-dropdown"></div>
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.service')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.service'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <?php echo $this->Form->input('description', array('label' => 'Descrição', 'type' => 'textarea', 'placeholder' => 'Conte-nos mais sobre o serviço oferecido...')); ?>
@@ -95,6 +115,11 @@ echo $this->Html->css('create');
                         <span class="input-prefix">R$</span>
                         <input type="number" step="0.01" name="data[ServiceProvider][price]" id="ServiceProviderPrice" placeholder="200,00">
                     </div>
+                    <?php if ($this->Form->isFieldError('ServiceProvider.price')): ?>
+                        <div class="error-message">
+                            <?php echo $this->Form->error('ServiceProvider.price'); ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-actions">
