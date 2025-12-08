@@ -82,6 +82,14 @@ class ServiceProvider extends AppModel {
             'numeric' => array(
                 'rule' => 'numeric',
                 'message' => 'Preço deve ser um número'
+            ),
+            'minValue' => array(
+                'rule' => array('comparison', '>=', 0),
+                'message' => 'Preço deve ser maior ou igual a zero'
+            ),
+            'maxValue' => array(
+                'rule' => array('comparison', '<=', 2147483647),
+                'message' => 'Preço inválido'
             )
         )
     );
