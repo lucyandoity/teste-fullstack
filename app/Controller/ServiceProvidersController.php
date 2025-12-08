@@ -25,6 +25,9 @@ class ServiceProvidersController extends AppController {
                 // Aqui poderiamos adicionar filtros adicionais, por exemplo, por serviço oferecido ou email
                 'ServiceProvider.first_name LIKE' => '%' . $search . '%',
                 'ServiceProvider.last_name LIKE' => '%' . $search . '%',
+                'ServiceProvider.email LIKE' => '%' . $search . '%',
+                'ServiceProvider.service LIKE' => '%' . $search . '%',
+                'ServiceProvider.phone LIKE' => '%' . $search . '%',
                 'CONCAT(ServiceProvider.first_name, " ", ServiceProvider.last_name) LIKE' => '%' . $search . '%'
             );
         }

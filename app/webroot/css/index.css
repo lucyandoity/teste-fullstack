@@ -438,10 +438,11 @@ footer {
 }
 
 .clear-btn {
-    padding: 12px 20px;
-    background: #6c757d;
-    color: white;
-    border: none;
+    height: 100%;
+    padding: 0px 16px;
+    background: white;
+    color: var(--gray-600);
+    border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 0.9rem;
     text-decoration: none;
@@ -451,12 +452,14 @@ footer {
 }
 
 .clear-btn:hover {
-    background: #5a6268;
+    background: var(--gray-100);
 }
 
 .search-result {
     text-align: start;
+    font-size: 0.875rem;
     margin-bottom: 20px;
+    margin-top: 4px;
     color: #666;
 }
 
