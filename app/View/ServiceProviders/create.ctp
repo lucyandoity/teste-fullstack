@@ -96,7 +96,7 @@ echo $this->Html->css('create');
                 <div class="input text">
                     <label for="ServiceProviderService">Quais serviço você vai prestar?</label>
                     <div class="autocomplete-wrapper">
-                        <input type="text" name="data[ServiceProvider][service]" id="ServiceProviderService" placeholder="Digite ou selecione um serviço..." autocomplete="off">
+                        <input type="text" name="data[ServiceProvider][service]" value="<?php echo h($this->request->data['ServiceProvider']['service'] ?? ''); ?>" id="ServiceProviderService" placeholder="Digite ou selecione um serviço..." autocomplete="off">
                         <div id="ServiceDropdown" class="autocomplete-dropdown"></div>
                     </div>
                     <?php if ($this->Form->isFieldError('ServiceProvider.service')): ?>
