@@ -44,18 +44,8 @@
     opacity: 1;
 }
 
-.flash-notification.flash-success {
-    border-left: 4px solid var(--primary-green);
-}
-
 .flash-notification.flash-success .flash-icon {
     color: var(--primary-green);
-    background: var(--green-50);
-}
-
-.flash-notification.flash-error,
-.flash-notification.error {
-    border-left: 4px solid var(--primary-red);
 }
 
 .flash-notification.flash-error .flash-icon,

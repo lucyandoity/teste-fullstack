@@ -505,6 +505,83 @@ footer {
     animation: modalSlideIn 0.3s ease;
 }
 
+.provider-namemodal {
+    margin-top: 12px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--gray-900);
+}
+
+.provider-servicemodal {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin-top: 4px;
+}
+
+.provider-descriptionmodal {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    resize: none;
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    min-height: 100px;
+    border-radius: 12px;
+    border: 1px solid var(--gray-200);
+    background-color: var(--gray-50);
+}
+
+.flex-email,
+.flex-phone,
+.flex-price {
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    color: var(--gray-600);
+    padding: 12px;
+    border-radius: 8px;
+    background-color: var(--gray-50);
+}
+
+.flex-price {
+    margin: 0;
+    background-color: transparent;
+}
+
+.flex-email .label-with-icon,
+.flex-phone .label-with-icon,
+.flex-price .label-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.flex-email svg,
+.flex-phone svg,
+.flex-price svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.flex-email .value,
+.flex-phone .value,
+.flex-price .value {
+    font-weight: 500;
+    color: var(--gray-900);
+}
+
+.flex-price .value {
+    color: var(--primary-red);
+    font-weight: 700;
+}
+
+#modal-price {
+    font-weight: 700;
+}    
+
 @keyframes modalSlideIn {
     from {
         opacity: 0;
@@ -561,17 +638,7 @@ footer {
     border: 3px solid var(--gray-200);
 }
 
-.provider-info-modal p {
-    margin: 12px 0;
-    padding: 10px;
-    background: var(--gray-50);
-    border-radius: 8px;
-    color: var(--gray-700);
-}
 
-.provider-info-modal strong {
-    color: var(--gray-900);
-}
 
 .modal.loading .modal-body {
     display: flex;

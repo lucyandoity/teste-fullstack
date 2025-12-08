@@ -252,7 +252,7 @@ nav {
 }
 
 .photo-input-container .import-description-bold {
-    color: var(--primary-red);
+    color: var(--gray-900);
     font-weight: 600;
 }
 

@@ -141,14 +141,42 @@ echo $this->Html->css('index');
             <div class="modal-body">
                 <div class="provider-photo-modal">
                     <img id="modal-photo" src="" alt="Foto do prestador">
+                    <p class="provider-namemodal"><span id="modal-name"></span></p>
+                    <p class="provider-servicemodal"><span id="modal-service"></span></p>
+                    <div class="flex-price">
+                        <div class="label-with-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 1.66663V18.3333M14.1667 4.16663H7.91667C7.14312 4.16663 6.40125 4.47395 5.85427 5.02093C5.30729 5.56791 5 6.30978 5 7.08329C5 7.85681 5.30729 8.59868 5.85427 9.14566C6.40125 9.69264 7.14312 9.99996 7.91667 9.99996H12.0833C12.8569 9.99996 13.5987 10.3073 14.1457 10.8542C14.6927 11.4012 15 12.1431 15 12.9166C15 13.6902 14.6927 14.432 14.1457 14.979C13.5987 15.526 12.8569 15.8333 12.0833 15.8333H5" stroke="#717680" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Preço</span>
+                        </div>
+                        <span class="value">R$ <span id="modal-price"></span></span>
+                    </div>
                 </div>
                 <div class="provider-info-modal">
-                    <p><strong>Nome:</strong> <span id="modal-name"></span></p>
-                    <p><strong>Email:</strong> <span id="modal-email"></span></p>
-                    <p><strong>Telefone:</strong> <span id="modal-phone"></span></p>
-                    <p><strong>Serviço:</strong> <span id="modal-service"></span></p>
-                    <p><strong>Descrição:</strong> <span id="modal-description"></span></p>
-                    <p><strong>Preço:</strong> R$ <span id="modal-price"></span></p>
+                    <p><textarea disabled class="provider-descriptionmodal" id="modal-description"></textarea></p>
+                    
+
+                    <div class="flex-email">
+                        <div class="label-with-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M17.5 5.83337C17.5 4.91671 16.75 4.16671 15.8333 4.16671H4.16667C3.25 4.16671 2.5 4.91671 2.5 5.83337M17.5 5.83337V14.1667C17.5 15.0834 16.75 15.8334 15.8333 15.8334H4.16667C3.25 15.8334 2.5 15.0834 2.5 14.1667V5.83337M17.5 5.83337L10 10.8334L2.5 5.83337" stroke="#717680" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Email</span>
+                        </div>
+                        <span class="value" id="modal-email"></span>
+                    </div>
+
+                    <div class="flex-phone">
+                        <div class="label-with-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M18.3333 14.1V16.6C18.3342 16.8321 18.2866 17.0618 18.1936 17.2745C18.1006 17.4871 17.9643 17.678 17.7933 17.8349C17.6222 17.9918 17.4203 18.1112 17.2005 18.1856C16.9806 18.26 16.7477 18.2876 16.5167 18.2667C13.9523 17.9881 11.489 17.1118 9.32498 15.7084C7.31151 14.4289 5.60443 12.7218 4.32499 10.7084C2.91663 8.53438 2.04019 6.05916 1.76665 3.48337C1.74583 3.25294 1.77321 3.02069 1.84707 2.80139C1.92092 2.58209 2.03963 2.38064 2.19562 2.2098C2.35162 2.03896 2.54149 1.90258 2.75314 1.80921C2.9648 1.71584 3.19345 1.66774 3.42499 1.66671H5.92499C6.32953 1.66283 6.72148 1.80628 7.028 2.06972C7.33452 2.33317 7.53156 2.69954 7.58332 3.10004C7.68023 3.90009 7.86292 4.68604 8.12499 5.44171C8.2402 5.77004 8.26052 6.12311 8.18347 6.46214C8.10641 6.80117 7.93494 7.11169 7.68999 7.35837L6.64165 8.40671C7.82952 10.4967 9.5034 12.1706 11.5933 13.3584L12.6417 12.31C12.8884 12.0651 13.1989 11.8936 13.5379 11.8166C13.877 11.7395 14.23 11.7598 14.5583 11.875C15.314 12.1371 16.1 12.3198 16.9 12.4167C17.3048 12.4688 17.6745 12.6694 17.9388 12.9813C18.2032 13.2932 18.3435 13.6914 18.3333 14.1Z" stroke="#717680" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Telefone</span>
+                        </div>
+                        <span class="value" id="modal-phone"></span>
+                    </div>
+
                 </div>
             </div>
         </div>
