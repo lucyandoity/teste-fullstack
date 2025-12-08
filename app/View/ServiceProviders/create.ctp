@@ -22,8 +22,8 @@ echo $this->Html->css('create');
                 <div class="form-row">
                     <label>Nome</label>
                     <div class="inputs-group">
-                        <input type="text" name="data[ServiceProvider][first_name]" placeholder="Nome" id="ServiceProviderFirstName">
-                        <input type="text" name="data[ServiceProvider][last_name]" placeholder="Sobrenome" id="ServiceProviderLastName">
+                        <input type="text" name="data[ServiceProvider][first_name]" value="<?php echo h($this->request->data['ServiceProvider']['first_name'] ?? ''); ?>" placeholder="Nome" id="ServiceProviderFirstName">
+                        <input type="text" name="data[ServiceProvider][last_name]" value="<?php echo h($this->request->data['ServiceProvider']['last_name'] ?? ''); ?>" placeholder="Sobrenome" id="ServiceProviderLastName">
                     </div>
                     <?php if ($this->Form->isFieldError('ServiceProvider.first_name')): ?>
                         <div class="error-message">
@@ -46,7 +46,7 @@ echo $this->Html->css('create');
                                 <path d="M17.5 2.50004C17.5 1.58337 16.75 0.833374 15.8334 0.833374H2.50004C1.58337 0.833374 0.833374 1.58337 0.833374 2.50004M17.5 2.50004V12.5C17.5 13.4167 16.75 14.1667 15.8334 14.1667H2.50004C1.58337 14.1667 0.833374 13.4167 0.833374 12.5V2.50004M17.5 2.50004L9.16671 8.33337L0.833374 2.50004" stroke="#717680" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </span>
-                        <input type="email" name="data[ServiceProvider][email]" id="ServiceProviderEmail" placeholder="seuemail@exemplo.com">
+                        <input type="email" name="data[ServiceProvider][email]" value="<?php echo h($this->request->data['ServiceProvider']['email'] ?? ''); ?>" id="ServiceProviderEmail" placeholder="seuemail@exemplo.com">
                     </div>
                     <?php if ($this->Form->isFieldError('ServiceProvider.email')): ?>
                         <div class="error-message">
@@ -113,7 +113,7 @@ echo $this->Html->css('create');
                     <label for="ServiceProviderPrice">Preço</label>
                     <div class="field-control">
                         <span class="input-prefix">R$</span>
-                        <input type="number" step="0.01" name="data[ServiceProvider][price]" id="ServiceProviderPrice" placeholder="200,00">
+                        <input type="number" step="0.01" name="data[ServiceProvider][price]" value="<?php echo h($this->request->data['ServiceProvider']['price'] ?? ''); ?>" id="ServiceProviderPrice" placeholder="200,00">
                     </div>
                     <?php if ($this->Form->isFieldError('ServiceProvider.price')): ?>
                         <div class="error-message">

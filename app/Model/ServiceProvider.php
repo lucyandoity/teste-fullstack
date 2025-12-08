@@ -88,8 +88,8 @@ class ServiceProvider extends AppModel {
                 'message' => 'Preço deve ser maior ou igual a zero'
             ),
             'maxValue' => array(
-                'rule' => array('comparison', '<=', 2147483647),
-                'message' => 'Preço inválido'
+                'rule' => array('comparison', '<=', 1000000),
+                'message' => 'Preço deve ser menor que 1.000.000'
             )
         )
     );
