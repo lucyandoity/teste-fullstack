@@ -46,7 +46,7 @@ class PagesController extends AppController {
  *   or MissingViewException in debug mode.
  */
 	public function display() {
-		$this->layout = false;
+		$this->layout = 'custom';
 		
 		$path = func_get_args();
 
