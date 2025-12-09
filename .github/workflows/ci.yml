@@ -73,7 +73,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKER_USERNAME }}/testeeee
+          images: ${{ secrets.DOCKER_USERNAME }}/seu-joao-doity
           tags: |
             type=sha,format=long
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
@@ -95,6 +95,6 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v2
         with:
-          subject-name: index.docker.io/${{ secrets.DOCKER_USERNAME }}/testeeee
+          subject-name: index.docker.io/${{ secrets.DOCKER_USERNAME }}/seu-joao-doity
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
